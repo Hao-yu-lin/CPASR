@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StatisticsView</class>
+ <widget class="QWidget" name="StatisticsView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1036</width>
+    <height>100</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1036</width>
+    <height>100</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>100</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(190, 190, 190);</string>
+  </property>
+  <widget class="QLabel" name="label_avgsurface">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>36</y>
+     <width>270</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>270</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>270</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Average Surface :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_d2">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>36</y>
+     <width>270</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>270</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>270</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>D2 :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_mode">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>36</y>
+     <width>270</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>270</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>270</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Mode Surface : </string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_d3">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>71</y>
+     <width>270</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>270</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>270</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>D3 :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_nums">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>71</y>
+     <width>270</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>270</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>270</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Nums Coffee Particle : </string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_d1">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>0</y>
+     <width>270</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>270</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>270</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>D1 :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_deviation">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>71</y>
+     <width>270</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>270</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>270</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Standard Deviation :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_property_title">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>550</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Properties of the Particle Distribution&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
