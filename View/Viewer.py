@@ -1,11 +1,11 @@
-from PySide6.QtCore import Qt, Slot
+from PySide6.QtCore import Qt, Slot, QEvent
 from PySide6.QtGui import QPixmap, QImage
 from PySide6.QtWidgets import QWidget
 
 from Controller.ImgEditCenter import imgEditCenter
 from Model.PanZoom import PanZoom
 from UI.UI_Viewer import Ui_Viewer
-from Model.MacroDefine import REF_MODE, MOUSE_STATE_NONE, MOUSE_STATE_DRAW_POINTS
+from Model.MacroDefine import REF_MODE, ROI_MODE, MOUSE_STATE_NONE, MOUSE_STATE_DRAW_POINTS
 
 # self.scrollAreaWidgetContents = QWidget()
 # self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
@@ -76,13 +76,26 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
                 imgEditCenter.popTmpPoint()
                 imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=False)
                 self.mouseState = MOUSE_STATE_NONE
+            elif imgEditCenter.currMode == ROI_MODE:
+                imgEditCenter.popTmpPoint()
+                imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
             return
+
+
 
         pos = list(event.position().toPoint().toTuple())
         x, y = pos
         if x < 0 or x >= self.showWidth or y < 0 or y >= self.showHeight:
             return
         posImg = self.posToImg(pos)
+
+        # Add double click event
+        if event.type() == QEvent.MouseButtonDblClick and event.button() == Qt.LeftButton:
+            if imgEditCenter.currMode == ROI_MODE:
+                imgEditCenter.setTmpPoint(posImg)
+                imgEditCenter.setTmpPoint((-1, -1))
+                imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
+                self.mouseState = MOUSE_STATE_NONE
 
         if imgEditCenter.currMode == REF_MODE:
             if self.mouseState == MOUSE_STATE_NONE:
@@ -93,6 +106,10 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
                 imgEditCenter.setTmpPoint(posImg)
                 imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
                 self.mouseState = MOUSE_STATE_NONE
+        elif imgEditCenter.currMode == ROI_MODE:
+            imgEditCenter.setTmpPoint(posImg)
+            imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
+
 
 
     def onMouseMove(self, event):

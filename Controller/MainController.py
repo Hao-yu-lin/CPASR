@@ -2,6 +2,7 @@ import math
 from Controller.MenuBarController import MenuBarController
 from PySide6.QtCore import QObject, Slot
 from Controller.ImgEditCenter import imgEditCenter
+from Model.MacroDefine import LST_NEED_MOUSE_TRACKING
 
 
 class MainController(QObject):
@@ -18,7 +19,7 @@ class MainController(QObject):
         self.MenuBarController.I_EVT_CREATE_FINISH.connect(self.decodeImg)
         self.Viewer.I_EVT_SCALE_CHANGE.connect(self.syncRatioToValue)
         self.MenuBarController.I_EVT_SCALE_CHANGE.connect(self.updateView)
-        self.CntBar.I_EVT_REF_POINTS.connect(self.onSetRefPoints)
+        imgEditCenter.I_EVT_SET_POINTS.connect(self.onSetPoints)
 
     @Slot()
     def decodeImg(self):
@@ -55,13 +56,13 @@ class MainController(QObject):
         return value
 
     @Slot()
-    def onSetRefPoints(self):
+    def onSetPoints(self):
         if not imgEditCenter.bImgExist:
             return
-        mouseTracking = self.Viewer.label_view.hasMouseTracking()
-        if mouseTracking:
-            self.Viewer.label_view.setMouseTracking(False)
-            self.Viewer.unbindMouseEvent()
-        else:
+
+        if imgEditCenter.currMode in LST_NEED_MOUSE_TRACKING:
             self.Viewer.label_view.setMouseTracking(True)
             self.Viewer.bindMouseEvent()
+        else:
+            self.Viewer.label_view.setMouseTracking(False)
+            self.Viewer.unbindMouseEvent()

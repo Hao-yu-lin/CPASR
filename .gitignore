@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 *.autosave
 *.DS_Store
+.idea/

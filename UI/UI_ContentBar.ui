@@ -137,7 +137,7 @@
      </widget>
     </item>
     <item row="6" column="0">
-     <widget class="QPushButton" name="btn_refer_obj">
+     <widget class="QPushButton" name="btn_refer_select">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -261,7 +261,7 @@
      </widget>
     </item>
     <item row="3" column="2">
-     <widget class="QPushButton" name="btn_refer_obj_rest">
+     <widget class="QPushButton" name="btn_refer_reset">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -378,7 +378,7 @@
      </widget>
     </item>
     <item row="13" column="1">
-     <widget class="QPushButton" name="btn_analysis_area">
+     <widget class="QPushButton" name="btn_roi_analysis">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -602,7 +602,7 @@
      </spacer>
     </item>
     <item row="16" column="1">
-     <widget class="QPushButton" name="btn_erase_clusters">
+     <widget class="QPushButton" name="btn_contours_erase">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -632,7 +632,7 @@
      </widget>
     </item>
     <item row="12" column="2">
-     <widget class="QPushButton" name="btn_particle_reset">
+     <widget class="QPushButton" name="btn_roi_reset">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -732,7 +732,7 @@
      </widget>
     </item>
     <item row="6" column="2">
-     <widget class="QPushButton" name="btn_refer_obj_calculate">
+     <widget class="QPushButton" name="btn_refer_calculate">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -896,7 +896,7 @@
      </widget>
     </item>
     <item row="16" column="0">
-     <widget class="QPushButton" name="btn_find_contours">
+     <widget class="QPushButton" name="btn_contours_find">
       <property name="minimumSize">
        <size>
         <width>92</width>
@@ -1093,6 +1093,28 @@
         <string>Show Fill</string>
        </property>
       </item>
+     </widget>
+    </item>
+    <item row="10" column="2">
+     <widget class="QCheckBox" name="checkBox_tiny_mode">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Tiny Mode</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
    </layout>

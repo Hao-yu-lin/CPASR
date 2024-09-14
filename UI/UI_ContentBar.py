@@ -71,15 +71,15 @@ class Ui_ContentBar(object):
 
         self.gridLayout.addWidget(self.btn_load_data2, 21, 1, 1, 1)
 
-        self.btn_refer_obj = QPushButton(self.parameter)
-        self.btn_refer_obj.setObjectName(u"btn_refer_obj")
-        sizePolicy.setHeightForWidth(self.btn_refer_obj.sizePolicy().hasHeightForWidth())
-        self.btn_refer_obj.setSizePolicy(sizePolicy)
-        self.btn_refer_obj.setMinimumSize(QSize(92, 25))
-        self.btn_refer_obj.setMaximumSize(QSize(92, 25))
-        self.btn_refer_obj.setFont(font)
+        self.btn_refer_select = QPushButton(self.parameter)
+        self.btn_refer_select.setObjectName(u"btn_refer_select")
+        sizePolicy.setHeightForWidth(self.btn_refer_select.sizePolicy().hasHeightForWidth())
+        self.btn_refer_select.setSizePolicy(sizePolicy)
+        self.btn_refer_select.setMinimumSize(QSize(92, 25))
+        self.btn_refer_select.setMaximumSize(QSize(92, 25))
+        self.btn_refer_select.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_refer_obj, 6, 0, 1, 1)
+        self.gridLayout.addWidget(self.btn_refer_select, 6, 0, 1, 1)
 
         self.label_bins_fixed = QLabel(self.parameter)
         self.label_bins_fixed.setObjectName(u"label_bins_fixed")
@@ -118,15 +118,15 @@ class Ui_ContentBar(object):
 
         self.gridLayout.addWidget(self.label_objectlength_fixed, 5, 0, 1, 1)
 
-        self.btn_refer_obj_rest = QPushButton(self.parameter)
-        self.btn_refer_obj_rest.setObjectName(u"btn_refer_obj_rest")
-        sizePolicy.setHeightForWidth(self.btn_refer_obj_rest.sizePolicy().hasHeightForWidth())
-        self.btn_refer_obj_rest.setSizePolicy(sizePolicy)
-        self.btn_refer_obj_rest.setMinimumSize(QSize(92, 25))
-        self.btn_refer_obj_rest.setMaximumSize(QSize(92, 25))
-        self.btn_refer_obj_rest.setFont(font)
+        self.btn_refer_reset = QPushButton(self.parameter)
+        self.btn_refer_reset.setObjectName(u"btn_refer_reset")
+        sizePolicy.setHeightForWidth(self.btn_refer_reset.sizePolicy().hasHeightForWidth())
+        self.btn_refer_reset.setSizePolicy(sizePolicy)
+        self.btn_refer_reset.setMinimumSize(QSize(92, 25))
+        self.btn_refer_reset.setMaximumSize(QSize(92, 25))
+        self.btn_refer_reset.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_refer_obj_rest, 3, 2, 1, 1)
+        self.gridLayout.addWidget(self.btn_refer_reset, 3, 2, 1, 1)
 
         self.label_pixel_scale = QLabel(self.parameter)
         self.label_pixel_scale.setObjectName(u"label_pixel_scale")
@@ -163,15 +163,15 @@ class Ui_ContentBar(object):
 
         self.gridLayout.addWidget(self.line_space2, 19, 0, 1, 1)
 
-        self.btn_analysis_area = QPushButton(self.parameter)
-        self.btn_analysis_area.setObjectName(u"btn_analysis_area")
-        sizePolicy.setHeightForWidth(self.btn_analysis_area.sizePolicy().hasHeightForWidth())
-        self.btn_analysis_area.setSizePolicy(sizePolicy)
-        self.btn_analysis_area.setMinimumSize(QSize(92, 25))
-        self.btn_analysis_area.setMaximumSize(QSize(92, 25))
-        self.btn_analysis_area.setFont(font)
+        self.btn_roi_analysis = QPushButton(self.parameter)
+        self.btn_roi_analysis.setObjectName(u"btn_roi_analysis")
+        sizePolicy.setHeightForWidth(self.btn_roi_analysis.sizePolicy().hasHeightForWidth())
+        self.btn_roi_analysis.setSizePolicy(sizePolicy)
+        self.btn_roi_analysis.setMinimumSize(QSize(92, 25))
+        self.btn_roi_analysis.setMaximumSize(QSize(92, 25))
+        self.btn_roi_analysis.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_analysis_area, 13, 1, 1, 1)
+        self.gridLayout.addWidget(self.btn_roi_analysis, 13, 1, 1, 1)
 
         self.btn_roi_select = QPushButton(self.parameter)
         self.btn_roi_select.setObjectName(u"btn_roi_select")
@@ -245,25 +245,25 @@ class Ui_ContentBar(object):
 
         self.gridLayout.addItem(self.verticalSpacer, 35, 1, 1, 1)
 
-        self.btn_erase_clusters = QPushButton(self.parameter)
-        self.btn_erase_clusters.setObjectName(u"btn_erase_clusters")
-        sizePolicy.setHeightForWidth(self.btn_erase_clusters.sizePolicy().hasHeightForWidth())
-        self.btn_erase_clusters.setSizePolicy(sizePolicy)
-        self.btn_erase_clusters.setMinimumSize(QSize(92, 25))
-        self.btn_erase_clusters.setMaximumSize(QSize(92, 25))
-        self.btn_erase_clusters.setFont(font)
+        self.btn_contours_erase = QPushButton(self.parameter)
+        self.btn_contours_erase.setObjectName(u"btn_contours_erase")
+        sizePolicy.setHeightForWidth(self.btn_contours_erase.sizePolicy().hasHeightForWidth())
+        self.btn_contours_erase.setSizePolicy(sizePolicy)
+        self.btn_contours_erase.setMinimumSize(QSize(92, 25))
+        self.btn_contours_erase.setMaximumSize(QSize(92, 25))
+        self.btn_contours_erase.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_erase_clusters, 16, 1, 1, 1)
+        self.gridLayout.addWidget(self.btn_contours_erase, 16, 1, 1, 1)
 
-        self.btn_particle_reset = QPushButton(self.parameter)
-        self.btn_particle_reset.setObjectName(u"btn_particle_reset")
-        sizePolicy.setHeightForWidth(self.btn_particle_reset.sizePolicy().hasHeightForWidth())
-        self.btn_particle_reset.setSizePolicy(sizePolicy)
-        self.btn_particle_reset.setMinimumSize(QSize(92, 25))
-        self.btn_particle_reset.setMaximumSize(QSize(92, 25))
-        self.btn_particle_reset.setFont(font)
+        self.btn_roi_reset = QPushButton(self.parameter)
+        self.btn_roi_reset.setObjectName(u"btn_roi_reset")
+        sizePolicy.setHeightForWidth(self.btn_roi_reset.sizePolicy().hasHeightForWidth())
+        self.btn_roi_reset.setSizePolicy(sizePolicy)
+        self.btn_roi_reset.setMinimumSize(QSize(92, 25))
+        self.btn_roi_reset.setMaximumSize(QSize(92, 25))
+        self.btn_roi_reset.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_particle_reset, 12, 2, 1, 1)
+        self.gridLayout.addWidget(self.btn_roi_reset, 12, 2, 1, 1)
 
         self.label_histogram_fixed = QLabel(self.parameter)
         self.label_histogram_fixed.setObjectName(u"label_histogram_fixed")
@@ -295,16 +295,16 @@ class Ui_ContentBar(object):
 
         self.gridLayout.addWidget(self.label_rgbandhsv_fixxed, 20, 0, 1, 2)
 
-        self.btn_refer_obj_calculate = QPushButton(self.parameter)
-        self.btn_refer_obj_calculate.setObjectName(u"btn_refer_obj_calculate")
-        self.btn_refer_obj_calculate.setEnabled(False)
-        sizePolicy.setHeightForWidth(self.btn_refer_obj_calculate.sizePolicy().hasHeightForWidth())
-        self.btn_refer_obj_calculate.setSizePolicy(sizePolicy)
-        self.btn_refer_obj_calculate.setMinimumSize(QSize(92, 25))
-        self.btn_refer_obj_calculate.setMaximumSize(QSize(92, 25))
-        self.btn_refer_obj_calculate.setFont(font)
+        self.btn_refer_calculate = QPushButton(self.parameter)
+        self.btn_refer_calculate.setObjectName(u"btn_refer_calculate")
+        self.btn_refer_calculate.setEnabled(False)
+        sizePolicy.setHeightForWidth(self.btn_refer_calculate.sizePolicy().hasHeightForWidth())
+        self.btn_refer_calculate.setSizePolicy(sizePolicy)
+        self.btn_refer_calculate.setMinimumSize(QSize(92, 25))
+        self.btn_refer_calculate.setMaximumSize(QSize(92, 25))
+        self.btn_refer_calculate.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_refer_obj_calculate, 6, 2, 1, 1)
+        self.gridLayout.addWidget(self.btn_refer_calculate, 6, 2, 1, 1)
 
         self.btn_show_contours_img = QPushButton(self.parameter)
         self.btn_show_contours_img.setObjectName(u"btn_show_contours_img")
@@ -355,12 +355,12 @@ class Ui_ContentBar(object):
 
         self.gridLayout.addWidget(self.lineEdit_pixel_scale_value, 7, 1, 1, 1)
 
-        self.btn_find_contours = QPushButton(self.parameter)
-        self.btn_find_contours.setObjectName(u"btn_find_contours")
-        self.btn_find_contours.setMinimumSize(QSize(92, 25))
-        self.btn_find_contours.setMaximumSize(QSize(92, 25))
+        self.btn_contours_find = QPushButton(self.parameter)
+        self.btn_contours_find.setObjectName(u"btn_contours_find")
+        self.btn_contours_find.setMinimumSize(QSize(92, 25))
+        self.btn_contours_find.setMaximumSize(QSize(92, 25))
 
-        self.gridLayout.addWidget(self.btn_find_contours, 16, 0, 1, 1)
+        self.gridLayout.addWidget(self.btn_contours_find, 16, 0, 1, 1)
 
         self.label_x_axis_spacing_fixed = QLabel(self.parameter)
         self.label_x_axis_spacing_fixed.setObjectName(u"label_x_axis_spacing_fixed")
@@ -424,6 +424,14 @@ class Ui_ContentBar(object):
 
         self.gridLayout.addWidget(self.comboBox_show_contour, 15, 1, 1, 1)
 
+        self.checkBox_tiny_mode = QCheckBox(self.parameter)
+        self.checkBox_tiny_mode.setObjectName(u"checkBox_tiny_mode")
+        self.checkBox_tiny_mode.setMinimumSize(QSize(0, 25))
+        self.checkBox_tiny_mode.setMaximumSize(QSize(16777215, 25))
+        self.checkBox_tiny_mode.setChecked(True)
+
+        self.gridLayout.addWidget(self.checkBox_tiny_mode, 10, 2, 1, 1)
+
 
         self.retranslateUi(ContentBar)
 
@@ -436,16 +444,16 @@ class Ui_ContentBar(object):
         self.btn_save_contours.setText(QCoreApplication.translate("ContentBar", u"Save Data1", None))
         self.labe_select_roi_fixed.setText(QCoreApplication.translate("ContentBar", u"Select Region of Interest", None))
         self.btn_load_data2.setText(QCoreApplication.translate("ContentBar", u"Load Data2", None))
-        self.btn_refer_obj.setText(QCoreApplication.translate("ContentBar", u"Select", None))
+        self.btn_refer_select.setText(QCoreApplication.translate("ContentBar", u"Select", None))
         self.label_bins_fixed.setText(QCoreApplication.translate("ContentBar", u"Nums Bins\uff1a", None))
         self.label_contours.setText(QCoreApplication.translate("ContentBar", u"Find / Erase", None))
         self.checkBox_roi_reverse.setText(QCoreApplication.translate("ContentBar", u"Reverse", None))
         self.label_objectlength_fixed.setText(QCoreApplication.translate("ContentBar", u"Object length", None))
-        self.btn_refer_obj_rest.setText(QCoreApplication.translate("ContentBar", u"Reset", None))
+        self.btn_refer_reset.setText(QCoreApplication.translate("ContentBar", u"Reset", None))
         self.label_pixel_scale.setText(QCoreApplication.translate("ContentBar", u"Pixel Scale:", None))
         self.lineEdit_data1_Name.setText(QCoreApplication.translate("ContentBar", u"None1", None))
         self.btn_show_image.setText(QCoreApplication.translate("ContentBar", u"Image", None))
-        self.btn_analysis_area.setText(QCoreApplication.translate("ContentBar", u"Analysis", None))
+        self.btn_roi_analysis.setText(QCoreApplication.translate("ContentBar", u"Analysis", None))
         self.btn_roi_select.setText(QCoreApplication.translate("ContentBar", u"Select", None))
         self.btn_draw_hist2.setText(QCoreApplication.translate("ContentBar", u"Hist Data2", None))
         self.lineEdit_xaxis_spacing.setText(QCoreApplication.translate("ContentBar", u"-1", None))
@@ -453,19 +461,19 @@ class Ui_ContentBar(object):
         self.btn_load_data1.setText(QCoreApplication.translate("ContentBar", u"Load Data1", None))
         self.lineEdit_rgb_value.setText(QCoreApplication.translate("ContentBar", u"-1", None))
         self.lineEdit_data2_Name.setText(QCoreApplication.translate("ContentBar", u"None2", None))
-        self.btn_erase_clusters.setText(QCoreApplication.translate("ContentBar", u"Erase", None))
-        self.btn_particle_reset.setText(QCoreApplication.translate("ContentBar", u"Reset", None))
+        self.btn_contours_erase.setText(QCoreApplication.translate("ContentBar", u"Erase", None))
+        self.btn_roi_reset.setText(QCoreApplication.translate("ContentBar", u"Reset", None))
         self.label_histogram_fixed.setText(QCoreApplication.translate("ContentBar", u"Histogram", None))
         self.label_data2_Name_fixed.setText(QCoreApplication.translate("ContentBar", u"Data 2 Name", None))
         self.label_rgbandhsv_fixxed.setText(QCoreApplication.translate("ContentBar", u" Contours Value\uff1a", None))
-        self.btn_refer_obj_calculate.setText(QCoreApplication.translate("ContentBar", u"Calculate", None))
+        self.btn_refer_calculate.setText(QCoreApplication.translate("ContentBar", u"Calculate", None))
         self.btn_show_contours_img.setText(QCoreApplication.translate("ContentBar", u"Contours", None))
         self.btn_draw_hist.setText(QCoreApplication.translate("ContentBar", u"Hist Data1", None))
         self.label_objdect_ratio_fixed.setText(QCoreApplication.translate("ContentBar", u"mm/pixel", None))
         self.label_data1_Name_fixed.setText(QCoreApplication.translate("ContentBar", u"Data 1 Name", None))
         self.label_show_image_fixed.setText(QCoreApplication.translate("ContentBar", u"Show Image or Contours", None))
         self.lineEdit_pixel_scale_value.setText("")
-        self.btn_find_contours.setText(QCoreApplication.translate("ContentBar", u"Find", None))
+        self.btn_contours_find.setText(QCoreApplication.translate("ContentBar", u"Find", None))
         self.label_x_axis_spacing_fixed.setText(QCoreApplication.translate("ContentBar", u"X-axis spacing(mm)\uff1a", None))
         self.lineEdit_nums_bins.setText(QCoreApplication.translate("ContentBar", u"-1", None))
         self.lineEdit_object_length.setText("")
@@ -480,5 +488,6 @@ class Ui_ContentBar(object):
         self.comboBox_show_contour.setItemText(1, QCoreApplication.translate("ContentBar", u"Show Fill", None))
 
         self.comboBox_show_contour.setCurrentText(QCoreApplication.translate("ContentBar", u"Show Border", None))
+        self.checkBox_tiny_mode.setText(QCoreApplication.translate("ContentBar", u"Tiny Mode", None))
     # retranslateUi
 
