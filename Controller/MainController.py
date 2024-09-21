@@ -12,6 +12,7 @@ class MainController(QObject):
         self.MenuBarController = MenuBarController(self.MainWindow.menuBar)
         self.Viewer = self.MainWindow.viewer
         self.CntBar = self.MainWindow.contentBar
+        self.editCenter = imgEditCenter
         self.bImgExist = False
         self.bindEvent()
 
@@ -19,11 +20,11 @@ class MainController(QObject):
         self.MenuBarController.I_EVT_CREATE_FINISH.connect(self.decodeImg)
         self.Viewer.I_EVT_SCALE_CHANGE.connect(self.syncRatioToValue)
         self.MenuBarController.I_EVT_SCALE_CHANGE.connect(self.updateView)
-        imgEditCenter.I_EVT_SET_POINTS.connect(self.onSetPoints)
+        self.editCenter.I_EVT_SET_POINTS.connect(self.onSetPoints)
 
     @Slot()
     def decodeImg(self):
-        imgEditCenter.decodeImg(self.Viewer.initImg)
+        self.editCenter.decodeImg(self.Viewer.initImg)
         self.MenuBarController.setScaleControllerState(bState=False)
 
     @Slot(int)
@@ -57,10 +58,10 @@ class MainController(QObject):
 
     @Slot()
     def onSetPoints(self):
-        if not imgEditCenter.bImgExist:
+        if not self.editCenter.bImgExist:
             return
 
-        if imgEditCenter.currMode in LST_NEED_MOUSE_TRACKING:
+        if self.editCenter.currMode in LST_NEED_MOUSE_TRACKING:
             self.Viewer.label_view.setMouseTracking(True)
             self.Viewer.bindMouseEvent()
         else:

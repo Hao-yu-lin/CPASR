@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 class ImgEngine:
     _instance = None
@@ -48,3 +49,29 @@ class ImgEngine:
                 img = self.drawLine(img, lstPts[i - 1], lstPts[i], color)
 
         return img
+
+    def produceMaskImg(self, width, height, lstPts, color=(255, 255, 255)):
+        if width < 0 or height < 0 or not lstPts:
+            return None
+
+        mask = np.zeros((height, width), np.int32)
+        npLstPts = np.array([lstPts], np.int32)
+        npLstPts = npLstPts.reshape((-1, 1, 2))
+
+        mask = cv2.polylines(mask, [npLstPts], True, color)
+        mask = cv2.fillPoly(mask, [npLstPts], color)
+        mask = np.uint8(mask)
+        return mask
+
+    def blendImg(self, srcImg, maskImg):
+
+        if srcImg is None or maskImg is None:
+            return srcImg
+
+        maskImg = cv2.cvtColor(maskImg, cv2.COLOR_GRAY2BGR)
+
+        maskImg[np.where((maskImg == [255, 255, 255]).all(axis=2))] = [255, 0, 0]
+
+        maskImg = cv2.addWeighted(srcImg, 1, maskImg, 0.3, 0)
+        return maskImg
+

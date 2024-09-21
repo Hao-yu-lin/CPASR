@@ -1,5 +1,5 @@
 from PySide6.QtCore import QObject, Slot, Signal
-from Model.ImgDataModel import dictImg
+from Model.ImgDataModel import imgManager
 
 
 class MenuBarController(QObject):
@@ -18,7 +18,7 @@ class MenuBarController(QObject):
 
     @Slot(str)
     def createImgData(self, filePath):
-        dictImg.createImgData(filePath)
+        imgManager.createImgData(filePath)
         self.I_EVT_CREATE_FINISH.emit()
 
     def setZoomValueRate(self, value, ratio):

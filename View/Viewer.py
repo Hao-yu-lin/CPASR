@@ -21,6 +21,7 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
         super().__init__()
         self.widget = widget
         self.setupUi(widget)
+        self.editCenter = imgEditCenter
         self.widthImg = -1
         self.heightImg = -1
         self.qpImg = None
@@ -28,7 +29,7 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
         self.bindEvent()
 
     def bindEvent(self):
-        imgEditCenter.I_EVT_UPDATE_IMG.connect(self.updateQImg)
+        self.editCenter.I_EVT_UPDATE_IMG.connect(self.updateQImg)
 
     def bindMouseEvent(self):
         self.label_view.mousePressEvent = self.onMouseDown
@@ -39,8 +40,8 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
         self.label_view.mouseMoveEvent = self.doNotingEvent
 
     def initImg(self):
-        self.widthImg, self.heightImg, bytesPerline = imgEditCenter.getImgShape()
-        qImg = QImage(imgEditCenter.getImgData(), self.widthImg, self.heightImg, bytesPerline, QImage.Format_RGB888)
+        self.widthImg, self.heightImg, bytesPerline = self.editCenter.getImgShape()
+        qImg = QImage(self.editCenter.getImgData(), self.widthImg, self.heightImg, bytesPerline, QImage.Format_RGB888)
         self.qpImg = QPixmap.fromImage(qImg)
         self.onInitFit()
         self.drawImg()
@@ -56,8 +57,8 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
 
     @Slot()
     def updateQImg(self):
-        self.widthImg, self.heightImg, bytesPerline = imgEditCenter.getImgShape()
-        qImg = QImage(imgEditCenter.getImgData(), self.widthImg, self.heightImg, bytesPerline, QImage.Format_RGB888)
+        self.widthImg, self.heightImg, bytesPerline = self.editCenter.getImgShape()
+        qImg = QImage(self.editCenter.getImgData(), self.widthImg, self.heightImg, bytesPerline, QImage.Format_RGB888)
         self.qpImg = QPixmap.fromImage(qImg)
         self.drawImg()
 
@@ -68,17 +69,17 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
         return self.label_view.width(), self.label_view.height()
 
     def onMouseDown(self, event):
-        if not imgEditCenter.bImgExist:
+        if not self.editCenter.bImgExist:
             return
 
         if event.button() == Qt.RightButton:
-            if imgEditCenter.currMode == REF_MODE:
-                imgEditCenter.popTmpPoint()
-                imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=False)
+            if self.editCenter.currMode == REF_MODE:
+                self.editCenter.popTmpPoint()
+                self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=False)
                 self.mouseState = MOUSE_STATE_NONE
-            elif imgEditCenter.currMode == ROI_MODE:
-                imgEditCenter.popTmpPoint()
-                imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
+            elif self.editCenter.currMode == ROI_MODE:
+                self.editCenter.popTmpPoint()
+                self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
             return
 
 
@@ -91,41 +92,38 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
 
         # Add double click event
         if event.type() == QEvent.MouseButtonDblClick and event.button() == Qt.LeftButton:
-            if imgEditCenter.currMode == ROI_MODE:
-                imgEditCenter.setTmpPoint(posImg)
-                imgEditCenter.setTmpPoint((-1, -1))
-                imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
+            if self.editCenter.currMode == ROI_MODE:
+                self.editCenter.setTmpPoint(posImg)
+                self.editCenter.setTmpPoint((-1, -1))
+                self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
                 self.mouseState = MOUSE_STATE_NONE
+                return
 
-        if imgEditCenter.currMode == REF_MODE:
+        if self.editCenter.currMode == REF_MODE:
             if self.mouseState == MOUSE_STATE_NONE:
-                imgEditCenter.setTmpPoint(posImg)
-                imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=False)
+                self.editCenter.setTmpPoint(posImg)
+                self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=False)
                 self.mouseState = MOUSE_STATE_DRAW_POINTS
             elif self.mouseState == MOUSE_STATE_DRAW_POINTS:
-                imgEditCenter.setTmpPoint(posImg)
-                imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
+                self.editCenter.setTmpPoint(posImg)
+                self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
                 self.mouseState = MOUSE_STATE_NONE
-        elif imgEditCenter.currMode == ROI_MODE:
-            imgEditCenter.setTmpPoint(posImg)
-            imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
-
-
+        elif self.editCenter.currMode == ROI_MODE:
+            self.editCenter.setTmpPoint(posImg)
+            self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
 
     def onMouseMove(self, event):
         pos = list(event.position().toPoint().toTuple())
-        if not imgEditCenter.bImgExist:
+        if not self.editCenter.bImgExist:
             return
         x, y = pos
         if x < 0 or x >= self.showWidth or y < 0 or y >= self.showHeight:
             return
         posImg = self.posToImg(pos)
-        if imgEditCenter.currMode == REF_MODE:
+        if self.editCenter.currMode == REF_MODE:
             if self.mouseState == MOUSE_STATE_DRAW_POINTS:
-                imgEditCenter.setTmpPoint(posImg)
-                imgEditCenter.drawTmpPoint(bDrawPoint=False, bDrawLine=True)
-
-
+                self.editCenter.setTmpPoint(posImg)
+                self.editCenter.drawTmpPoint(bDrawPoint=False, bDrawLine=True)
 
     def doNotingEvent(self, event):
         pass

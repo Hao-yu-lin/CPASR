@@ -1,4 +1,7 @@
 from PySide6.QtCore import QObject
+from Model.ImgDataModel import imgManager
+from Model.ImgEngine import ImgEngine
+
 
 
 class AnalysisDataModel(QObject):
@@ -14,6 +17,8 @@ class AnalysisDataModel(QObject):
         self.__lstRefPoint = []
         self.__lstROIPoint = []
         self.__scaleRefObj = -1
+        self.maskImg = None
+        self.imgEngine = ImgEngine()
 
     def restAnalysisData(self):
         self.__lstRefPoint = []
@@ -22,7 +27,8 @@ class AnalysisDataModel(QObject):
 
     # for LstRefPoint
     def setLstRefPoint(self, lstRefPoint):
-        self.__lstRefPoint = lstRefPoint
+        lstTmp = list(lstRefPoint)
+        self.__lstRefPoint = lstTmp
         print('[AnalysisDataModel][setLstRefPoint]')
 
     def getLstRefPoint(self):
@@ -46,7 +52,8 @@ class AnalysisDataModel(QObject):
 
     # for lstROIPoint
     def setLstROIPoint(self, lstROIPoint):
-        self.__lstROIPoint = lstROIPoint
+        lstTmp = list(lstROIPoint)
+        self.__lstROIPoint = lstTmp
         print('[AnalysisDataModel][setLstROIPoint]')
 
     def getLstROIPoint(self):
@@ -55,5 +62,18 @@ class AnalysisDataModel(QObject):
     def clearLstROIPoint(self):
         self.__lstROIPoint.clear()
         print('[AnalysisDataModel][clearLstROIPoint]')
+
+    def getMaskImg(self):
+        self.produceMaskImg()
+        return self.maskImg
+
+    def produceMaskImg(self):
+        currData = imgManager.getCurrentData()
+        if currData is None:
+            return None
+        width, height = currData.widthImg, currData.heightImg
+
+        self.maskImg = self.imgEngine.produceMaskImg(width, height, self.getLstROIPoint(), color=(255, 255, 255))
+
 
 analysisDataModel = AnalysisDataModel()

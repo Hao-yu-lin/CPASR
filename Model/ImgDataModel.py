@@ -2,7 +2,7 @@ import os
 import copy
 from PySide6.QtCore import QObject
 
-class DictImg(QObject):
+class ImgManager(QObject):
     _instance = None
 
     def __new__(cls, *args, **kwargs):
@@ -22,7 +22,7 @@ class DictImg(QObject):
         return self.__currentData
 
 
-dictImg = DictImg()
+imgManager = ImgManager()
 
 class ImgDataBase:
     def __init__(self, filePath):
@@ -63,7 +63,6 @@ class ImgDataBase:
     @channelImg.setter
     def channelImg(self, channel):
         self.__channelImg = channel
-
 
     @property
     def srcImg(self):
