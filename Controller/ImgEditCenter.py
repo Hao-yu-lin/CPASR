@@ -22,6 +22,7 @@ class ImgEditCenter(QObject):
         super().__init__()
         self.imgEngine = ImgEngine()
         self.imgSrc = None
+        self.prevImg = None
 
         self.widthImg = -1
         self.heightImg = -1
@@ -150,6 +151,8 @@ class ImgEditCenter(QObject):
 
         if self.currViewMode == VIEW_MASK_MODE:
             self.setMaskImg()
+        elif self.currViewMode == VIEW_CONTOURS_MODE:
+            self.setContoursImg()
         else:
             self.setSrcImg()
 
@@ -159,23 +162,37 @@ class ImgEditCenter(QObject):
         if not self.bImgExist:
             return
 
-        imgData = imgManager.getCurrentData()
-        self.imgSrc = self.imgEngine.updatePtsOnView(imgData.srcImg, None, bDrawPoint=True, bDrawLine=True)
-
+        if self.prevImg is not None and self.prevMode != NONE_MODE:
+            self.imgSrc = self.prevImg
+            self.prevImg = None
+        else:
+            imgData = imgManager.getCurrentData()
+            self.imgSrc = self.imgEngine.updatePtsOnView(imgData.srcImg, None, bDrawPoint=True, bDrawLine=True)
 
     def setMaskImg(self):
         if not self.bImgExist:
             return
+        self.prevImg = self.imgSrc
         lstROIPoint = analysisDataModel.getLstROIPoint()
         imgData = imgManager.getCurrentData()
         if lstROIPoint:
             prevImg = self.imgEngine.updatePtsOnView(imgData.srcImg, lstROIPoint, True, True,
                                                      color=(255, 0, 0))
             maskImg = analysisDataModel.getMaskImg()
-            self.imgSrc = self.imgEngine.blendImg(prevImg, maskImg)
+            self.imgSrc = self.imgEngine.blendImg(prevImg, 1,  maskImg, 0.3, color=(255, 0, 0))
         else:
-            self.imgSrc = imgData.srcImg
+            maskImg = analysisDataModel.getMaskImg()
+            self.imgSrc = self.imgEngine.blendImg(imgData.srcImg, 1, maskImg, 0.3, color=(255, 0, 0))
 
+    def setContoursImg(self):
+        if not self.bImgExist:
+            return
+
+        self.prevImg = self.imgSrc
+        imgData = imgManager.getCurrentData()
+        lstContours = analysisDataModel.getLstContours()
+        if lstContours:
+            self.imgSrc = self.imgEngine.updateContoursOnView(imgData.srcImg, lstContours)
 
 
 imgEditCenter = ImgEditCenter()

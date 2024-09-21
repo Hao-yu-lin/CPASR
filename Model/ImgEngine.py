@@ -50,28 +50,49 @@ class ImgEngine:
 
         return img
 
-    def produceMaskImg(self, width, height, lstPts, color=(255, 255, 255)):
-        if width < 0 or height < 0 or not lstPts:
+    def produceMaskImg(self, width, height, lstPts=None, color=(255, 255, 255)):
+        if width < 0 or height < 0:
             return None
 
-        mask = np.zeros((height, width), np.int32)
-        npLstPts = np.array([lstPts], np.int32)
-        npLstPts = npLstPts.reshape((-1, 1, 2))
+        if lstPts:
+            mask = np.zeros((height, width), np.int32)
+            npLstPts = np.array([lstPts], np.int32)
+            npLstPts = npLstPts.reshape((-1, 1, 2))
 
-        mask = cv2.polylines(mask, [npLstPts], True, color)
-        mask = cv2.fillPoly(mask, [npLstPts], color)
+            mask = cv2.polylines(mask, [npLstPts], True, color)
+            mask = cv2.fillPoly(mask, [npLstPts], color)
+        else:
+            mask = np.ones((height, width), np.int32) * 255
+
         mask = np.uint8(mask)
         return mask
 
-    def blendImg(self, srcImg, maskImg):
+    def blendImg(self, srcImg, srcWeight, maskImg, maskWeight, color=(255, 255, 255)):
 
         if srcImg is None or maskImg is None:
             return srcImg
 
         maskImg = cv2.cvtColor(maskImg, cv2.COLOR_GRAY2BGR)
 
-        maskImg[np.where((maskImg == [255, 255, 255]).all(axis=2))] = [255, 0, 0]
+        maskImg[np.where((maskImg == [255, 255, 255]).all(axis=2))] = list(color)
 
-        maskImg = cv2.addWeighted(srcImg, 1, maskImg, 0.3, 0)
+        maskImg = cv2.addWeighted(srcImg, srcWeight, maskImg, maskWeight, 0)
         return maskImg
 
+    def contourDetect(self, roiImg, threshold = -1):
+        print('[ImgEngine][contourDetect] contourDetect start')
+        blueChannel = cv2.split(roiImg)[2]
+        if threshold == -1:
+            threshold = int(np.median(blueChannel) * 0.44)
+        threshold = int(threshold)
+        print('[ImgEngine][contourDetect] threshold:', threshold)
+        _, mask = cv2.threshold(blueChannel, int(threshold), 255, cv2.THRESH_BINARY_INV)
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        res = [contour for contour in contours if contour.size > 6]
+        return res, threshold
+
+    def updateContoursOnView(self, img, contours):
+        if img is None or not contours:
+            return img
+        img = cv2.drawContours(img, contours, -1, (255, 0, 0), 2, lineType=cv2.LINE_AA)
+        return img

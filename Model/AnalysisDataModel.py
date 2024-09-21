@@ -16,14 +16,39 @@ class AnalysisDataModel(QObject):
         super().__init__()
         self.__lstRefPoint = []
         self.__lstROIPoint = []
+        self.__lstContours = []
         self.__scaleRefObj = -1
+        self.__threshold = -1
         self.maskImg = None
         self.imgEngine = ImgEngine()
 
-    def restAnalysisData(self):
+    def resetAnalysisData(self):
         self.__lstRefPoint = []
         self.__lstROIPoint = []
+        self.__lstContours = []
         self.__scaleRefObj = -1
+        self.__threshold = -1
+        self.maskImg = None
+
+    def bCanAnalysis(self):
+        if self.__lstContours and self.__scaleRefObj > 0:
+            return True
+        else:
+            return False
+
+    @property
+    def threshold(self):
+        return self.__threshold
+
+    @threshold.setter
+    def threshold(self, value):
+        if value < 0:
+            self.__threshold = -1
+        else:
+            self.__threshold = value
+
+    def getLstContours(self):
+        return self.__lstContours
 
     # for LstRefPoint
     def setLstRefPoint(self, lstRefPoint):
@@ -40,7 +65,10 @@ class AnalysisDataModel(QObject):
 
     # for scalRefObj
     def setScaleRefObj(self, scaleRefObj):
-        self.__scaleRefObj = scaleRefObj
+        if scaleRefObj < 0:
+            self.__scaleRefObj = -1
+        else:
+            self.__scaleRefObj = scaleRefObj
         print('[AnalysisDataModel][setScaleRefObj] __scaleRefObj:', self.__scaleRefObj)
 
     def getScaleRefObj(self):
@@ -68,12 +96,28 @@ class AnalysisDataModel(QObject):
         return self.maskImg
 
     def produceMaskImg(self):
-        currData = imgManager.getCurrentData()
-        if currData is None:
+        imgData = imgManager.getCurrentData()
+        if imgData is None:
             return None
-        width, height = currData.widthImg, currData.heightImg
+        width, height = imgData.widthImg, imgData.heightImg
 
         self.maskImg = self.imgEngine.produceMaskImg(width, height, self.getLstROIPoint(), color=(255, 255, 255))
+
+    def findContours(self, threadhold=-1):
+        maskImg = self.getMaskImg()
+        imgData = imgManager.getCurrentData()
+        if imgData is None:
+            return False
+
+        roiImg = imgData.srcImg
+        roiImg[maskImg == 0] = 255
+        self.__lstContours, self.threshold = self.imgEngine.contourDetect(roiImg, threadhold)
+        if self.__lstContours:
+            print('[AnalysisDataModel][findContours] Contours successfully detected')
+            return True
+        else:
+            print('[AnalysisDataModel][findContours] Contours not detected')
+            return False
 
 
 analysisDataModel = AnalysisDataModel()

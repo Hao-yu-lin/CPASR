@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QWidget, QPushButton
 from PySide6.QtCore import Signal, QEvent
 from Controller.ImgEditCenter import imgEditCenter
 from Model.AnalysisDataModel import analysisDataModel
-from Model.MacroDefine import NONE_MODE, REF_MODE, ROI_MODE, VIEW_ORIGIN_MODE, VIEW_MASK_MODE
+from Model.MacroDefine import NONE_MODE, REF_MODE, ROI_MODE, VIEW_ORIGIN_MODE, VIEW_MASK_MODE, VIEW_CONTOURS_MODE
 import math
 
 
@@ -15,7 +15,6 @@ class ContentBar(QWidget, Ui_ContentBar):
         self.editCenter = imgEditCenter
         self.updateAllBtnStatus = [self.updateBtnViewStatus,
                                    self.updateBtnRefStatus,
-                                   self.updateBtnROIStatus,
                                    ]
         self.bindEvent()
         self.onInitUI()
@@ -25,6 +24,10 @@ class ContentBar(QWidget, Ui_ContentBar):
     def onInitUI(self):
         for fun in self.updateAllBtnStatus:
             fun()
+        lstDisablebtn = [self.btn_show_contours, self.btn_roi_analysis]
+        for btn in lstDisablebtn:
+            btn.setEnabled(False)
+            self.updateButtonState(btn)
 
 
     def bindEvent(self):
@@ -33,20 +36,17 @@ class ContentBar(QWidget, Ui_ContentBar):
         self.btn_refer_calculate.clicked.connect(self.onCalRefObj)
 
         self.lineEdit_object_length.textChanged.connect(self.updateBtnRefStatus)
-        # if self.btn_show_mask be clicked, then set self.editCenter.currViewMode = MASK_MODE
+        self.lineEdit_pixel_scale_value.textChanged.connect(self.updateScaleValue)
 
-
+        self.btn_contours_find.clicked.connect(self.findContours)
         self.btn_roi_select.clicked.connect(self.onSetROIPoints)
-        self.btn_show_image.clicked.connect(self.__setOriginMode)
-        self.btn_show_mask.clicked.connect(self.__setMaskMode)
+        self.btn_show_image.clicked.connect(lambda: self.setViewMode(VIEW_ORIGIN_MODE))
+        self.btn_show_mask.clicked.connect(lambda: self.setViewMode(VIEW_MASK_MODE))
 
-    def __setMaskMode(self):
-        self.editCenter.currViewMode = VIEW_MASK_MODE
+    def setViewMode(self, mode):
+        self.editCenter.currViewMode = mode
         self.updateBtnViewStatus()
 
-    def __setOriginMode(self):
-        self.editCenter.currViewMode = VIEW_ORIGIN_MODE
-        self.updateBtnViewStatus()
 
     def onSetRefPoints(self):
         if not self.editCenter.bImgExist:
@@ -87,7 +87,6 @@ class ContentBar(QWidget, Ui_ContentBar):
             self.editCenter.drawLstPoint(lstROIPoint, bDrawPoint=True, bDrawLine=True)
             self.editCenter.currMode = NONE_MODE
             self.editCenter.prevMode = ROI_MODE
-            self.updateBtnROIStatus()
 
         else:
             self.btn_roi_select.setText("Finish")
@@ -118,7 +117,6 @@ class ContentBar(QWidget, Ui_ContentBar):
         self.editCenter.clearROIPoint()
         self.editCenter.clearTmpPoint()
         self.btn_roi_select.setText("Select")
-        self.updateBtnROIStatus()
         self.restSrcImg()
 
     def restSrcImg(self):
@@ -176,49 +174,28 @@ class ContentBar(QWidget, Ui_ContentBar):
 
         self.updateButtonState(self.btn_refer_calculate)
 
-    def updateBtnROIStatus(self):
-        lstROIPoint = analysisDataModel.getLstROIPoint()
-        if len(lstROIPoint) > 2:
-            bPoint = True
-            self.btn_contours_find.setEnabled(True)
-            self.btn_show_mask.setEnabled(True)
-
-        else:
-            print('[ContentBar][updateBtnROIStatus] Need more than two ROI points')
-            bPoint = False
-            self.btn_contours_find.setEnabled(False)
-            self.btn_show_mask.setEnabled(False)
-
-        # phyValue = self.lineEdit_pixel_scale_value.text()
-        # if phyValue != '':
-        #     bPhyValue = True
-        # else:
-        #     print('[ContentBar][updateBtnROIStatus] Need Pixel Scale')
-        #     bPhyValue = False
-        #
-        # if bPoint and bPhyValue:
-        #     self.btn_roi_analysis.setEnabled(True)
-        # else:
-        #     self.btn_roi_analysis.setEnabled(False)
-        #
-        # self.updateButtonState(self.btn_roi_analysis)
-        self.updateButtonState(self.btn_contours_find)
-        self.updateButtonState(self.btn_show_mask)
 
     def updateBtnViewStatus(self):
         if self.editCenter.currViewMode == VIEW_MASK_MODE:
             self.btn_show_image.setEnabled(True)
-            self.btn_show_mask.setEnabled(False)
             self.btn_show_contours.setEnabled(False)
+
+            if self.editCenter.prevMode == ROI_MODE:
+                self.btn_show_image.setText('Last Image')
 
         else:
             self.btn_show_image.setEnabled(True)
-            self.btn_show_mask.setEnabled(False)
             self.btn_show_contours.setEnabled(False)
+            self.btn_show_image.setText('Image')
 
         self.updateButtonState(self.btn_show_image)
-        self.updateButtonState(self.btn_show_mask)
         self.updateButtonState(self.btn_show_contours)
+
+    def updateBtnAnalysisStatus(self):
+        bCanAnalysis = analysisDataModel.bCanAnalysis()
+        self.btn_roi_analysis.setEnabled(bCanAnalysis)
+        self.updateButtonState(self.btn_roi_analysis)
+
 
     def updateButtonState(self, btn):
         if btn.isEnabled():
@@ -226,19 +203,19 @@ class ContentBar(QWidget, Ui_ContentBar):
         else:
             btn.setStyleSheet("color: gray;")
 
-    # def onShowROIMask(self):
-    #     if not self.editCenter.bImgExist:
-    #         return
-    #     currMode = self.editCenter.currMode
-    #     if currMode == MASK_MODE:
-    #         print('[ContentBar][onShowROIMask] Show Original Image')
-    #         self.btn_roi_mask.setText("Show Mask")
-    #         self.editCenter.currMode = ROI_MODE
-    #     else:
-    #         print('[ContentBar][onShowROIMask] Show ROI Mask')
-    #         self.btn_roi_mask.setText("Hide Mask")
-    #         self.editCenter.setROIPoints()
-    #         self.editCenter.drawLstPoint(bDrawPoint=True, bDrawLine=True)
-    #         self.editCenter.currMode = MASK_MODE
-    #
-    #     self.editCenter.showROIMask()
+
+    def findContours(self):
+        print('[ContentBar][findContours] Find Contours Start')
+        threadhold = int(self.lineEdit_contours_value.text())
+        res = analysisDataModel.findContours(threadhold)
+        self.lineEdit_contours_value.setText(str(analysisDataModel.threshold))
+        self.btn_show_contours.setEnabled(res)
+        self.updateButtonState(self.btn_show_contours)
+        self.editCenter.currViewMode = VIEW_CONTOURS_MODE
+        self.updateBtnAnalysisStatus()
+
+    def updateScaleValue(self, value):
+        analysisDataModel.setScaleRefObj(float(value))
+        self.updateBtnAnalysisStatus()
+
+
