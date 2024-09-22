@@ -37,14 +37,14 @@
    <property name="styleSheet">
     <string notr="true">border-color: rgb(255, 46, 52);</string>
    </property>
-   <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+   <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
     <property name="leftMargin">
      <number>5</number>
     </property>
     <property name="rightMargin">
      <number>5</number>
     </property>
-    <item row="28" column="0">
+    <item row="27" column="0">
      <widget class="Line" name="line_space2">
       <property name="minimumSize">
        <size>
@@ -69,7 +69,7 @@
       </property>
      </widget>
     </item>
-    <item row="30" column="3">
+    <item row="29" column="2">
      <widget class="QPushButton" name="btn_save_contours">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -148,7 +148,7 @@
       </property>
      </widget>
     </item>
-    <item row="30" column="0">
+    <item row="29" column="0">
      <widget class="QPushButton" name="btn_load_data1">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -203,35 +203,7 @@
       </property>
      </widget>
     </item>
-    <item row="25" column="3">
-     <widget class="QLineEdit" name="lineEdit_contours_value">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>-1</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="42" column="2" colspan="2">
+    <item row="41" column="1" colspan="2">
      <widget class="QLineEdit" name="lineEdit_data1_Name">
       <property name="text">
        <string>None1</string>
@@ -321,7 +293,7 @@
       </property>
      </widget>
     </item>
-    <item row="30" column="2">
+    <item row="29" column="1">
      <widget class="QPushButton" name="btn_load_data2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -351,7 +323,7 @@
       </property>
      </widget>
     </item>
-    <item row="38" column="0" colspan="3">
+    <item row="37" column="0" colspan="2">
      <widget class="QLabel" name="label_bins_fixed">
       <property name="minimumSize">
        <size>
@@ -370,7 +342,7 @@
       </property>
      </widget>
     </item>
-    <item row="34" column="0">
+    <item row="33" column="0">
      <widget class="QLabel" name="label_histogram_fixed">
       <property name="minimumSize">
        <size>
@@ -389,14 +361,42 @@
       </property>
      </widget>
     </item>
-    <item row="39" column="0" colspan="3">
+    <item row="18" column="2">
+     <widget class="QLineEdit" name="lineEdit_contours_value">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>-1</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="38" column="0" colspan="2">
      <widget class="QLabel" name="label_x_axis_spacing_fixed">
       <property name="text">
        <string>X-axis spacing(mm)：</string>
       </property>
      </widget>
     </item>
-    <item row="8" column="2">
+    <item row="8" column="1">
      <widget class="QLineEdit" name="lineEdit_object_length">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -424,7 +424,7 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="3">
+    <item row="8" column="2">
      <widget class="QLabel" name="label_objectlength_fixed_2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -452,7 +452,7 @@
       </property>
      </widget>
     </item>
-    <item row="44" column="2">
+    <item row="43" column="1">
      <spacer name="verticalSpacer">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -465,7 +465,7 @@
       </property>
      </spacer>
     </item>
-    <item row="4" column="2">
+    <item row="4" column="1">
      <widget class="QPushButton" name="btn_show_mask">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -490,7 +490,7 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="0" colspan="3">
+    <item row="6" column="0" colspan="2">
      <widget class="QLabel" name="label_title_fixed">
       <property name="minimumSize">
        <size>
@@ -528,7 +528,7 @@
       </property>
      </widget>
     </item>
-    <item row="12" column="3">
+    <item row="12" column="2">
      <widget class="QPushButton" name="btn_roi_reset">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -586,7 +586,7 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="3">
+    <item row="6" column="2">
      <widget class="QPushButton" name="btn_refer_reset">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -616,26 +616,7 @@
       </property>
      </widget>
     </item>
-    <item row="25" column="0" colspan="3">
-     <widget class="QLabel" name="label_contours_fixxed">
-      <property name="minimumSize">
-       <size>
-        <width>180</width>
-        <height>20</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>180</width>
-        <height>20</height>
-       </size>
-      </property>
-      <property name="text">
-       <string> Contours Value</string>
-      </property>
-     </widget>
-    </item>
-    <item row="43" column="0">
+    <item row="42" column="0">
      <widget class="QLabel" name="label_data2_Name_fixed">
       <property name="text">
        <string>Data 2 Name</string>
@@ -657,11 +638,11 @@
        </size>
       </property>
       <property name="text">
-       <string>Find / Erase Contours</string>
+       <string>Contours</string>
       </property>
      </widget>
     </item>
-    <item row="9" column="3">
+    <item row="9" column="2">
      <widget class="QPushButton" name="btn_refer_calculate">
       <property name="enabled">
        <bool>false</bool>
@@ -713,7 +694,7 @@
       </property>
      </widget>
     </item>
-    <item row="39" column="3">
+    <item row="38" column="2">
      <widget class="QLineEdit" name="lineEdit_xaxis_spacing">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -741,7 +722,7 @@
       </property>
      </widget>
     </item>
-    <item row="35" column="0">
+    <item row="34" column="0">
      <widget class="QPushButton" name="btn_draw_hist">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -771,7 +752,7 @@
       </property>
      </widget>
     </item>
-    <item row="13" column="2">
+    <item row="13" column="1">
      <widget class="QPushButton" name="btn_roi_select">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -801,37 +782,7 @@
       </property>
      </widget>
     </item>
-    <item row="19" column="2">
-     <widget class="QPushButton" name="btn_contours_erase">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>92</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>92</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Erase</string>
-      </property>
-     </widget>
-    </item>
-    <item row="35" column="3">
+    <item row="34" column="2">
      <widget class="QPushButton" name="btn_draw_comparehist">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -861,7 +812,7 @@
       </property>
      </widget>
     </item>
-    <item row="10" column="3">
+    <item row="10" column="2">
      <widget class="QLabel" name="label_objdect_ratio_fixed">
       <property name="minimumSize">
        <size>
@@ -908,7 +859,7 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="3">
+    <item row="4" column="2">
      <widget class="QPushButton" name="btn_show_contours">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -933,7 +884,7 @@
       </property>
      </widget>
     </item>
-    <item row="34" column="2" colspan="2">
+    <item row="33" column="1" colspan="2">
      <widget class="QComboBox" name="comboBox_histstate">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -986,7 +937,7 @@
       </item>
      </widget>
     </item>
-    <item row="10" column="2">
+    <item row="10" column="1">
      <widget class="QLineEdit" name="lineEdit_pixel_scale_value">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1014,7 +965,7 @@
       </property>
      </widget>
     </item>
-    <item row="38" column="3">
+    <item row="37" column="2">
      <widget class="QLineEdit" name="lineEdit_nums_bins">
       <property name="minimumSize">
        <size>
@@ -1036,7 +987,7 @@
       </property>
      </widget>
     </item>
-    <item row="35" column="2">
+    <item row="34" column="1">
      <widget class="QPushButton" name="btn_draw_hist2">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1066,21 +1017,51 @@
       </property>
      </widget>
     </item>
-    <item row="43" column="2" colspan="2">
+    <item row="42" column="1" colspan="2">
      <widget class="QLineEdit" name="lineEdit_data2_Name">
       <property name="text">
        <string>None2</string>
       </property>
      </widget>
     </item>
-    <item row="42" column="0">
+    <item row="3" column="2">
+     <widget class="QPushButton" name="btn_eraser">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>92</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>92</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Eraser</string>
+      </property>
+     </widget>
+    </item>
+    <item row="41" column="0">
      <widget class="QLabel" name="label_data1_Name_fixed">
       <property name="text">
        <string>Data 1 Name</string>
       </property>
      </widget>
     </item>
-    <item row="26" column="0">
+    <item row="19" column="2">
      <widget class="QPushButton" name="btn_roi_analysis">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">

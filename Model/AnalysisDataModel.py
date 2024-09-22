@@ -1,8 +1,7 @@
 from PySide6.QtCore import QObject
 from Model.ImgDataModel import imgManager
 from Model.ImgEngine import ImgEngine
-
-
+import pandas as pd
 
 class AnalysisDataModel(QObject):
     _instance = None
@@ -20,6 +19,7 @@ class AnalysisDataModel(QObject):
         self.__scaleRefObj = -1
         self.__threshold = -1
         self.maskImg = None
+        self.dfContoursValue = {}
         self.imgEngine = ImgEngine()
 
     def resetAnalysisData(self):
@@ -118,6 +118,24 @@ class AnalysisDataModel(QObject):
         else:
             print('[AnalysisDataModel][findContours] Contours not detected')
             return False
+
+    def analysisContours(self):
+        lstContours = self.getLstContours()
+        if not lstContours:
+            return
+        contour_list = []
+        for i in range(len(lstContours)):
+            area, diameter = self.imgEngine.calContorusArea(lstContours[i], self.__scaleRefObj)
+            contour_list.append({
+                'Index': i,
+                'Area': area,
+                'Diameter': diameter,
+                'Scale': self.__scaleRefObj,
+                'Contours': lstContours[i]
+            })
+        dfContours = pd.DataFrame(contour_list)
+        self.dfContoursValue = dfContours
+        pass
 
 
 analysisDataModel = AnalysisDataModel()

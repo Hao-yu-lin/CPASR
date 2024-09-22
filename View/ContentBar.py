@@ -3,12 +3,13 @@ from PySide6.QtWidgets import QWidget, QPushButton
 from PySide6.QtCore import Signal, QEvent
 from Controller.ImgEditCenter import imgEditCenter
 from Model.AnalysisDataModel import analysisDataModel
-from Model.MacroDefine import NONE_MODE, REF_MODE, ROI_MODE, VIEW_ORIGIN_MODE, VIEW_MASK_MODE, VIEW_CONTOURS_MODE
+from Model.MacroDefine import (NONE_MODE, REF_MODE, ROI_MODE,
+                               VIEW_ORIGIN_MODE, VIEW_MASK_MODE,
+                               VIEW_CONTOURS_MODE, VIEW_HISTOGRAM_MODE)
 import math
 
 
 class ContentBar(QWidget, Ui_ContentBar):
-
     def __init__(self, widget):
         super().__init__()
         self.setupUi(widget)
@@ -42,6 +43,12 @@ class ContentBar(QWidget, Ui_ContentBar):
         self.btn_roi_select.clicked.connect(self.onSetROIPoints)
         self.btn_show_image.clicked.connect(lambda: self.setViewMode(VIEW_ORIGIN_MODE))
         self.btn_show_mask.clicked.connect(lambda: self.setViewMode(VIEW_MASK_MODE))
+        self.btn_show_contours.clicked.connect(lambda: self.setViewMode(VIEW_CONTOURS_MODE))
+        self.btn_draw_hist.clicked.connect(lambda: self.setViewMode(VIEW_HISTOGRAM_MODE))
+
+        self.btn_roi_analysis.clicked.connect(self.analysisContours)
+
+
 
     def setViewMode(self, mode):
         self.editCenter.currViewMode = mode
@@ -174,22 +181,14 @@ class ContentBar(QWidget, Ui_ContentBar):
 
         self.updateButtonState(self.btn_refer_calculate)
 
-
     def updateBtnViewStatus(self):
-        if self.editCenter.currViewMode == VIEW_MASK_MODE:
-            self.btn_show_image.setEnabled(True)
-            self.btn_show_contours.setEnabled(False)
-
-            if self.editCenter.prevMode == ROI_MODE:
-                self.btn_show_image.setText('Last Image')
-
-        else:
-            self.btn_show_image.setEnabled(True)
-            self.btn_show_contours.setEnabled(False)
+        if self.editCenter.currViewMode == VIEW_ORIGIN_MODE and self.editCenter.currMode == NONE_MODE:
             self.btn_show_image.setText('Image')
+        else:
+            self.btn_show_image.setText('Last Image')
 
         self.updateButtonState(self.btn_show_image)
-        self.updateButtonState(self.btn_show_contours)
+
 
     def updateBtnAnalysisStatus(self):
         bCanAnalysis = analysisDataModel.bCanAnalysis()
@@ -215,7 +214,11 @@ class ContentBar(QWidget, Ui_ContentBar):
         self.updateBtnAnalysisStatus()
 
     def updateScaleValue(self, value):
+        if not value:
+            value = -1
+
         analysisDataModel.setScaleRefObj(float(value))
         self.updateBtnAnalysisStatus()
 
-
+    def analysisContours(self):
+        analysisDataModel.analysisContours()

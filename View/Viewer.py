@@ -1,11 +1,18 @@
-from PySide6.QtCore import Qt, Slot, QEvent
+from PySide6.QtCore import Qt, Slot, QEvent, QRect, QSize
 from PySide6.QtGui import QPixmap, QImage
 from PySide6.QtWidgets import QWidget
 
 from Controller.ImgEditCenter import imgEditCenter
 from Model.PanZoom import PanZoom
+from Model.MacroDefine import VIEW_HISTOGRAM_MODE
+from Model.AnalysisDataModel import analysisDataModel
 from UI.UI_Viewer import Ui_Viewer
 from Model.MacroDefine import REF_MODE, ROI_MODE, MOUSE_STATE_NONE, MOUSE_STATE_DRAW_POINTS
+
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import matplotlib.pyplot as plt
+import pandas as pd
+
 
 # self.scrollAreaWidgetContents = QWidget()
 # self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
@@ -27,6 +34,17 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
         self.qpImg = None
         self.mouseState = MOUSE_STATE_NONE
         self.bindEvent()
+        # self.initHistogramGraph()
+
+    def initHistogramGraph(self):
+        self.cvHistogram = FigureCanvas(plt.Figure())
+        self.cvHistogram.setGeometry(QRect(12, 12, 1036, 597))
+        self.cvHistogram.setMinimumSize(QSize(1036, 597))
+        self.cvHistogram.setVisible(False)  # Initially, we hide the canvas
+
+        # self.scrollArea.setWidget(self.cvHistogram)
+
+        # self.verticalLayout_2.addWidget(self.scrollArea)
 
     def bindEvent(self):
         self.editCenter.I_EVT_UPDATE_IMG.connect(self.updateQImg)
@@ -127,4 +145,28 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
 
     def doNotingEvent(self, event):
         pass
+
+    @Slot()
+    def changeView(self):
+        if self.editCenter.currViewMode == VIEW_HISTOGRAM_MODE:
+            self.stackedWidget.setCurrentIndex(1)
+            self.updateHistogram()
+        else:
+            self.stackedWidget.setCurrentIndex(0)
+
+    def updateHistogram(self):
+        dfContoursValue = pd.read_csv('/Users/haoyulin/Desktop/new_qt/PyQT/contours_data.csv')
+        minX = 300
+        maxX = 1000
+
+        self.cvHistogram.figure.clear()
+        ax1 = self.cvHistogram.figure.add_subplot(111)
+        df_sorted = dfContoursValue.sort_values(by='Index')
+        df_visible = df_sorted[(df_sorted['Index'] >= minX) & (df_sorted['Index'] <= maxX)]
+        df_visible['Cumulative Diameter'] = df_visible['Diameter'].cumsum()
+        ax1.bar(df_visible['Index'], df_visible['Diameter'], color='lightblue', label='Diameter Distribution')
+        ax2 = ax1.twinx()
+        ax2.plot(df_visible['Index'], df_visible['Cumulative Diameter'], color='red', label='Cumulative Diameter', marker='o')
+        ax1.set_xlim(minX, maxX)
+        self.cvHistogram.draw()
 

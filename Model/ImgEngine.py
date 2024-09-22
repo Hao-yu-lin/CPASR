@@ -96,3 +96,52 @@ class ImgEngine:
             return img
         img = cv2.drawContours(img, contours, -1, (255, 0, 0), 2, lineType=cv2.LINE_AA)
         return img
+
+    def calContorusArea(self, contour, scale):
+        scaleSquare = scale * scale
+        areaPixel = cv2.contourArea(contour)
+
+        if len(contour) > 5:
+            # cal minAreaRect
+            _, rectSize, _ = cv2.minAreaRect(contour)
+            areaRect = float(rectSize[0] * rectSize[1])
+
+            # cal fitEllipse
+            ellipse = cv2.fitEllipse(contour)
+            areaEllipse = np.pi * ellipse[1][0] * ellipse[1][1]
+
+            # areaOutLine choose that the closet value to areaRect
+            areaOutLine = areaRect if abs(areaRect - areaEllipse) > abs(areaRect - areaEllipse) else areaEllipse
+
+
+            # finalarea is the geometric mean of areaOutline and areaPixel
+            finalArea = np.sqrt(areaOutLine * areaPixel)
+        else:
+            finalArea = areaPixel
+        # translate mm to microns
+        finalDiameter = np.sqrt(finalArea / np.pi) * 2 * 1000 * scale
+        finalDiameter = self.diamterFix(scale, finalDiameter)
+        finalArea = finalArea * scaleSquare
+        return finalArea, finalDiameter
+
+    def diamterFix(self, scale, diamter):
+        # double diameterfix(const double & pixel_scal, const double & diameter)
+        # {
+        #     double a = 1.0 / (pixel_scal + 0.25);
+        #     double t = std::pow(2.88, a);
+        #     double f = -0.375 * (1.0 / t) + 0.0075;
+        #
+        #     doubl p = 2.453 * pixel_scal + 0.92;
+        #     double diameter2 = diameter / 100.0;
+        #     double new_sacle = f * diameter2 + p;
+        #
+        #     return diameter * new_sacle;
+        # }
+        a = 1.0 / (scale + 0.25)
+        t = pow(2.88, a)
+        f = -0.375 * (1.0 / t) + 0.0075
+        p = 2.453 * scale + 0.92
+        diameter2 = diamter / 100.0
+        newScale = f * diameter2 + p
+        return diamter * newScale
+

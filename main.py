@@ -20,3 +20,6 @@ if __name__ == '__main__':
     _mainController = MainController(_MainWindow)
     _MainWindow.show()
     sys.exit(app.exec())
+
+
+

@@ -42,7 +42,7 @@ class Ui_ContentBar(object):
         self.line_space2.setFrameShape(QFrame.Shape.HLine)
         self.line_space2.setFrameShadow(QFrame.Shadow.Sunken)
 
-        self.gridLayout.addWidget(self.line_space2, 28, 0, 1, 1)
+        self.gridLayout.addWidget(self.line_space2, 27, 0, 1, 1)
 
         self.btn_save_contours = QPushButton(self.parameter)
         self.btn_save_contours.setObjectName(u"btn_save_contours")
@@ -57,7 +57,7 @@ class Ui_ContentBar(object):
         font.setPointSize(12)
         self.btn_save_contours.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_save_contours, 30, 3, 1, 1)
+        self.gridLayout.addWidget(self.btn_save_contours, 29, 2, 1, 1)
 
         self.btn_refer_select = QPushButton(self.parameter)
         self.btn_refer_select.setObjectName(u"btn_refer_select")
@@ -84,7 +84,7 @@ class Ui_ContentBar(object):
         self.btn_load_data1.setMaximumSize(QSize(92, 25))
         self.btn_load_data1.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_load_data1, 30, 0, 1, 1)
+        self.gridLayout.addWidget(self.btn_load_data1, 29, 0, 1, 1)
 
         self.label_pixel_scale = QLabel(self.parameter)
         self.label_pixel_scale.setObjectName(u"label_pixel_scale")
@@ -98,20 +98,10 @@ class Ui_ContentBar(object):
 
         self.gridLayout.addWidget(self.label_pixel_scale, 10, 0, 1, 1)
 
-        self.lineEdit_contours_value = QLineEdit(self.parameter)
-        self.lineEdit_contours_value.setObjectName(u"lineEdit_contours_value")
-        sizePolicy.setHeightForWidth(self.lineEdit_contours_value.sizePolicy().hasHeightForWidth())
-        self.lineEdit_contours_value.setSizePolicy(sizePolicy)
-        self.lineEdit_contours_value.setMinimumSize(QSize(0, 25))
-        self.lineEdit_contours_value.setMaximumSize(QSize(16777215, 25))
-        self.lineEdit_contours_value.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout.addWidget(self.lineEdit_contours_value, 25, 3, 1, 1)
-
         self.lineEdit_data1_Name = QLineEdit(self.parameter)
         self.lineEdit_data1_Name.setObjectName(u"lineEdit_data1_Name")
 
-        self.gridLayout.addWidget(self.lineEdit_data1_Name, 42, 2, 1, 2)
+        self.gridLayout.addWidget(self.lineEdit_data1_Name, 41, 1, 1, 2)
 
         self.label_objectlength_fixed = QLabel(self.parameter)
         self.label_objectlength_fixed.setObjectName(u"label_objectlength_fixed")
@@ -152,26 +142,36 @@ class Ui_ContentBar(object):
         self.btn_load_data2.setMaximumSize(QSize(92, 25))
         self.btn_load_data2.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_load_data2, 30, 2, 1, 1)
+        self.gridLayout.addWidget(self.btn_load_data2, 29, 1, 1, 1)
 
         self.label_bins_fixed = QLabel(self.parameter)
         self.label_bins_fixed.setObjectName(u"label_bins_fixed")
         self.label_bins_fixed.setMinimumSize(QSize(0, 20))
         self.label_bins_fixed.setMaximumSize(QSize(16777215, 20))
 
-        self.gridLayout.addWidget(self.label_bins_fixed, 38, 0, 1, 3)
+        self.gridLayout.addWidget(self.label_bins_fixed, 37, 0, 1, 2)
 
         self.label_histogram_fixed = QLabel(self.parameter)
         self.label_histogram_fixed.setObjectName(u"label_histogram_fixed")
         self.label_histogram_fixed.setMinimumSize(QSize(180, 20))
         self.label_histogram_fixed.setMaximumSize(QSize(180, 20))
 
-        self.gridLayout.addWidget(self.label_histogram_fixed, 34, 0, 1, 1)
+        self.gridLayout.addWidget(self.label_histogram_fixed, 33, 0, 1, 1)
+
+        self.lineEdit_contours_value = QLineEdit(self.parameter)
+        self.lineEdit_contours_value.setObjectName(u"lineEdit_contours_value")
+        sizePolicy.setHeightForWidth(self.lineEdit_contours_value.sizePolicy().hasHeightForWidth())
+        self.lineEdit_contours_value.setSizePolicy(sizePolicy)
+        self.lineEdit_contours_value.setMinimumSize(QSize(0, 25))
+        self.lineEdit_contours_value.setMaximumSize(QSize(16777215, 25))
+        self.lineEdit_contours_value.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout.addWidget(self.lineEdit_contours_value, 18, 2, 1, 1)
 
         self.label_x_axis_spacing_fixed = QLabel(self.parameter)
         self.label_x_axis_spacing_fixed.setObjectName(u"label_x_axis_spacing_fixed")
 
-        self.gridLayout.addWidget(self.label_x_axis_spacing_fixed, 39, 0, 1, 3)
+        self.gridLayout.addWidget(self.label_x_axis_spacing_fixed, 38, 0, 1, 2)
 
         self.lineEdit_object_length = QLineEdit(self.parameter)
         self.lineEdit_object_length.setObjectName(u"lineEdit_object_length")
@@ -181,7 +181,7 @@ class Ui_ContentBar(object):
         self.lineEdit_object_length.setMaximumSize(QSize(16777215, 25))
         self.lineEdit_object_length.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.lineEdit_object_length, 8, 2, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_object_length, 8, 1, 1, 1)
 
         self.label_objectlength_fixed_2 = QLabel(self.parameter)
         self.label_objectlength_fixed_2.setObjectName(u"label_objectlength_fixed_2")
@@ -194,11 +194,11 @@ class Ui_ContentBar(object):
         self.label_objectlength_fixed_2.setMaximumSize(QSize(70, 20))
         self.label_objectlength_fixed_2.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
-        self.gridLayout.addWidget(self.label_objectlength_fixed_2, 8, 3, 1, 1)
+        self.gridLayout.addWidget(self.label_objectlength_fixed_2, 8, 2, 1, 1)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.gridLayout.addItem(self.verticalSpacer, 44, 2, 1, 1)
+        self.gridLayout.addItem(self.verticalSpacer, 43, 1, 1, 1)
 
         self.btn_show_mask = QPushButton(self.parameter)
         self.btn_show_mask.setObjectName(u"btn_show_mask")
@@ -207,14 +207,14 @@ class Ui_ContentBar(object):
         self.btn_show_mask.setMinimumSize(QSize(92, 25))
         self.btn_show_mask.setMaximumSize(QSize(92, 25))
 
-        self.gridLayout.addWidget(self.btn_show_mask, 4, 2, 1, 1)
+        self.gridLayout.addWidget(self.btn_show_mask, 4, 1, 1, 1)
 
         self.label_title_fixed = QLabel(self.parameter)
         self.label_title_fixed.setObjectName(u"label_title_fixed")
         self.label_title_fixed.setMinimumSize(QSize(180, 20))
         self.label_title_fixed.setMaximumSize(QSize(180, 20))
 
-        self.gridLayout.addWidget(self.label_title_fixed, 6, 0, 1, 3)
+        self.gridLayout.addWidget(self.label_title_fixed, 6, 0, 1, 2)
 
         self.labe_select_roi_fixed = QLabel(self.parameter)
         self.labe_select_roi_fixed.setObjectName(u"labe_select_roi_fixed")
@@ -231,7 +231,7 @@ class Ui_ContentBar(object):
         self.btn_roi_reset.setMaximumSize(QSize(92, 25))
         self.btn_roi_reset.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_roi_reset, 12, 3, 1, 1)
+        self.gridLayout.addWidget(self.btn_roi_reset, 12, 2, 1, 1)
 
         self.checkBox_roi_reverse = QCheckBox(self.parameter)
         self.checkBox_roi_reverse.setObjectName(u"checkBox_roi_reverse")
@@ -251,19 +251,12 @@ class Ui_ContentBar(object):
         self.btn_refer_reset.setMaximumSize(QSize(92, 25))
         self.btn_refer_reset.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_refer_reset, 6, 3, 1, 1)
-
-        self.label_contours_fixxed = QLabel(self.parameter)
-        self.label_contours_fixxed.setObjectName(u"label_contours_fixxed")
-        self.label_contours_fixxed.setMinimumSize(QSize(180, 20))
-        self.label_contours_fixxed.setMaximumSize(QSize(180, 20))
-
-        self.gridLayout.addWidget(self.label_contours_fixxed, 25, 0, 1, 3)
+        self.gridLayout.addWidget(self.btn_refer_reset, 6, 2, 1, 1)
 
         self.label_data2_Name_fixed = QLabel(self.parameter)
         self.label_data2_Name_fixed.setObjectName(u"label_data2_Name_fixed")
 
-        self.gridLayout.addWidget(self.label_data2_Name_fixed, 43, 0, 1, 1)
+        self.gridLayout.addWidget(self.label_data2_Name_fixed, 42, 0, 1, 1)
 
         self.label_contours = QLabel(self.parameter)
         self.label_contours.setObjectName(u"label_contours")
@@ -281,7 +274,7 @@ class Ui_ContentBar(object):
         self.btn_refer_calculate.setMaximumSize(QSize(92, 25))
         self.btn_refer_calculate.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_refer_calculate, 9, 3, 1, 1)
+        self.gridLayout.addWidget(self.btn_refer_calculate, 9, 2, 1, 1)
 
         self.label_show_image_fixed = QLabel(self.parameter)
         self.label_show_image_fixed.setObjectName(u"label_show_image_fixed")
@@ -298,7 +291,7 @@ class Ui_ContentBar(object):
         self.lineEdit_xaxis_spacing.setMaximumSize(QSize(16777215, 25))
         self.lineEdit_xaxis_spacing.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.lineEdit_xaxis_spacing, 39, 3, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_xaxis_spacing, 38, 2, 1, 1)
 
         self.btn_draw_hist = QPushButton(self.parameter)
         self.btn_draw_hist.setObjectName(u"btn_draw_hist")
@@ -308,7 +301,7 @@ class Ui_ContentBar(object):
         self.btn_draw_hist.setMaximumSize(QSize(92, 25))
         self.btn_draw_hist.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_draw_hist, 35, 0, 1, 1)
+        self.gridLayout.addWidget(self.btn_draw_hist, 34, 0, 1, 1)
 
         self.btn_roi_select = QPushButton(self.parameter)
         self.btn_roi_select.setObjectName(u"btn_roi_select")
@@ -318,17 +311,7 @@ class Ui_ContentBar(object):
         self.btn_roi_select.setMaximumSize(QSize(92, 25))
         self.btn_roi_select.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_roi_select, 13, 2, 1, 1)
-
-        self.btn_contours_erase = QPushButton(self.parameter)
-        self.btn_contours_erase.setObjectName(u"btn_contours_erase")
-        sizePolicy.setHeightForWidth(self.btn_contours_erase.sizePolicy().hasHeightForWidth())
-        self.btn_contours_erase.setSizePolicy(sizePolicy)
-        self.btn_contours_erase.setMinimumSize(QSize(92, 25))
-        self.btn_contours_erase.setMaximumSize(QSize(92, 25))
-        self.btn_contours_erase.setFont(font)
-
-        self.gridLayout.addWidget(self.btn_contours_erase, 19, 2, 1, 1)
+        self.gridLayout.addWidget(self.btn_roi_select, 13, 1, 1, 1)
 
         self.btn_draw_comparehist = QPushButton(self.parameter)
         self.btn_draw_comparehist.setObjectName(u"btn_draw_comparehist")
@@ -338,7 +321,7 @@ class Ui_ContentBar(object):
         self.btn_draw_comparehist.setMaximumSize(QSize(92, 25))
         self.btn_draw_comparehist.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_draw_comparehist, 35, 3, 1, 1)
+        self.gridLayout.addWidget(self.btn_draw_comparehist, 34, 2, 1, 1)
 
         self.label_objdect_ratio_fixed = QLabel(self.parameter)
         self.label_objdect_ratio_fixed.setObjectName(u"label_objdect_ratio_fixed")
@@ -346,7 +329,7 @@ class Ui_ContentBar(object):
         self.label_objdect_ratio_fixed.setMaximumSize(QSize(70, 20))
         self.label_objdect_ratio_fixed.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
-        self.gridLayout.addWidget(self.label_objdect_ratio_fixed, 10, 3, 1, 1)
+        self.gridLayout.addWidget(self.label_objdect_ratio_fixed, 10, 2, 1, 1)
 
         self.line_space3 = QFrame(self.parameter)
         self.line_space3.setObjectName(u"line_space3")
@@ -366,7 +349,7 @@ class Ui_ContentBar(object):
         self.btn_show_contours.setMinimumSize(QSize(92, 25))
         self.btn_show_contours.setMaximumSize(QSize(92, 25))
 
-        self.gridLayout.addWidget(self.btn_show_contours, 4, 3, 1, 1)
+        self.gridLayout.addWidget(self.btn_show_contours, 4, 2, 1, 1)
 
         self.comboBox_histstate = QComboBox(self.parameter)
         self.comboBox_histstate.addItem("")
@@ -382,7 +365,7 @@ class Ui_ContentBar(object):
         self.comboBox_histstate.setContextMenuPolicy(Qt.DefaultContextMenu)
         self.comboBox_histstate.setMinimumContentsLength(6)
 
-        self.gridLayout.addWidget(self.comboBox_histstate, 34, 2, 1, 2)
+        self.gridLayout.addWidget(self.comboBox_histstate, 33, 1, 1, 2)
 
         self.lineEdit_pixel_scale_value = QLineEdit(self.parameter)
         self.lineEdit_pixel_scale_value.setObjectName(u"lineEdit_pixel_scale_value")
@@ -392,7 +375,7 @@ class Ui_ContentBar(object):
         self.lineEdit_pixel_scale_value.setMaximumSize(QSize(16777215, 25))
         self.lineEdit_pixel_scale_value.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.lineEdit_pixel_scale_value, 10, 2, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_pixel_scale_value, 10, 1, 1, 1)
 
         self.lineEdit_nums_bins = QLineEdit(self.parameter)
         self.lineEdit_nums_bins.setObjectName(u"lineEdit_nums_bins")
@@ -400,7 +383,7 @@ class Ui_ContentBar(object):
         self.lineEdit_nums_bins.setMaximumSize(QSize(16777215, 25))
         self.lineEdit_nums_bins.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.lineEdit_nums_bins, 38, 3, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_nums_bins, 37, 2, 1, 1)
 
         self.btn_draw_hist2 = QPushButton(self.parameter)
         self.btn_draw_hist2.setObjectName(u"btn_draw_hist2")
@@ -410,17 +393,27 @@ class Ui_ContentBar(object):
         self.btn_draw_hist2.setMaximumSize(QSize(92, 25))
         self.btn_draw_hist2.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_draw_hist2, 35, 2, 1, 1)
+        self.gridLayout.addWidget(self.btn_draw_hist2, 34, 1, 1, 1)
 
         self.lineEdit_data2_Name = QLineEdit(self.parameter)
         self.lineEdit_data2_Name.setObjectName(u"lineEdit_data2_Name")
 
-        self.gridLayout.addWidget(self.lineEdit_data2_Name, 43, 2, 1, 2)
+        self.gridLayout.addWidget(self.lineEdit_data2_Name, 42, 1, 1, 2)
+
+        self.btn_eraser = QPushButton(self.parameter)
+        self.btn_eraser.setObjectName(u"btn_eraser")
+        sizePolicy.setHeightForWidth(self.btn_eraser.sizePolicy().hasHeightForWidth())
+        self.btn_eraser.setSizePolicy(sizePolicy)
+        self.btn_eraser.setMinimumSize(QSize(92, 25))
+        self.btn_eraser.setMaximumSize(QSize(92, 25))
+        self.btn_eraser.setFont(font)
+
+        self.gridLayout.addWidget(self.btn_eraser, 3, 2, 1, 1)
 
         self.label_data1_Name_fixed = QLabel(self.parameter)
         self.label_data1_Name_fixed.setObjectName(u"label_data1_Name_fixed")
 
-        self.gridLayout.addWidget(self.label_data1_Name_fixed, 42, 0, 1, 1)
+        self.gridLayout.addWidget(self.label_data1_Name_fixed, 41, 0, 1, 1)
 
         self.btn_roi_analysis = QPushButton(self.parameter)
         self.btn_roi_analysis.setObjectName(u"btn_roi_analysis")
@@ -430,7 +423,7 @@ class Ui_ContentBar(object):
         self.btn_roi_analysis.setMaximumSize(QSize(92, 25))
         self.btn_roi_analysis.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_roi_analysis, 26, 0, 1, 1)
+        self.gridLayout.addWidget(self.btn_roi_analysis, 19, 2, 1, 1)
 
 
         self.retranslateUi(ContentBar)
@@ -445,13 +438,13 @@ class Ui_ContentBar(object):
         self.btn_contours_find.setText(QCoreApplication.translate("ContentBar", u"Find", None))
         self.btn_load_data1.setText(QCoreApplication.translate("ContentBar", u"Load Data1", None))
         self.label_pixel_scale.setText(QCoreApplication.translate("ContentBar", u"Pixel Scale:", None))
-        self.lineEdit_contours_value.setText(QCoreApplication.translate("ContentBar", u"-1", None))
         self.lineEdit_data1_Name.setText(QCoreApplication.translate("ContentBar", u"None1", None))
         self.label_objectlength_fixed.setText(QCoreApplication.translate("ContentBar", u"Object length", None))
         self.btn_show_image.setText(QCoreApplication.translate("ContentBar", u"Image", None))
         self.btn_load_data2.setText(QCoreApplication.translate("ContentBar", u"Load Data2", None))
         self.label_bins_fixed.setText(QCoreApplication.translate("ContentBar", u"Nums Bins\uff1a", None))
         self.label_histogram_fixed.setText(QCoreApplication.translate("ContentBar", u"Histogram", None))
+        self.lineEdit_contours_value.setText(QCoreApplication.translate("ContentBar", u"-1", None))
         self.label_x_axis_spacing_fixed.setText(QCoreApplication.translate("ContentBar", u"X-axis spacing(mm)\uff1a", None))
         self.lineEdit_object_length.setText("")
         self.label_objectlength_fixed_2.setText(QCoreApplication.translate("ContentBar", u" mm ", None))
@@ -461,15 +454,13 @@ class Ui_ContentBar(object):
         self.btn_roi_reset.setText(QCoreApplication.translate("ContentBar", u"Reset", None))
         self.checkBox_roi_reverse.setText(QCoreApplication.translate("ContentBar", u"Reverse", None))
         self.btn_refer_reset.setText(QCoreApplication.translate("ContentBar", u"Reset", None))
-        self.label_contours_fixxed.setText(QCoreApplication.translate("ContentBar", u" Contours Value", None))
         self.label_data2_Name_fixed.setText(QCoreApplication.translate("ContentBar", u"Data 2 Name", None))
-        self.label_contours.setText(QCoreApplication.translate("ContentBar", u"Find / Erase Contours", None))
+        self.label_contours.setText(QCoreApplication.translate("ContentBar", u"Contours", None))
         self.btn_refer_calculate.setText(QCoreApplication.translate("ContentBar", u"Calculate", None))
         self.label_show_image_fixed.setText(QCoreApplication.translate("ContentBar", u"View Mode", None))
         self.lineEdit_xaxis_spacing.setText(QCoreApplication.translate("ContentBar", u"-1", None))
         self.btn_draw_hist.setText(QCoreApplication.translate("ContentBar", u"Hist Data1", None))
         self.btn_roi_select.setText(QCoreApplication.translate("ContentBar", u"Select", None))
-        self.btn_contours_erase.setText(QCoreApplication.translate("ContentBar", u"Erase", None))
         self.btn_draw_comparehist.setText(QCoreApplication.translate("ContentBar", u"Compare", None))
         self.label_objdect_ratio_fixed.setText(QCoreApplication.translate("ContentBar", u"mm/pixel", None))
         self.btn_show_contours.setText(QCoreApplication.translate("ContentBar", u"Contours", None))
@@ -483,6 +474,7 @@ class Ui_ContentBar(object):
         self.lineEdit_nums_bins.setText(QCoreApplication.translate("ContentBar", u"-1", None))
         self.btn_draw_hist2.setText(QCoreApplication.translate("ContentBar", u"Hist Data2", None))
         self.lineEdit_data2_Name.setText(QCoreApplication.translate("ContentBar", u"None2", None))
+        self.btn_eraser.setText(QCoreApplication.translate("ContentBar", u"Eraser", None))
         self.label_data1_Name_fixed.setText(QCoreApplication.translate("ContentBar", u"Data 1 Name", None))
         self.btn_roi_analysis.setText(QCoreApplication.translate("ContentBar", u"Analysis", None))
     # retranslateUi
