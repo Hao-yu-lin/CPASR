@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt, Slot, QEvent, QRect, QSize
 from PySide6.QtGui import QPixmap, QImage
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QStackedWidget
 
 from Controller.ImgEditCenter import imgEditCenter
 from Model.PanZoom import PanZoom
@@ -28,23 +28,29 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
         super().__init__()
         self.widget = widget
         self.setupUi(widget)
+        self.initComplete(widget)
         self.editCenter = imgEditCenter
         self.widthImg = -1
         self.heightImg = -1
         self.qpImg = None
         self.mouseState = MOUSE_STATE_NONE
         self.bindEvent()
-        # self.initHistogramGraph()
 
-    def initHistogramGraph(self):
+
+    def initComplete(self, widget):
+        self.stackedWidget = QStackedWidget(widget)
+        self.stackedWidget.setMinimumSize(QSize(1036, 597))
+        # Matplotlib FigureCanvas for histogram or chart
         self.cvHistogram = FigureCanvas(plt.Figure())
         self.cvHistogram.setGeometry(QRect(12, 12, 1036, 597))
         self.cvHistogram.setMinimumSize(QSize(1036, 597))
-        self.cvHistogram.setVisible(False)  # Initially, we hide the canvas
 
-        # self.scrollArea.setWidget(self.cvHistogram)
+        # Add both widgets (image and chart) to the stacked widget
+        self.stackedWidget.addWidget(self.label_view)  # Index 0
+        self.stackedWidget.addWidget(self.cvHistogram)  # Index 1
 
-        # self.verticalLayout_2.addWidget(self.scrollArea)
+        # Add both widgets to the layout but show one at a time
+        self.scrollArea.setWidget(self.stackedWidget)  # Initially set the image view
 
     def bindEvent(self):
         self.editCenter.I_EVT_UPDATE_IMG.connect(self.updateQImg)

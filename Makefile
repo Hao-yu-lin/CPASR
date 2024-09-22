@@ -8,7 +8,7 @@ ui:
 	pyside6-uic UI/UI_Viewer.ui -o UI/UI_Viewer.py
 
 
-# 	for viewer behavior
+    # 	for viewer behavior
 	sed -i '' '40,44d' UI/UI_Viewer.py
 	sed -i '' 's/self.label_view = QLabel(self.scrollAreaWidgetContents)/self.label_view = QLabel()/' UI/UI_Viewer.py
-	sed -i '' 's/self.scrollArea.setWidget(self.scrollAreaWidgetContents)/self.scrollArea.setWidget(self.label_view)/' UI/UI_Viewer.py
+	sed -i '' '/self.scrollArea.setWidget(self.scrollAreaWidgetContents)/d' UI/UI_Viewer.py

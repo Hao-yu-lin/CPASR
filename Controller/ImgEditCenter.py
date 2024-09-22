@@ -2,8 +2,9 @@ from Model.ImgDataModel import imgManager
 from Model.ImgEngine import ImgEngine
 from PySide6.QtCore import Signal, Slot, QObject
 from Model.AnalysisDataModel import analysisDataModel
-from Model.MacroDefine import (NONE_MODE, REF_MODE, ROI_MODE, MASK_MODE
-                                ,VIEW_ORIGIN_MODE, VIEW_MASK_MODE, VIEW_CONTOURS_MODE
+from Model.MacroDefine import (NONE_MODE, REF_MODE, ROI_MODE, MASK_MODE,
+                                VIEW_ORIGIN_MODE, VIEW_MASK_MODE,
+                                VIEW_CONTOURS_MODE, VIEW_HISTOGRAM_MODE
                                )
 
 
@@ -12,6 +13,7 @@ class ImgEditCenter(QObject):
     _instance = None
     I_EVT_UPDATE_IMG = Signal()
     I_EVT_SET_POINTS = Signal()
+    I_EVT_CHANGE_VIEW_MODE = Signal()
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -143,7 +145,9 @@ class ImgEditCenter(QObject):
     @currViewMode.setter
     def currViewMode(self, mode):
         self.__currViewMode = mode
-        self.drawImg()
+        if mode != VIEW_HISTOGRAM_MODE:
+            self.drawImg()
+        self.I_EVT_CHANGE_VIEW_MODE.emit()
 
     def drawImg(self):
         if not self.bImgExist:

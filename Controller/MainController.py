@@ -21,6 +21,7 @@ class MainController(QObject):
         self.Viewer.I_EVT_SCALE_CHANGE.connect(self.syncRatioToValue)
         self.MenuBarController.I_EVT_SCALE_CHANGE.connect(self.updateView)
         self.editCenter.I_EVT_SET_POINTS.connect(self.onSetPoints)
+        self.editCenter.I_EVT_CHANGE_VIEW_MODE.connect(self.Viewer.changeView)
 
     @Slot()
     def decodeImg(self):

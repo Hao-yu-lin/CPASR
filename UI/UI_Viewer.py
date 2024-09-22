@@ -16,10 +16,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QScrollArea, QSizePolicy,
-    QVBoxLayout, QWidget, QStackedWidget)
-
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-import matplotlib.pyplot as plt
+    QVBoxLayout, QWidget)
 
 class Ui_Viewer(object):
     def setupUi(self, Viewer):
@@ -30,40 +27,28 @@ class Ui_Viewer(object):
         Viewer.setMouseTracking(False)
         Viewer.setStyleSheet(u"background-color: rgb(190, 190, 190);")
         self.verticalLayout_2 = QVBoxLayout(Viewer)
+#ifndef Q_OS_MAC
+        self.verticalLayout_2.setSpacing(-1)
+#endif
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(5, 5, 5, 5)
-
         self.scrollArea = QScrollArea(Viewer)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setMinimumSize(QSize(1036, 597))
         self.scrollArea.setStyleSheet(u"background-color: rgb(190, 190, 190);")
-        self.scrollArea.setWidgetResizable(True)
-
-        self.stackedWidget = QStackedWidget(Viewer)
-        self.stackedWidget.setMinimumSize(QSize(1036, 597))
-
-        # QLabel for displaying the image
+        self.scrollArea.setWidgetResizable(False)
         self.label_view = QLabel()
         self.label_view.setObjectName(u"label_view")
         self.label_view.setGeometry(QRect(12, 12, 1036, 597))
         self.label_view.setMinimumSize(QSize(1036, 597))
-        self.label_view.setAlignment(Qt.AlignCenter)
+        self.label_view.setMouseTracking(False)
         self.label_view.setStyleSheet(u"background-color: rgb(190, 190, 190);")
+        self.label_view.setAlignment(Qt.AlignCenter)
 
-        # Matplotlib FigureCanvas for histogram or chart
-        self.cvHistogram = FigureCanvas(plt.Figure())
-        self.cvHistogram.setGeometry(QRect(12, 12, 1036, 597))
-        self.cvHistogram.setMinimumSize(QSize(1036, 597))
-
-        # Add both widgets (image and chart) to the stacked widget
-        self.stackedWidget.addWidget(self.label_view)  # Index 0
-        self.stackedWidget.addWidget(self.cvHistogram)  # Index 1
-
-        # Add both widgets to the layout but show one at a time
-        self.scrollArea.setWidget(self.stackedWidget)  # Initially set the image view
         self.verticalLayout_2.addWidget(self.scrollArea)
 
         self.retranslateUi(Viewer)
+
         QMetaObject.connectSlotsByName(Viewer)
     # setupUi
 
