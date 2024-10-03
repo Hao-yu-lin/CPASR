@@ -41,7 +41,7 @@ class HistogramBar(QWidget, Ui_HistogramBar):
         self.btn_update_histogram.clicked.connect(self.updateHistogram)
         self.btn_change_mode.clicked.connect(lambda: self.setViewMode(MacroDefine.VIEW_ORIGIN_MODE))
         self.dataEditCenter.I_EVT_UPDATE_DATA_INFO.connect(self.prepareUpdateDataInfo)
-        self.comboBox_show_info_type.currentIndexChanged.connect(self.updateUnitText)
+        self.comboBox_show_info_type.currentIndexChanged.connect(self.updateUnit)
 
     def setViewMode(self, mode):
         self.imgEditCenter.currViewMode = mode
@@ -82,14 +82,15 @@ class HistogramBar(QWidget, Ui_HistogramBar):
             self.updateButtonState(self.checkBox_show_data1)
         elif idx == 1:
             self.checkBox_show_data2.setEnabled(bHasData)
-            self.checkBox_show_data1.setChecked(bHasData)
+            self.checkBox_show_data2.setChecked(bHasData)
             self.updateButtonState(self.checkBox_show_data2)
 
-        self.updateDataInfo(idx, MacroDefine.DIAMETER_TYPE)
+        self.updateDataInfo(idx)
 
-    def updateDataInfo(self, idx, dataType):
+    def updateDataInfo(self, idx):
+        showInfoType = int(self.comboBox_show_info_type.currentIndex())
         dataItem = self.dataEditCenter.getSingleDataItem(idx)
-        dataInfo = dataItem.getDataInfo(dataType)
+        dataInfo = dataItem.getDataInfo(showInfoType)
 
         # dataInfo.average is a float, just want to show .3f
         avgValue = dataInfo.average
@@ -184,10 +185,14 @@ class HistogramBar(QWidget, Ui_HistogramBar):
         self.lineEdit_xaxis_min_value.setText(f'{minXValue:.3f} ')
         self.lineEdit_xaxis_max_value.setText(f'{maxXValue:.3f} ')
 
-    def updateUnitText(self):
+    def updateUnit(self):
         showInfoType = int(self.comboBox_show_info_type.currentIndex())
         strUnitText = MacroDefine.dicStrUintText[showInfoType]
         lstSetUintLabel = [self.label_data_unit, self.label_x_axis_spacing_unit, self.label_x_axis_min_unit, self.label_x_axis_max_unit]
         for label in lstSetUintLabel:
             label.setText(strUnitText)
 
+        if self.dataEditCenter.bHasData(0):
+            self.updateDataInfo(0)
+        if self.dataEditCenter.bHasData(1):
+            self.updateDataInfo(1)
