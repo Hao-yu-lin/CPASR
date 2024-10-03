@@ -1,10 +1,13 @@
 from PySide6.QtCore import QObject
+from PySide6.QtCore import Signal
 from Model.ImgDataModel import imgManager
 from Model.ImgEngine import ImgEngine
+import Model.MacroDefine as MacroDefine
 import pandas as pd
 
 class AnalysisDataModel(QObject):
     _instance = None
+    I_EVT_ANALYSIS_FINISH = Signal()
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -21,6 +24,8 @@ class AnalysisDataModel(QObject):
         self.maskImg = None
         self.dfContoursValue = {}
         self.imgEngine = ImgEngine()
+        self.bIsShowDoubleItem = False
+        self.strDataName = ''
 
     def resetAnalysisData(self):
         self.__lstRefPoint = []
@@ -109,6 +114,7 @@ class AnalysisDataModel(QObject):
         if imgData is None:
             return False
 
+        self.strDataName = imgData.nameImg
         roiImg = imgData.srcImg
         roiImg[maskImg == 0] = 255
         self.__lstContours, self.threshold = self.imgEngine.contourDetect(roiImg, threadhold)
@@ -127,14 +133,13 @@ class AnalysisDataModel(QObject):
         for i in range(len(lstContours)):
             area, diameter = self.imgEngine.calContorusArea(lstContours[i], self.__scaleRefObj)
             contour_list.append({
-                'Index': i,
-                'Area': area,
-                'Diameter': diameter,
-                'Scale': self.__scaleRefObj,
-                'Contours': lstContours[i]
+                MacroDefine.INT_INDEX           : i,
+                MacroDefine.INT_AREA            : area,
+                MacroDefine.INT_DIAMETER        : diameter,
             })
         dfContours = pd.DataFrame(contour_list)
         self.dfContoursValue = dfContours
+        self.I_EVT_ANALYSIS_FINISH.emit()
         pass
 
 

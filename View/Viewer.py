@@ -1,17 +1,18 @@
 from PySide6.QtCore import Qt, Slot, QEvent, QRect, QSize
 from PySide6.QtGui import QPixmap, QImage
 from PySide6.QtWidgets import QWidget, QStackedWidget
+from PySide6.QtCore import QObject, Signal, Slot
 
 from Controller.ImgEditCenter import imgEditCenter
 from Model.PanZoom import PanZoom
-from Model.MacroDefine import VIEW_HISTOGRAM_MODE
+from Model.StatisticsModel import StatisticsModel
 from Model.AnalysisDataModel import analysisDataModel
+from Controller.DataEditCenter import dataEditCenter
 from UI.UI_Viewer import Ui_Viewer
-from Model.MacroDefine import REF_MODE, ROI_MODE, MOUSE_STATE_NONE, MOUSE_STATE_DRAW_POINTS
-
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 import pandas as pd
+import Model.MacroDefine as MacroDefine
 
 
 # self.scrollAreaWidgetContents = QWidget()
@@ -23,17 +24,19 @@ import pandas as pd
 # self.scrollArea.setWidget(self.label_view)
 
 
-class Viewer(QWidget, Ui_Viewer, PanZoom):
+class Viewer(QWidget, Ui_Viewer, PanZoom, StatisticsModel):
+    I_EVT_CHANGE_BAR_VIEW = Signal(int)
     def __init__(self, widget):
         super().__init__()
         self.widget = widget
         self.setupUi(widget)
         self.initComplete(widget)
-        self.editCenter = imgEditCenter
+        self.imgEditCenter = imgEditCenter
+        self.dataEditCenter = dataEditCenter
         self.widthImg = -1
         self.heightImg = -1
         self.qpImg = None
-        self.mouseState = MOUSE_STATE_NONE
+        self.mouseState = MacroDefine.MOUSE_STATE_NONE
         self.bindEvent()
 
 
@@ -45,15 +48,19 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
         self.cvHistogram.setGeometry(QRect(12, 12, 1036, 597))
         self.cvHistogram.setMinimumSize(QSize(1036, 597))
 
+        self.scrollArea.setWidget(self.label_view)  # Initially set the image view
+
         # Add both widgets (image and chart) to the stacked widget
-        self.stackedWidget.addWidget(self.label_view)  # Index 0
+        self.stackedWidget.addWidget(self.scrollArea)  # Index 0
         self.stackedWidget.addWidget(self.cvHistogram)  # Index 1
 
         # Add both widgets to the layout but show one at a time
-        self.scrollArea.setWidget(self.stackedWidget)  # Initially set the image view
+
+        self.verticalLayout_2.addWidget(self.stackedWidget)
 
     def bindEvent(self):
-        self.editCenter.I_EVT_UPDATE_IMG.connect(self.updateQImg)
+        self.imgEditCenter.I_EVT_UPDATE_IMG.connect(self.updateQImg)
+        self.dataEditCenter.I_EVT_UPDATE_HISTOGRAM.connect(self.drawHistogram)
 
     def bindMouseEvent(self):
         self.label_view.mousePressEvent = self.onMouseDown
@@ -64,8 +71,8 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
         self.label_view.mouseMoveEvent = self.doNotingEvent
 
     def initImg(self):
-        self.widthImg, self.heightImg, bytesPerline = self.editCenter.getImgShape()
-        qImg = QImage(self.editCenter.getImgData(), self.widthImg, self.heightImg, bytesPerline, QImage.Format_RGB888)
+        self.widthImg, self.heightImg, bytesPerline = self.imgEditCenter.getImgShape()
+        qImg = QImage(self.imgEditCenter.getImgData(), self.widthImg, self.heightImg, bytesPerline, QImage.Format_RGB888)
         self.qpImg = QPixmap.fromImage(qImg)
         self.onInitFit()
         self.drawImg()
@@ -81,8 +88,8 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
 
     @Slot()
     def updateQImg(self):
-        self.widthImg, self.heightImg, bytesPerline = self.editCenter.getImgShape()
-        qImg = QImage(self.editCenter.getImgData(), self.widthImg, self.heightImg, bytesPerline, QImage.Format_RGB888)
+        self.widthImg, self.heightImg, bytesPerline = self.imgEditCenter.getImgShape()
+        qImg = QImage(self.imgEditCenter.getImgData(), self.widthImg, self.heightImg, bytesPerline, QImage.Format_RGB888)
         self.qpImg = QPixmap.fromImage(qImg)
         self.drawImg()
 
@@ -93,17 +100,17 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
         return self.label_view.width(), self.label_view.height()
 
     def onMouseDown(self, event):
-        if not self.editCenter.bImgExist:
+        if not self.imgEditCenter.bImgExist:
             return
 
         if event.button() == Qt.RightButton:
-            if self.editCenter.currMode == REF_MODE:
-                self.editCenter.popTmpPoint()
-                self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=False)
-                self.mouseState = MOUSE_STATE_NONE
-            elif self.editCenter.currMode == ROI_MODE:
-                self.editCenter.popTmpPoint()
-                self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
+            if self.imgEditCenter.currMode == MacroDefine.REF_MODE:
+                self.imgEditCenter.popTmpPoint()
+                self.imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=False)
+                self.mouseState = MacroDefine.MOUSE_STATE_NONE
+            elif self.imgEditCenter.currMode == MacroDefine.ROI_MODE:
+                self.imgEditCenter.popTmpPoint()
+                self.imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
             return
 
 
@@ -116,63 +123,61 @@ class Viewer(QWidget, Ui_Viewer, PanZoom):
 
         # Add double click event
         if event.type() == QEvent.MouseButtonDblClick and event.button() == Qt.LeftButton:
-            if self.editCenter.currMode == ROI_MODE:
-                self.editCenter.setTmpPoint(posImg)
-                self.editCenter.setTmpPoint((-1, -1))
-                self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
-                self.mouseState = MOUSE_STATE_NONE
+            if self.imgEditCenter.currMode == MacroDefine.ROI_MODE:
+                self.imgEditCenter.setTmpPoint(posImg)
+                self.imgEditCenter.setTmpPoint((-1, -1))
+                self.imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
+                self.mouseState = MacroDefine.MOUSE_STATE_NONE
                 return
 
-        if self.editCenter.currMode == REF_MODE:
-            if self.mouseState == MOUSE_STATE_NONE:
-                self.editCenter.setTmpPoint(posImg)
-                self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=False)
-                self.mouseState = MOUSE_STATE_DRAW_POINTS
-            elif self.mouseState == MOUSE_STATE_DRAW_POINTS:
-                self.editCenter.setTmpPoint(posImg)
-                self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
-                self.mouseState = MOUSE_STATE_NONE
-        elif self.editCenter.currMode == ROI_MODE:
-            self.editCenter.setTmpPoint(posImg)
-            self.editCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
+        if self.imgEditCenter.currMode == MacroDefine.REF_MODE:
+            if self.mouseState == MacroDefine.MOUSE_STATE_NONE:
+                self.imgEditCenter.setTmpPoint(posImg)
+                self.imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=False)
+                self.mouseState = MacroDefine.MOUSE_STATE_DRAW_POINTS
+            elif self.mouseState == MacroDefine.MOUSE_STATE_DRAW_POINTS:
+                self.imgEditCenter.setTmpPoint(posImg)
+                self.imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
+                self.mouseState = MacroDefine.MOUSE_STATE_NONE
+        elif self.imgEditCenter.currMode == MacroDefine.ROI_MODE:
+            self.imgEditCenter.setTmpPoint(posImg)
+            self.imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
 
     def onMouseMove(self, event):
         pos = list(event.position().toPoint().toTuple())
-        if not self.editCenter.bImgExist:
+        if not self.imgEditCenter.bImgExist:
             return
         x, y = pos
         if x < 0 or x >= self.showWidth or y < 0 or y >= self.showHeight:
             return
         posImg = self.posToImg(pos)
-        if self.editCenter.currMode == REF_MODE:
-            if self.mouseState == MOUSE_STATE_DRAW_POINTS:
-                self.editCenter.setTmpPoint(posImg)
-                self.editCenter.drawTmpPoint(bDrawPoint=False, bDrawLine=True)
+        if self.imgEditCenter.currMode == MacroDefine.REF_MODE:
+            if self.mouseState == MacroDefine.MOUSE_STATE_DRAW_POINTS:
+                self.imgEditCenter.setTmpPoint(posImg)
+                self.imgEditCenter.drawTmpPoint(bDrawPoint=False, bDrawLine=True)
 
     def doNotingEvent(self, event):
         pass
 
     @Slot()
     def changeView(self):
-        if self.editCenter.currViewMode == VIEW_HISTOGRAM_MODE:
+        if self.imgEditCenter.currViewMode == MacroDefine.VIEW_HISTOGRAM_MODE:
             self.stackedWidget.setCurrentIndex(1)
-            self.updateHistogram()
+            self.I_EVT_CHANGE_BAR_VIEW.emit(MacroDefine.CNT_HIST_MODE)
         else:
             self.stackedWidget.setCurrentIndex(0)
+            self.I_EVT_CHANGE_BAR_VIEW.emit(MacroDefine.CNT_BAR_MODE)
 
-    def updateHistogram(self):
-        dfContoursValue = pd.read_csv('/Users/haoyulin/Desktop/new_qt/PyQT/contours_data.csv')
-        minX = 300
-        maxX = 1000
-
+    @Slot()
+    def drawHistogram(self):
         self.cvHistogram.figure.clear()
-        ax1 = self.cvHistogram.figure.add_subplot(111)
-        df_sorted = dfContoursValue.sort_values(by='Index')
-        df_visible = df_sorted[(df_sorted['Index'] >= minX) & (df_sorted['Index'] <= maxX)]
-        df_visible['Cumulative Diameter'] = df_visible['Diameter'].cumsum()
-        ax1.bar(df_visible['Index'], df_visible['Diameter'], color='lightblue', label='Diameter Distribution')
-        ax2 = ax1.twinx()
-        ax2.plot(df_visible['Index'], df_visible['Cumulative Diameter'], color='red', label='Cumulative Diameter', marker='o')
-        ax1.set_xlim(minX, maxX)
+        plot = self.cvHistogram.figure.add_subplot(111)
+        showType = self.dataEditCenter.showType
+        dataInfo = self.dataEditCenter.getHistogramInfo()
+        if showType in [MacroDefine.SHOW_HIST_TYPE_DATA1, MacroDefine.SHOW_HIST_TYPE_DATA2]:
+            self.plotSingleHistogram(dataInfo, plot)
+        else:
+            self.plotDoubleHistogram(dataInfo, plot)
         self.cvHistogram.draw()
+
 

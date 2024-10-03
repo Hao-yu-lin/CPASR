@@ -54,17 +54,17 @@ class Ui_MenuBar(object):
 
         self.horizontalLayout.addWidget(self.btn_open_img)
 
-        self.btn_shadow_removal = QPushButton(MenuBar)
-        self.btn_shadow_removal.setObjectName(u"btn_shadow_removal")
-        self.btn_shadow_removal.setEnabled(False)
-        sizePolicy.setHeightForWidth(self.btn_shadow_removal.sizePolicy().hasHeightForWidth())
-        self.btn_shadow_removal.setSizePolicy(sizePolicy)
-        self.btn_shadow_removal.setMinimumSize(QSize(0, 28))
-        self.btn_shadow_removal.setMaximumSize(QSize(16777215, 28))
-        self.btn_shadow_removal.setFont(font)
-        self.btn_shadow_removal.setStyleSheet(u"")
+        self.btn_save_data = QPushButton(MenuBar)
+        self.btn_save_data.setObjectName(u"btn_save_data")
+        self.btn_save_data.setEnabled(False)
+        sizePolicy.setHeightForWidth(self.btn_save_data.sizePolicy().hasHeightForWidth())
+        self.btn_save_data.setSizePolicy(sizePolicy)
+        self.btn_save_data.setMinimumSize(QSize(0, 28))
+        self.btn_save_data.setMaximumSize(QSize(16777215, 28))
+        self.btn_save_data.setFont(font)
+        self.btn_save_data.setStyleSheet(u"")
 
-        self.horizontalLayout.addWidget(self.btn_shadow_removal)
+        self.horizontalLayout.addWidget(self.btn_save_data)
 
         self.btn_save_image = QPushButton(MenuBar)
         self.btn_save_image.setObjectName(u"btn_save_image")
@@ -152,7 +152,7 @@ class Ui_MenuBar(object):
     def retranslateUi(self, MenuBar):
         MenuBar.setWindowTitle(QCoreApplication.translate("MenuBar", u"Form", None))
         self.btn_open_img.setText(QCoreApplication.translate("MenuBar", u"Open Image", None))
-        self.btn_shadow_removal.setText(QCoreApplication.translate("MenuBar", u"Shadow Removal", None))
+        self.btn_save_data.setText(QCoreApplication.translate("MenuBar", u"Save Data", None))
         self.btn_save_image.setText(QCoreApplication.translate("MenuBar", u"Save Image", None))
         self.btn_reset_view.setText(QCoreApplication.translate("MenuBar", u"Reset View", None))
         self.btn_zoom_out.setText(QCoreApplication.translate("MenuBar", u"Zoom Out", None))

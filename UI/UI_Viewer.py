@@ -45,7 +45,6 @@ class Ui_Viewer(object):
         self.label_view.setStyleSheet(u"background-color: rgb(190, 190, 190);")
         self.label_view.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_2.addWidget(self.scrollArea)
 
         self.retranslateUi(Viewer)
 

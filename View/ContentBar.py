@@ -3,9 +3,7 @@ from PySide6.QtWidgets import QWidget, QPushButton
 from PySide6.QtCore import Signal, QEvent
 from Controller.ImgEditCenter import imgEditCenter
 from Model.AnalysisDataModel import analysisDataModel
-from Model.MacroDefine import (NONE_MODE, REF_MODE, ROI_MODE,
-                               VIEW_ORIGIN_MODE, VIEW_MASK_MODE,
-                               VIEW_CONTOURS_MODE, VIEW_HISTOGRAM_MODE)
+import Model.MacroDefine as MacroDefine
 import math
 
 
@@ -13,7 +11,7 @@ class ContentBar(QWidget, Ui_ContentBar):
     def __init__(self, widget):
         super().__init__()
         self.setupUi(widget)
-        self.editCenter = imgEditCenter
+        self.imgEditCenter = imgEditCenter
         self.updateAllBtnStatus = [self.updateBtnViewStatus,
                                    self.updateBtnRefStatus,
                                    ]
@@ -41,99 +39,96 @@ class ContentBar(QWidget, Ui_ContentBar):
 
         self.btn_contours_find.clicked.connect(self.findContours)
         self.btn_roi_select.clicked.connect(self.onSetROIPoints)
-        self.btn_show_image.clicked.connect(lambda: self.setViewMode(VIEW_ORIGIN_MODE))
-        self.btn_show_mask.clicked.connect(lambda: self.setViewMode(VIEW_MASK_MODE))
-        self.btn_show_contours.clicked.connect(lambda: self.setViewMode(VIEW_CONTOURS_MODE))
-        self.btn_draw_hist.clicked.connect(lambda: self.setViewMode(VIEW_HISTOGRAM_MODE))
-
+        self.btn_show_image.clicked.connect(lambda: self.setViewMode(MacroDefine.VIEW_ORIGIN_MODE))
+        self.btn_show_mask.clicked.connect(lambda: self.setViewMode(MacroDefine.VIEW_MASK_MODE))
+        self.btn_show_contours.clicked.connect(lambda: self.setViewMode(MacroDefine.VIEW_CONTOURS_MODE))
+        self.btn_change_mode.clicked.connect(lambda: self.setViewMode(MacroDefine.VIEW_HISTOGRAM_MODE))
         self.btn_roi_analysis.clicked.connect(self.analysisContours)
 
-
-
     def setViewMode(self, mode):
-        self.editCenter.currViewMode = mode
+        self.imgEditCenter.currViewMode = mode
         self.updateBtnViewStatus()
 
 
     def onSetRefPoints(self):
-        if not self.editCenter.bImgExist:
+        if not self.imgEditCenter.bImgExist:
             return
-        currMode = self.editCenter.currMode
+        currMode = self.imgEditCenter.currMode
 
-        if currMode == REF_MODE:
+        if currMode == MacroDefine.REF_MODE:
             self.btn_refer_select.setText("Select")
             print('[ContentBar][onSetRefPoints] Set Mode: NONE_MODE')
-            self.editCenter.setRefPoints()
+            self.imgEditCenter.setRefPoints()
             lstRefPoint = analysisDataModel.getLstRefPoint()
-            self.editCenter.drawLstPoint(lstRefPoint, bDrawPoint=True, bDrawLine=True)
-            self.editCenter.currMode = NONE_MODE
-            self.editCenter.prevMode = REF_MODE
+            self.imgEditCenter.drawLstPoint(lstRefPoint, bDrawPoint=True, bDrawLine=True)
+            self.imgEditCenter.currMode = MacroDefine.NONE_MODE
+            self.imgEditCenter.prevMode = MacroDefine.REF_MODE
             self.updateBtnRefStatus()
         else:
             self.btn_refer_select.setText("Finish")
             print('[ContentBar][onSetRefPoints] Set Mode: REF_MODE')
-            self.editCenter.clearRefPoint()
-            if self.editCenter.prevMode != REF_MODE:
-                self.editCenter.clearTmpPoint()
-                self.editCenter.setSrcImg()
+            self.imgEditCenter.clearRefPoint()
+            if self.imgEditCenter.prevMode != MacroDefine.REF_MODE:
+                self.imgEditCenter.clearTmpPoint()
+                self.imgEditCenter.setSrcImg()
             else:
-                self.editCenter.drawTmpPoint()
-            self.editCenter.currMode = REF_MODE
+                self.imgEditCenter.drawTmpPoint()
+            self.imgEditCenter.currMode = MacroDefine.REF_MODE
 
     def onSetROIPoints(self):
-        if not self.editCenter.bImgExist:
+        if not self.imgEditCenter.bImgExist:
             return
         print('[ContentBar][onSetRoi] Set ROI')
-        currMode = self.editCenter.currMode
+        currMode = self.imgEditCenter.currMode
 
-        if currMode == ROI_MODE:
+        if currMode == MacroDefine.ROI_MODE:
             self.btn_roi_select.setText("Select")
             print('[ContentBar][onSetRoi] Set Mode: NONE_MODE')
-            self.editCenter.setROIPoints()
+            self.imgEditCenter.setROIPoints()
             lstROIPoint = analysisDataModel.getLstROIPoint()
-            self.editCenter.drawLstPoint(lstROIPoint, bDrawPoint=True, bDrawLine=True)
-            self.editCenter.currMode = NONE_MODE
-            self.editCenter.prevMode = ROI_MODE
+            self.imgEditCenter.drawLstPoint(lstROIPoint, bDrawPoint=True, bDrawLine=True)
+            self.imgEditCenter.currMode = MacroDefine.NONE_MODE
+            self.imgEditCenter.prevMode = MacroDefine.ROI_MODE
 
         else:
             self.btn_roi_select.setText("Finish")
             print('[ContentBar][onSetRoi] Set Mode: ROI_MODE')
-            self.editCenter.clearROIPoint()
-            if self.editCenter.prevMode != ROI_MODE:
-                self.editCenter.clearTmpPoint()
-                self.editCenter.setSrcImg()
+            self.imgEditCenter.clearROIPoint()
+            if self.imgEditCenter.prevMode != MacroDefine.ROI_MODE:
+                self.imgEditCenter.clearTmpPoint()
+                self.imgEditCenter.setSrcImg()
             else:
-                self.editCenter.drawTmpPoint()
-            self.editCenter.currMode = ROI_MODE
+                self.imgEditCenter.drawTmpPoint()
+            self.imgEditCenter.currMode = MacroDefine.ROI_MODE
 
     def onResetRefPoints(self):
-        if not self.editCenter.bImgExist:
+        if not self.imgEditCenter.bImgExist:
             return
         print('[ContentBar][onResetRefPoints] Reset Ref Points')
-        self.editCenter.clearRefPoint()
-        self.editCenter.clearTmpPoint()
+        self.imgEditCenter.clearRefPoint()
+        self.imgEditCenter.clearTmpPoint()
         self.btn_refer_select.setText("Select")
         self.lineEdit_pixel_scale_value.setText('')
         self.updateBtnRefStatus()
         self.restSrcImg()
 
     def onResetROIPoints(self):
-        if not self.editCenter.bImgExist:
+        if not self.imgEditCenter.bImgExist:
             return
         print('[ContentBar][onResetROIPoints] Reset ROI Points')
-        self.editCenter.clearROIPoint()
-        self.editCenter.clearTmpPoint()
+        self.imgEditCenter.clearROIPoint()
+        self.imgEditCenter.clearTmpPoint()
         self.btn_roi_select.setText("Select")
         self.restSrcImg()
 
     def restSrcImg(self):
-        if not self.editCenter.bImgExist:
+        if not self.imgEditCenter.bImgExist:
             return
         print('[ContentBar][restSrcImg] Reset Src Img')
-        self.editCenter.currMode = NONE_MODE
-        self.editCenter.prevMode = NONE_MODE
-        self.editCenter.restSrcImg()
-        self.editCenter.I_EVT_UPDATE_IMG.emit()
+        self.imgEditCenter.currMode = MacroDefine.NONE_MODE
+        self.imgEditCenter.prevMode = MacroDefine.NONE_MODE
+        self.imgEditCenter.restSrcImg()
+        self.imgEditCenter.I_EVT_UPDATE_IMG.emit()
 
     def onCalRefObj(self):
         lstRefPoint = analysisDataModel.getLstRefPoint()
@@ -182,7 +177,9 @@ class ContentBar(QWidget, Ui_ContentBar):
         self.updateButtonState(self.btn_refer_calculate)
 
     def updateBtnViewStatus(self):
-        if self.editCenter.currViewMode == VIEW_ORIGIN_MODE and self.editCenter.currMode == NONE_MODE:
+        if self.imgEditCenter.currViewMode == MacroDefine.VIEW_ORIGIN_MODE and self.imgEditCenter.currMode == MacroDefine.NONE_MODE:
+            self.btn_show_image.setText('Image')
+        elif self.imgEditCenter.currViewMode == MacroDefine.VIEW_HISTOGRAM_MODE:
             self.btn_show_image.setText('Image')
         else:
             self.btn_show_image.setText('Last Image')
@@ -210,7 +207,7 @@ class ContentBar(QWidget, Ui_ContentBar):
         self.lineEdit_contours_value.setText(str(analysisDataModel.threshold))
         self.btn_show_contours.setEnabled(res)
         self.updateButtonState(self.btn_show_contours)
-        self.editCenter.currViewMode = VIEW_CONTOURS_MODE
+        self.imgEditCenter.currViewMode = MacroDefine.VIEW_CONTOURS_MODE
         self.updateBtnAnalysisStatus()
 
     def updateScaleValue(self, value):
@@ -222,3 +219,5 @@ class ContentBar(QWidget, Ui_ContentBar):
 
     def analysisContours(self):
         analysisDataModel.analysisContours()
+        self.setViewMode(MacroDefine.VIEW_HISTOGRAM_MODE)
+

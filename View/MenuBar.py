@@ -11,7 +11,7 @@ class MenuBar(QWidget, Ui_MenuBar):
     def __init__(self, widget):
         super().__init__()
         self.setupUi(widget)
-        self.lstInitDisableBtn = [self.btn_save_image, self.btn_shadow_removal]
+        self.lstInitDisableBtn = [self.btn_save_image, self.btn_save_data]
         self.initSetting()
         self.bindEvent()
 
@@ -20,6 +20,7 @@ class MenuBar(QWidget, Ui_MenuBar):
         self.label_ratio.setText(f"Ratio：{0} %")
         self.setScaleControllerState(bState=True)
         for btn in self.lstInitDisableBtn:
+            btn.setEnabled(False)
             self.updateButtonState(btn)
 
 
@@ -44,6 +45,8 @@ class MenuBar(QWidget, Ui_MenuBar):
             "./",
             "Image (*.png *.jpg *.jpeg);;All Files(*)"
         )
+        if not filePath:
+            return
         self.I_EVT_SEL_IMG.emit(filePath)
 
     def setZoomValueRate(self, value, ratio):

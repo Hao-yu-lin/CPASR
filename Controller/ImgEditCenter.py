@@ -2,12 +2,7 @@ from Model.ImgDataModel import imgManager
 from Model.ImgEngine import ImgEngine
 from PySide6.QtCore import Signal, Slot, QObject
 from Model.AnalysisDataModel import analysisDataModel
-from Model.MacroDefine import (NONE_MODE, REF_MODE, ROI_MODE, MASK_MODE,
-                                VIEW_ORIGIN_MODE, VIEW_MASK_MODE,
-                                VIEW_CONTOURS_MODE, VIEW_HISTOGRAM_MODE
-                               )
-
-
+import Model.MacroDefine as MacroDefine
 
 class ImgEditCenter(QObject):
     _instance = None
@@ -34,9 +29,9 @@ class ImgEditCenter(QObject):
         self.bImgExist = False
         self.__lstRefPoint = []
         self.__lstTmpPoint = []
-        self.__currMode = NONE_MODE
-        self.__prevMode = NONE_MODE
-        self.__currViewMode = VIEW_ORIGIN_MODE
+        self.__currMode = MacroDefine.NONE_MODE
+        self.__prevMode = MacroDefine.NONE_MODE
+        self.__currViewMode = MacroDefine.VIEW_ORIGIN_MODE
 
     def decodeImg(self, cbFunction=None):
         imgData = imgManager.getCurrentData()
@@ -84,13 +79,13 @@ class ImgEditCenter(QObject):
         self.I_EVT_UPDATE_IMG.emit()
 
     def setTmpPoint(self, points):
-        if self.currMode == REF_MODE:
+        if self.currMode == MacroDefine.REF_MODE:
             if len(self.__lstTmpPoint) < 2:
                 self.__lstTmpPoint.append(points)
             else:
                 self.__lstTmpPoint[1] = points
 
-        elif self.currMode == ROI_MODE:
+        elif self.currMode == MacroDefine.ROI_MODE:
             if points == (-1, -1):
                 if len(self.__lstTmpPoint) > 2:
                     points = self.__lstTmpPoint[0]
@@ -115,7 +110,6 @@ class ImgEditCenter(QObject):
 
     def clearRefPoint(self):
         analysisDataModel.clearLstRefPoint()
-
 
     def clearROIPoint(self):
         analysisDataModel.clearLstROIPoint()
@@ -145,17 +139,20 @@ class ImgEditCenter(QObject):
     @currViewMode.setter
     def currViewMode(self, mode):
         self.__currViewMode = mode
-        if mode != VIEW_HISTOGRAM_MODE:
+        if mode != MacroDefine.VIEW_HISTOGRAM_MODE:
             self.drawImg()
+        else:
+            self.currMode = MacroDefine.NONE_MODE
+
         self.I_EVT_CHANGE_VIEW_MODE.emit()
 
     def drawImg(self):
         if not self.bImgExist:
             return
 
-        if self.currViewMode == VIEW_MASK_MODE:
+        if self.currViewMode == MacroDefine.VIEW_MASK_MODE:
             self.setMaskImg()
-        elif self.currViewMode == VIEW_CONTOURS_MODE:
+        elif self.currViewMode == MacroDefine.VIEW_CONTOURS_MODE:
             self.setContoursImg()
         else:
             self.setSrcImg()
@@ -166,7 +163,7 @@ class ImgEditCenter(QObject):
         if not self.bImgExist:
             return
 
-        if self.prevImg is not None and self.prevMode != NONE_MODE:
+        if self.prevImg is not None and self.prevMode != MacroDefine.NONE_MODE:
             self.imgSrc = self.prevImg
             self.prevImg = None
         else:

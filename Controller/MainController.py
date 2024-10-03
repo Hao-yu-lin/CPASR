@@ -2,7 +2,7 @@ import math
 from Controller.MenuBarController import MenuBarController
 from PySide6.QtCore import QObject, Slot
 from Controller.ImgEditCenter import imgEditCenter
-from Model.MacroDefine import LST_NEED_MOUSE_TRACKING
+import Model.MacroDefine as MacroDefine
 
 
 class MainController(QObject):
@@ -12,7 +12,7 @@ class MainController(QObject):
         self.MenuBarController = MenuBarController(self.MainWindow.menuBar)
         self.Viewer = self.MainWindow.viewer
         self.CntBar = self.MainWindow.contentBar
-        self.editCenter = imgEditCenter
+        self.imgEditCenter = imgEditCenter
         self.bImgExist = False
         self.bindEvent()
 
@@ -20,12 +20,12 @@ class MainController(QObject):
         self.MenuBarController.I_EVT_CREATE_FINISH.connect(self.decodeImg)
         self.Viewer.I_EVT_SCALE_CHANGE.connect(self.syncRatioToValue)
         self.MenuBarController.I_EVT_SCALE_CHANGE.connect(self.updateView)
-        self.editCenter.I_EVT_SET_POINTS.connect(self.onSetPoints)
-        self.editCenter.I_EVT_CHANGE_VIEW_MODE.connect(self.Viewer.changeView)
+        self.imgEditCenter.I_EVT_SET_POINTS.connect(self.onSetPoints)
+        self.imgEditCenter.I_EVT_CHANGE_VIEW_MODE.connect(self.Viewer.changeView)
 
     @Slot()
     def decodeImg(self):
-        self.editCenter.decodeImg(self.Viewer.initImg)
+        self.imgEditCenter.decodeImg(self.Viewer.initImg)
         self.MenuBarController.setScaleControllerState(bState=False)
 
     @Slot(int)
@@ -33,7 +33,6 @@ class MainController(QObject):
         ratio = self.calValueToRate(value)
         self.Viewer.setScaleImg(ratio)
         self.Viewer.drawImg()
-
 
     @Slot()
     def syncRatioToValue(self):
@@ -59,10 +58,10 @@ class MainController(QObject):
 
     @Slot()
     def onSetPoints(self):
-        if not self.editCenter.bImgExist:
+        if not self.imgEditCenter.bImgExist:
             return
 
-        if self.editCenter.currMode in LST_NEED_MOUSE_TRACKING:
+        if self.imgEditCenter.currMode in MacroDefine.LST_NEED_MOUSE_TRACKING:
             self.Viewer.label_view.setMouseTracking(True)
             self.Viewer.bindMouseEvent()
         else:

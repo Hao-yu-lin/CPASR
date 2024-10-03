@@ -16,14 +16,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QMainWindow, QSizePolicy,
-    QStatusBar, QVBoxLayout, QWidget)
+    QStackedWidget, QStatusBar, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1350, 800)
-        MainWindow.setMinimumSize(QSize(1350, 800))
+        MainWindow.resize(1370, 800)
+        MainWindow.setMinimumSize(QSize(1370, 800))
         self.CentralWidget = QWidget(MainWindow)
         self.CentralWidget.setObjectName(u"CentralWidget")
         self.CentralWidget.setContextMenuPolicy(Qt.DefaultContextMenu)
@@ -44,25 +44,22 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.ContentBar = QWidget(self.CentralWidget)
+        self.CntStackWidget = QStackedWidget(self.CentralWidget)
+        self.CntStackWidget.setObjectName(u"CntStackWidget")
+        self.CntStackWidget.setMinimumSize(QSize(320, 0))
+        self.CntStackWidget.setMaximumSize(QSize(320, 16777215))
+        self.CntStackWidget.setStyleSheet(u"background-color: rgb(246, 245, 244);")
+        self.ContentBar = QWidget()
         self.ContentBar.setObjectName(u"ContentBar")
-        self.ContentBar.setMinimumSize(QSize(300, 0))
-        self.ContentBar.setMaximumSize(QSize(300, 16777215))
-        self.ContentBar.setStyleSheet(u"background-color: rgb(246, 245, 244);")
+        self.CntStackWidget.addWidget(self.ContentBar)
+        self.HistogramBar = QWidget()
+        self.HistogramBar.setObjectName(u"HistogramBar")
+        self.CntStackWidget.addWidget(self.HistogramBar)
 
-        self.horizontalLayout.addWidget(self.ContentBar)
+        self.horizontalLayout.addWidget(self.CntStackWidget)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.StatisticsView = QWidget(self.CentralWidget)
-        self.StatisticsView.setObjectName(u"StatisticsView")
-        self.StatisticsView.setMinimumSize(QSize(0, 100))
-        self.StatisticsView.setMaximumSize(QSize(16777215, 100))
-        self.StatisticsView.setStyleSheet(u"background-color: rgb(246, 245, 244);\n"
-"border-color: rgb(94, 92, 100);")
-
-        self.verticalLayout_2.addWidget(self.StatisticsView)
-
         self.Viewer = QWidget(self.CentralWidget)
         self.Viewer.setObjectName(u"Viewer")
         self.Viewer.setMinimumSize(QSize(1036, 597))

@@ -1,9 +1,12 @@
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QMainWindow, QWidget, QStackedWidget
+from PySide6.QtCore import QSize
 from UI.UI_MainWindow import Ui_MainWindow
 from View.MenuBar import MenuBar
 from View.Viewer import Viewer
 from View.ContentBar import ContentBar
 from View.StatisticsView import StatisticsView
+from View.HistogramBar import HistogramBar
+import Model.MacroDefine as MacroDefine
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -16,14 +19,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.menuBar = MenuBar(self.MenuBar)
         self.viewer = Viewer(self.Viewer)
         self.contentBar = ContentBar(self.ContentBar)
-        self.statisticsView = StatisticsView(self.StatisticsView)
+        self.histogramBar = HistogramBar(self.HistogramBar)
+        self.bindEvent()
 
+    def bindEvent(self):
+        self.viewer.I_EVT_CHANGE_BAR_VIEW.connect(self.changeCntStackWidget)
 
-
-    # def resizeEvent(self, event):
-    #     super().resizeEvent(event)
-    #     if self.viewer.qpImg:
-    #         self.viewer.initImg()
-
+    def changeCntStackWidget(self, mode):
+        self.CntStackWidget.setCurrentIndex(mode)
 
 

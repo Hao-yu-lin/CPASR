@@ -97,7 +97,7 @@ border-color: rgb(94, 92, 100);</string>
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="btn_shadow_removal">
+    <widget class="QPushButton" name="btn_save_data">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -128,7 +128,7 @@ border-color: rgb(94, 92, 100);</string>
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Shadow Removal</string>
+      <string>Save Data</string>
      </property>
     </widget>
    </item>

@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1350</width>
+    <width>1370</width>
     <height>800</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1350</width>
+    <width>1370</width>
     <height>800</height>
    </size>
   </property>
@@ -66,46 +66,28 @@ border-color: rgb(94, 92, 100);</string>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QWidget" name="ContentBar" native="true">
+       <widget class="QStackedWidget" name="CntStackWidget">
         <property name="minimumSize">
          <size>
-          <width>300</width>
+          <width>320</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>300</width>
+          <width>320</width>
           <height>16777215</height>
          </size>
         </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(246, 245, 244);</string>
         </property>
+        <widget class="QWidget" name="ContentBar"/>
+        <widget class="QWidget" name="HistogramBar"/>
        </widget>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QWidget" name="StatisticsView" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>100</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>100</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(246, 245, 244);
-border-color: rgb(94, 92, 100);</string>
-          </property>
-         </widget>
-        </item>
         <item>
          <widget class="QWidget" name="Viewer" native="true">
           <property name="minimumSize">
