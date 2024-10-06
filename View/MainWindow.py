@@ -27,5 +27,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def changeCntStackWidget(self, mode):
         self.CntStackWidget.setCurrentIndex(mode)
+        if mode == MacroDefine.CNT_HIST_MODE:
+            self.histogramBar.updateHistogram()
 
 

@@ -2,12 +2,13 @@
 NONE_MODE = 0
 REF_MODE  = 1
 ROI_MODE  = 2
+DEL_MODE  = 3
 
 # Define the mode of mouse state
 MOUSE_STATE_NONE        = 0
 MOUSE_STATE_DRAW_POINTS = 1
 
-LST_NEED_MOUSE_TRACKING = [REF_MODE, ROI_MODE]
+LST_NEED_MOUSE_TRACKING = [REF_MODE, ROI_MODE, DEL_MODE]
 
 # View Mode
 VIEW_ORIGIN_MODE    = 0
@@ -41,9 +42,9 @@ INPUT_PARAM_INT_INFO_TYPE          = 'inputparamintdatainfotype'
 INPUT_PARAM_INT_HIST_TYPE          = 'inputparaminthisttype'
 
 # Data info
-INT_INDEX                   = 'Index'
-INT_AREA                    = 'Area'
-INT_DIAMETER                = 'Diameter'
+INT_INDEX                   = 'index'
+INT_AREA                    = 'area'
+INT_DIAMETER                = 'diameter'
 INT_MIN                     = 'min'
 INT_MAX                     = 'max'
 INT_AVERAGE                 = 'average'

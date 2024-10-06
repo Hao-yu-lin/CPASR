@@ -133,7 +133,7 @@ border-color: rgb(94, 92, 100);</string>
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="btn_save_image">
+    <widget class="QPushButton" name="btn_save_Hist">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -164,7 +164,7 @@ border-color: rgb(94, 92, 100);</string>
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Save Image</string>
+      <string>Save Histogram</string>
      </property>
     </widget>
    </item>

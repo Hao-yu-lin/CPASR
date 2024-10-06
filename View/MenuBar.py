@@ -7,11 +7,13 @@ import math
 class MenuBar(QWidget, Ui_MenuBar):
     I_EVT_SEL_IMG = Signal(str)
     I_EVT_SCALE_CHANGE = Signal(int)
+    I_EVT_SAVE_DATA = Signal(str)
+    I_EVT_SAVE_HISTOGRAM = Signal(str)
 
     def __init__(self, widget):
         super().__init__()
         self.setupUi(widget)
-        self.lstInitDisableBtn = [self.btn_save_image, self.btn_save_data]
+        self.lstInitDisableBtn = [self.btn_save_Hist, self.btn_save_data]
         self.initSetting()
         self.bindEvent()
 
@@ -22,7 +24,6 @@ class MenuBar(QWidget, Ui_MenuBar):
         for btn in self.lstInitDisableBtn:
             btn.setEnabled(False)
             self.updateButtonState(btn)
-
 
 
     def setScaleControllerState(self, bState=True):
@@ -36,6 +37,8 @@ class MenuBar(QWidget, Ui_MenuBar):
         self.btn_zoom_in.clicked.connect(lambda: self.onZoomChange(5))
         self.slider_zoom.sliderReleased.connect(self.onSliderBarChange)
         self.slider_zoom.installEventFilter(self)
+        self.btn_save_data.clicked.connect(self.saveData)
+        self.btn_save_Hist.clicked.connect(self.saveHistogram)
 
 
     def openImg(self):
@@ -48,6 +51,29 @@ class MenuBar(QWidget, Ui_MenuBar):
         if not filePath:
             return
         self.I_EVT_SEL_IMG.emit(filePath)
+
+    def saveData(self):
+        filePath, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save Data",
+            "./",
+            "CSV (*.csv);;All Files(*)"
+        )
+        if not filePath:
+            return
+        self.I_EVT_SAVE_DATA.emit(filePath)
+
+    def saveHistogram(self):
+        filePath, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save Histogram",
+            "./",
+            "PNG (*.png);;All Files(*)"
+        )
+        if not filePath:
+            return
+        self.I_EVT_SAVE_HISTOGRAM.emit(filePath)
+
 
     def setZoomValueRate(self, value, ratio):
         self.slider_zoom.setValue(value)
@@ -90,5 +116,13 @@ class MenuBar(QWidget, Ui_MenuBar):
             btn.setStyleSheet("color: black;")
         else:
             btn.setStyleSheet("color: gray;")
+
+    def enableSaveHistogram(self, bState):
+        self.btn_save_Hist.setEnabled(bState)
+        self.updateButtonState(self.btn_save_Hist)
+
+    def enableSaveData(self, bState):
+        self.btn_save_data.setEnabled(bState)
+        self.updateButtonState(self.btn_save_data)
 
 

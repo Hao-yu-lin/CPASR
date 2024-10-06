@@ -22,7 +22,8 @@ class AnalysisDataModel(QObject):
         self.__scaleRefObj = -1
         self.__threshold = -1
         self.maskImg = None
-        self.dfContoursValue = {}
+        self.dfContoursValue = None
+        self.numContours = 0
         self.imgEngine = ImgEngine()
         self.bIsShowDoubleItem = False
         self.strDataName = ''
@@ -96,20 +97,20 @@ class AnalysisDataModel(QObject):
         self.__lstROIPoint.clear()
         print('[AnalysisDataModel][clearLstROIPoint]')
 
-    def getMaskImg(self):
-        self.produceMaskImg()
+    def getMaskImg(self, bReverse=False):
+        self.produceMaskImg(bReverse=bReverse)
         return self.maskImg
 
-    def produceMaskImg(self):
+    def produceMaskImg(self, bReverse=False):
         imgData = imgManager.getCurrentData()
         if imgData is None:
             return None
         width, height = imgData.widthImg, imgData.heightImg
 
-        self.maskImg = self.imgEngine.produceMaskImg(width, height, self.getLstROIPoint(), color=(255, 255, 255))
+        self.maskImg = self.imgEngine.produceMaskImg(width, height, self.getLstROIPoint(), color=(255, 255, 255), bReverse=bReverse)
 
-    def findContours(self, threadhold=-1):
-        maskImg = self.getMaskImg()
+    def findContours(self, threadhold=-1, bReverse=False):
+        maskImg = self.getMaskImg(bReverse=bReverse)
         imgData = imgManager.getCurrentData()
         if imgData is None:
             return False
@@ -119,6 +120,7 @@ class AnalysisDataModel(QObject):
         roiImg[maskImg == 0] = 255
         self.__lstContours, self.threshold = self.imgEngine.contourDetect(roiImg, threadhold)
         if self.__lstContours:
+            self.numContours = len(self.__lstContours)
             print('[AnalysisDataModel][findContours] Contours successfully detected')
             return True
         else:
@@ -141,6 +143,19 @@ class AnalysisDataModel(QObject):
         self.dfContoursValue = dfContours
         self.I_EVT_ANALYSIS_FINISH.emit()
         pass
+
+    def delContoursPoint(self, pos):
+        if not self.__lstContours:
+            return
+
+        self.__lstContours = self.imgEngine.deleteCountour(self.__lstContours, pos)
+
+    def clearLstContours(self):
+        self.__lstContours = []
+        self.numContours = 0
+
+    def saveContoursValue(self, filePath):
+        self.dfContoursValue.to_csv(filePath, index=False)
 
 
 analysisDataModel = AnalysisDataModel()

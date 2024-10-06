@@ -50,7 +50,7 @@ class ImgEngine:
 
         return img
 
-    def produceMaskImg(self, width, height, lstPts=None, color=(255, 255, 255)):
+    def produceMaskImg(self, width, height, lstPts=None, color=(255, 255, 255), bReverse=False):
         if width < 0 or height < 0:
             return None
 
@@ -65,6 +65,8 @@ class ImgEngine:
             mask = np.ones((height, width), np.int32) * 255
 
         mask = np.uint8(mask)
+        if bReverse:
+            mask = cv2.bitwise_not(mask)
         return mask
 
     def blendImg(self, srcImg, srcWeight, maskImg, maskWeight, color=(255, 255, 255)):
@@ -144,4 +146,36 @@ class ImgEngine:
         diameter2 = diamter / 100.0
         newScale = f * diameter2 + p
         return diamter * newScale
+
+    def deleteCountour(self, lstContours, pos):
+        # void DataBase::del_detect_vector(cv::Point2ipos)
+        # {
+        #     double pos_value;
+        #     for (auto it = detect_contours.begin(); it != detect_contours.end();)
+        #     {
+        #         // 0 onside 1 inside -1 outside
+        #         pos_value = cv::pointPolygonTest(*it, pos, false);
+        #         if (pos_value == 1 | | pos_value == 0)
+        #         {
+        #                it = detect_contours.erase(it);
+        #                 if (detect_contours.empty()){
+        #                 set_flag->flag_contours = false;
+        #                 }
+        #                 return;
+        #         } else {
+        #             ++it;
+        #
+        #         }
+        #     }
+        # }
+        posValue = -1
+        tmpContours = lstContours.copy()
+        for idx, contour in enumerate(lstContours):
+            posValue = cv2.pointPolygonTest(contour, pos, False)
+            if posValue == 1 or posValue == 0:
+                tmpContours.pop(idx)
+                return tmpContours
+        print('[ImgEngine][deleteCountour] No contour deleted')
+        return tmpContours
+
 

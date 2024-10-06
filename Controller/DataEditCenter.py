@@ -156,6 +156,7 @@ class DataEditCenter(QObject):
         self.setStrName(idx, strDataName)
         self.I_EVT_UPDATE_DATA_INFO.emit(idx)
 
+
     def clearData(self, idx):
         self.lstDataItem[idx].restDataItem()
 
@@ -214,6 +215,8 @@ class DataEditCenter(QObject):
         self.setDfData(0, dfData)
         self.setStrName(0, strDataName)
         self.I_EVT_UPDATE_DATA_INFO.emit(0)
+
+
 
 
 dataEditCenter = DataEditCenter()

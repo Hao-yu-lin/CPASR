@@ -27,6 +27,7 @@ class ImgEditCenter(QObject):
         self.bytePerLine = -1
         self.imgPath = ''
         self.bImgExist = False
+        self.bReverseMask = False
         self.__lstRefPoint = []
         self.__lstTmpPoint = []
         self.__currMode = MacroDefine.NONE_MODE
@@ -115,6 +116,10 @@ class ImgEditCenter(QObject):
         analysisDataModel.clearLstROIPoint()
         self.setSrcImg()
 
+    def clearContours(self):
+        analysisDataModel.clearLstContours()
+        self.setContoursImg()
+
     @property
     def currMode(self):
         return self.__currMode
@@ -179,10 +184,10 @@ class ImgEditCenter(QObject):
         if lstROIPoint:
             prevImg = self.imgEngine.updatePtsOnView(imgData.srcImg, lstROIPoint, True, True,
                                                      color=(255, 0, 0))
-            maskImg = analysisDataModel.getMaskImg()
+            maskImg = analysisDataModel.getMaskImg(bReverse=self.bReverseMask)
             self.imgSrc = self.imgEngine.blendImg(prevImg, 1,  maskImg, 0.3, color=(255, 0, 0))
         else:
-            maskImg = analysisDataModel.getMaskImg()
+            maskImg = analysisDataModel.getMaskImg(bReverse=self.bReverseMask)
             self.imgSrc = self.imgEngine.blendImg(imgData.srcImg, 1, maskImg, 0.3, color=(255, 0, 0))
 
     def setContoursImg(self):

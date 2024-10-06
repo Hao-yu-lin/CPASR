@@ -66,17 +66,17 @@ class Ui_MenuBar(object):
 
         self.horizontalLayout.addWidget(self.btn_save_data)
 
-        self.btn_save_image = QPushButton(MenuBar)
-        self.btn_save_image.setObjectName(u"btn_save_image")
-        self.btn_save_image.setEnabled(False)
-        sizePolicy.setHeightForWidth(self.btn_save_image.sizePolicy().hasHeightForWidth())
-        self.btn_save_image.setSizePolicy(sizePolicy)
-        self.btn_save_image.setMinimumSize(QSize(0, 28))
-        self.btn_save_image.setMaximumSize(QSize(16777215, 28))
-        self.btn_save_image.setFont(font)
-        self.btn_save_image.setStyleSheet(u"")
+        self.btn_save_Hist = QPushButton(MenuBar)
+        self.btn_save_Hist.setObjectName(u"btn_save_Hist")
+        self.btn_save_Hist.setEnabled(False)
+        sizePolicy.setHeightForWidth(self.btn_save_Hist.sizePolicy().hasHeightForWidth())
+        self.btn_save_Hist.setSizePolicy(sizePolicy)
+        self.btn_save_Hist.setMinimumSize(QSize(0, 28))
+        self.btn_save_Hist.setMaximumSize(QSize(16777215, 28))
+        self.btn_save_Hist.setFont(font)
+        self.btn_save_Hist.setStyleSheet(u"")
 
-        self.horizontalLayout.addWidget(self.btn_save_image)
+        self.horizontalLayout.addWidget(self.btn_save_Hist)
 
         self.horizontalSpacer_file = QSpacerItem(40, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
 
@@ -153,7 +153,7 @@ class Ui_MenuBar(object):
         MenuBar.setWindowTitle(QCoreApplication.translate("MenuBar", u"Form", None))
         self.btn_open_img.setText(QCoreApplication.translate("MenuBar", u"Open Image", None))
         self.btn_save_data.setText(QCoreApplication.translate("MenuBar", u"Save Data", None))
-        self.btn_save_image.setText(QCoreApplication.translate("MenuBar", u"Save Image", None))
+        self.btn_save_Hist.setText(QCoreApplication.translate("MenuBar", u"Save Histogram", None))
         self.btn_reset_view.setText(QCoreApplication.translate("MenuBar", u"Reset View", None))
         self.btn_zoom_out.setText(QCoreApplication.translate("MenuBar", u"Zoom Out", None))
         self.label_ratio.setText(QCoreApplication.translate("MenuBar", u"Ratio:100%", None))

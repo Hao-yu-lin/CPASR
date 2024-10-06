@@ -26,6 +26,8 @@ import Model.MacroDefine as MacroDefine
 
 class Viewer(QWidget, Ui_Viewer, PanZoom, StatisticsModel):
     I_EVT_CHANGE_BAR_VIEW = Signal(int)
+    I_EVT_ENABLE_SAVE_HISTOGRAM = Signal(bool)
+
     def __init__(self, widget):
         super().__init__()
         self.widget = widget
@@ -33,6 +35,7 @@ class Viewer(QWidget, Ui_Viewer, PanZoom, StatisticsModel):
         self.initComplete(widget)
         self.imgEditCenter = imgEditCenter
         self.dataEditCenter = dataEditCenter
+        self.analysisDataModel = analysisDataModel
         self.widthImg = -1
         self.heightImg = -1
         self.qpImg = None
@@ -129,6 +132,10 @@ class Viewer(QWidget, Ui_Viewer, PanZoom, StatisticsModel):
                 self.imgEditCenter.drawTmpPoint(bDrawPoint=True, bDrawLine=True)
                 self.mouseState = MacroDefine.MOUSE_STATE_NONE
                 return
+            elif self.imgEditCenter.currMode == MacroDefine.DEL_MODE:
+                self.analysisDataModel.delContoursPoint(posImg)
+                self.imgEditCenter.drawImg()
+                return
 
         if self.imgEditCenter.currMode == MacroDefine.REF_MODE:
             if self.mouseState == MacroDefine.MOUSE_STATE_NONE:
@@ -179,5 +186,8 @@ class Viewer(QWidget, Ui_Viewer, PanZoom, StatisticsModel):
         else:
             self.plotDoubleHistogram(dataInfo, plot)
         self.cvHistogram.draw()
+        self.I_EVT_ENABLE_SAVE_HISTOGRAM.emit(True)
 
-
+    def saveHistogram(self, filePath):
+        # Save the histogram as an image
+        self.cvHistogram.figure.savefig(filePath)

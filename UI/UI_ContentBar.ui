@@ -625,7 +625,7 @@
      </widget>
     </item>
     <item row="21" column="1">
-     <widget class="QPushButton" name="btn_eraser">
+     <widget class="QPushButton" name="btn_contours_eraser">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>

@@ -8,6 +8,7 @@ import math
 
 
 class ContentBar(QWidget, Ui_ContentBar):
+    I_EVT_ENABLE_SAVE_DATA = Signal(bool)
     def __init__(self, widget):
         super().__init__()
         self.setupUi(widget)
@@ -23,8 +24,8 @@ class ContentBar(QWidget, Ui_ContentBar):
     def onInitUI(self):
         for fun in self.updateAllBtnStatus:
             fun()
-        lstDisablebtn = [self.btn_show_contours, self.btn_roi_analysis]
-        for btn in lstDisablebtn:
+        self.lstROIDisablebtn = [self.btn_show_contours, self.btn_roi_analysis, self.btn_contours_eraser]
+        for btn in self.lstROIDisablebtn:
             btn.setEnabled(False)
             self.updateButtonState(btn)
 
@@ -44,6 +45,10 @@ class ContentBar(QWidget, Ui_ContentBar):
         self.btn_show_contours.clicked.connect(lambda: self.setViewMode(MacroDefine.VIEW_CONTOURS_MODE))
         self.btn_change_mode.clicked.connect(lambda: self.setViewMode(MacroDefine.VIEW_HISTOGRAM_MODE))
         self.btn_roi_analysis.clicked.connect(self.analysisContours)
+
+        self.btn_contours_eraser.clicked.connect(self.onEraseContours)
+        self.btn_roi_reset.clicked.connect(self.onROIReset)
+        self.checkBox_roi_reverse.stateChanged.connect(self.reverseMask)
 
     def setViewMode(self, mode):
         self.imgEditCenter.currViewMode = mode
@@ -118,7 +123,16 @@ class ContentBar(QWidget, Ui_ContentBar):
         print('[ContentBar][onResetROIPoints] Reset ROI Points')
         self.imgEditCenter.clearROIPoint()
         self.imgEditCenter.clearTmpPoint()
+        self.imgEditCenter.clearContours()
         self.btn_roi_select.setText("Select")
+        self.btn_contours_eraser.setText("Eraser")
+        self.btn_contours_find.setText("Find")
+        self.label_number_contours.setText('0')
+
+        for btn in self.lstROIDisablebtn:
+            btn.setEnabled(False)
+            self.updateButtonState(btn)
+
         self.restSrcImg()
 
     def restSrcImg(self):
@@ -199,14 +213,22 @@ class ContentBar(QWidget, Ui_ContentBar):
         else:
             btn.setStyleSheet("color: gray;")
 
-
     def findContours(self):
         print('[ContentBar][findContours] Find Contours Start')
         threadhold = int(self.lineEdit_contours_value.text())
-        res = analysisDataModel.findContours(threadhold)
+        bReverse = self.checkBox_roi_reverse.isChecked()
+        res = analysisDataModel.findContours(threadhold, bReverse)
+
+        lstSyncBtn = [self.btn_show_contours, self.btn_contours_eraser]
+
+        self.label_number_contours.setText(str(analysisDataModel.numContours))
         self.lineEdit_contours_value.setText(str(analysisDataModel.threshold))
-        self.btn_show_contours.setEnabled(res)
-        self.updateButtonState(self.btn_show_contours)
+
+        for btn in lstSyncBtn:
+            btn.setEnabled(res)
+            self.updateButtonState(btn)
+
+        self.imgEditCenter.currMode = MacroDefine.NONE_MODE
         self.imgEditCenter.currViewMode = MacroDefine.VIEW_CONTOURS_MODE
         self.updateBtnAnalysisStatus()
 
@@ -220,4 +242,32 @@ class ContentBar(QWidget, Ui_ContentBar):
     def analysisContours(self):
         analysisDataModel.analysisContours()
         self.setViewMode(MacroDefine.VIEW_HISTOGRAM_MODE)
+        self.I_EVT_ENABLE_SAVE_DATA.emit(True)
 
+    def onEraseContours(self):
+        if not self.imgEditCenter.bImgExist:
+            return
+
+        lstSyncBtn = [self.btn_show_contours, self.btn_roi_analysis, self.btn_contours_find]
+        if self.imgEditCenter.currMode != MacroDefine.DEL_MODE:
+            self.imgEditCenter.currMode = MacroDefine.DEL_MODE
+            self.btn_contours_eraser.setText('Finish')
+            for btn in lstSyncBtn:
+                btn.setEnabled(False)
+                self.updateButtonState(btn)
+        else:
+            self.imgEditCenter.currMode = MacroDefine.NONE_MODE
+            self.btn_contours_eraser.setText('Eraser')
+            for btn in lstSyncBtn:
+                btn.setEnabled(True)
+                self.updateButtonState(btn)
+
+    def onROIReset(self):
+        self.onResetROIPoints()
+        self.imgEditCenter.currViewMode = MacroDefine.VIEW_ORIGIN_MODE
+        self.updateBtnViewStatus()
+        self.updateBtnAnalysisStatus()
+        self.imgEditCenter.I_EVT_UPDATE_IMG.emit()
+
+    def reverseMask(self):
+        self.imgEditCenter.bReverseMask = self.checkBox_roi_reverse.isChecked()

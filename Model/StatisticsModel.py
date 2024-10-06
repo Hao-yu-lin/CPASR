@@ -71,10 +71,7 @@ class StatisticsModel(QObject):
         counts = list(lstCount.values())
 
         ax.set_title(f'Histogram of {lstDataName[0]}')
-        if infoType == MacroDefine.DIAMETER_TYPE:
-            ax.set_xlabel('Diameter ( μm )')
-        else:
-            ax.set_xlabel('Surface')
+        ax.set_xlabel('Diameter ( μm )' if infoType == MacroDefine.DIAMETER_TYPE else 'Surface')
 
         xValue = list(lstCount.keys())
 
@@ -268,3 +265,4 @@ class StatisticsModel(QObject):
             bbox_to_anchor=(-0.15, 1.15)
         )
         plt.tight_layout()
+

@@ -250,15 +250,15 @@ class Ui_ContentBar(object):
 
         self.gridLayout.addWidget(self.btn_refer_calculate, 10, 2, 1, 1)
 
-        self.btn_eraser = QPushButton(self.parameter)
-        self.btn_eraser.setObjectName(u"btn_eraser")
-        sizePolicy.setHeightForWidth(self.btn_eraser.sizePolicy().hasHeightForWidth())
-        self.btn_eraser.setSizePolicy(sizePolicy)
-        self.btn_eraser.setMinimumSize(QSize(92, 25))
-        self.btn_eraser.setMaximumSize(QSize(92, 25))
-        self.btn_eraser.setFont(font)
+        self.btn_contours_eraser = QPushButton(self.parameter)
+        self.btn_contours_eraser.setObjectName(u"btn_contours_eraser")
+        sizePolicy.setHeightForWidth(self.btn_contours_eraser.sizePolicy().hasHeightForWidth())
+        self.btn_contours_eraser.setSizePolicy(sizePolicy)
+        self.btn_contours_eraser.setMinimumSize(QSize(92, 25))
+        self.btn_contours_eraser.setMaximumSize(QSize(92, 25))
+        self.btn_contours_eraser.setFont(font)
 
-        self.gridLayout.addWidget(self.btn_eraser, 21, 1, 1, 1)
+        self.gridLayout.addWidget(self.btn_contours_eraser, 21, 1, 1, 1)
 
         self.btn_roi_reset = QPushButton(self.parameter)
         self.btn_roi_reset.setObjectName(u"btn_roi_reset")
@@ -338,7 +338,7 @@ class Ui_ContentBar(object):
         self.label_show_image_fixed.setText(QCoreApplication.translate("ContentBar", u"View Mode", None))
         self.btn_contours_find.setText(QCoreApplication.translate("ContentBar", u"Find", None))
         self.btn_refer_calculate.setText(QCoreApplication.translate("ContentBar", u"Calculate", None))
-        self.btn_eraser.setText(QCoreApplication.translate("ContentBar", u"Eraser", None))
+        self.btn_contours_eraser.setText(QCoreApplication.translate("ContentBar", u"Eraser", None))
         self.btn_roi_reset.setText(QCoreApplication.translate("ContentBar", u"Reset", None))
         self.label_contours_fixed2.setText(QCoreApplication.translate("ContentBar", u"Threshold Value", None))
         self.label_number_contours.setText(QCoreApplication.translate("ContentBar", u"0", None))
