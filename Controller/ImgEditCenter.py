@@ -1,6 +1,6 @@
 from Model.ImgDataModel import imgManager
 from Model.ImgEngine import ImgEngine
-from PySide6.QtCore import Signal, Slot, QObject
+from PySide6.QtCore import Signal, QObject
 from Model.AnalysisDataModel import analysisDataModel
 import Model.MacroDefine as MacroDefine
 

@@ -1,6 +1,6 @@
 from UI.UI_ContentBar import Ui_ContentBar
-from PySide6.QtWidgets import QWidget, QPushButton
-from PySide6.QtCore import Signal, QEvent
+from PySide6.QtWidgets import QWidget
+from PySide6.QtCore import Signal
 from Controller.ImgEditCenter import imgEditCenter
 from Model.AnalysisDataModel import analysisDataModel
 import Model.MacroDefine as MacroDefine

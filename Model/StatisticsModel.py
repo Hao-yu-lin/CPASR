@@ -1,10 +1,8 @@
-from PySide6.QtCore import QObject, Signal, Slot
+from PySide6.QtCore import QObject
 import numpy as np
 import matplotlib.pyplot as plt
 import Model.MacroDefine as MacroDefine
-import pandas as pd
-from UI.UI_Viewer import Ui_Viewer
-import math
+
 
 dicColorMap = {
     'red'       : '#FF0000',

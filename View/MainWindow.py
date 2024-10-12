@@ -1,10 +1,8 @@
-from PySide6.QtWidgets import QMainWindow, QWidget, QStackedWidget
-from PySide6.QtCore import QSize
+from PySide6.QtWidgets import QMainWindow
 from UI.UI_MainWindow import Ui_MainWindow
 from View.MenuBar import MenuBar
 from View.Viewer import Viewer
 from View.ContentBar import ContentBar
-from View.StatisticsView import StatisticsView
 from View.HistogramBar import HistogramBar
 import Model.MacroDefine as MacroDefine
 

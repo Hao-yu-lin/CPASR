@@ -4,7 +4,7 @@ from Controller.DataEditCenter import dataEditCenter
 from Model.AnalysisDataModel import analysisDataModel
 from Controller.ImgEditCenter import imgEditCenter
 import Model.MacroDefine as MacroDefine
-from PySide6.QtCore import Signal, Slot, QObject
+from PySide6.QtCore import Slot
 
 class HistogramBar(QWidget, Ui_HistogramBar):
     def __init__(self, widget):

@@ -1,7 +1,7 @@
-from PySide6.QtCore import Qt, Slot, QEvent, QRect, QSize
+from PySide6.QtCore import Qt, QEvent, QRect, QSize
 from PySide6.QtGui import QPixmap, QImage
 from PySide6.QtWidgets import QWidget, QStackedWidget
-from PySide6.QtCore import QObject, Signal, Slot
+from PySide6.QtCore import Signal, Slot
 
 from Controller.ImgEditCenter import imgEditCenter
 from Model.PanZoom import PanZoom
@@ -11,7 +11,6 @@ from Controller.DataEditCenter import dataEditCenter
 from UI.UI_Viewer import Ui_Viewer
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
-import pandas as pd
 import Model.MacroDefine as MacroDefine
 
 
