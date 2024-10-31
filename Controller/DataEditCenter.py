@@ -17,8 +17,8 @@ def roundUpToNearest(number):
 class dataAnalysisBasic:
     def __init__(self):
         self._lstData = []
+        self.lstFilterData = []
         self.average = -1
-        self.median = -1
         self.min = -1
         self.max = -1
         self.std = -1
@@ -26,8 +26,8 @@ class dataAnalysisBasic:
 
     def restData(self):
         self._lstData = []
+        self.lstFilterData = []
         self.average = -1
-        self.median = -1
         self.min = -1
         self.max = -1
         self.std = -1
@@ -45,13 +45,25 @@ class dataAnalysisBasic:
     def analysisLstData(self):
         if self._lstData is None:
             return
-        self.average = sum(self._lstData) / len(self._lstData)
-        self.median = self._lstData[int(len(self._lstData) / 2)]
         self.min = min(self._lstData)
         self.max = max(self._lstData)
-        self.std = pd.Series(self._lstData).std()
-        self.total = len(self._lstData)
 
+    def setLstFilterData(self, lstFilterData):
+        if lstFilterData:
+            self.lstFilterData = lstFilterData
+            tmpLstData = []
+            for _, data in lstFilterData:
+                tmpLstData.extend(data)
+
+            self.min = min(tmpLstData)
+            self.max = max(tmpLstData)
+            self.average = np.mean(tmpLstData)
+            self.std = np.std(tmpLstData)
+            self.total = len(tmpLstData)
+            pass
+
+    def getLstFilterData(self):
+        return self.lstFilterData
 
 class DataItem:
     def __init__(self):
@@ -71,12 +83,15 @@ class DataItem:
             return
 
         lstDiameter = self.getListDataWithKey(MacroDefine.INT_DIAMETER, dfData)
-        self.diameterData.setData(lstDiameter)
+        if lstDiameter:
+            self.diameterData.setData(lstDiameter)
 
         lstArea = self.getListDataWithKey(MacroDefine.INT_AREA, dfData)
-        self.areaData.setData(lstArea)
+        if lstArea:
+            self.areaData.setData(lstArea)
 
-        self._bHasData = True
+        if lstDiameter or lstArea:
+            self._bHasData = True
         pass
 
     def getDataInfo(self, dataType):
@@ -89,15 +104,18 @@ class DataItem:
 
     def getListDataWithKey(self, key, dfData):
         # Remove outliers
-        Q1 = dfData[key].quantile(0.25)
-        Q3 = dfData[key].quantile(0.75)
-        IQR = Q3 - Q1
-        lowerBound = Q1 - 1.5 * IQR
-        upperBound = Q3 + 1.5 * IQR
-        minX = roundDownToNearest(lowerBound)
-        maxX = roundUpToNearest(upperBound)
-        filterData = dfData[(dfData[key] > minX) & (dfData[key] < maxX)].copy()
-        lstData = filterData.sort_values(by=key)[key].tolist()
+        try:
+            Q1 = dfData[key].quantile(0.25)
+            Q3 = dfData[key].quantile(0.75)
+            IQR = Q3 - Q1
+            lowerBound = max(Q1 - 1.5 * IQR, 0)
+            upperBound = Q3 + 1.5 * IQR
+            minX = roundDownToNearest(lowerBound)
+            maxX = roundUpToNearest(upperBound)
+            filterData = dfData[(dfData[key] > minX) & (dfData[key] < maxX)].copy()
+            lstData = filterData.sort_values(by=key)[key].tolist()
+        except:
+            lstData = None
         return lstData
 
     @property
@@ -163,7 +181,7 @@ class DataEditCenter(QObject):
     def updateHistogram(self, showHistTypeData, inputParam):
         self.showType = showHistTypeData
         infoType = inputParam.get(MacroDefine.INPUT_PARAM_INT_INFO_TYPE, MacroDefine.DIAMETER_TYPE)
-        histType = inputParam.get(MacroDefine.VIEW_HISTOGRAM_MODE, MacroDefine.PERCENTAGE_TYPE)
+        histType = inputParam.get(MacroDefine.INPUT_PARAM_INT_HIST_TYPE, MacroDefine.PERCENTAGE_TYPE)
 
         lstDataInfo = []
         if showHistTypeData == MacroDefine.SHOW_HIST_TYPE_NONE:
@@ -183,25 +201,40 @@ class DataEditCenter(QObject):
 
         if minXValue == -1:
             minXValue = min([data.min for data in lstDataInfo])
+        self.minXValue = minXValue
 
         if maxXValue == -1:
             maxXValue = max([data.max for data in lstDataInfo])
+        self.maxXValue = maxXValue
 
-        self.minXValue = int(minXValue / xSpacing) * xSpacing
-        self.maxXValue = int(maxXValue / xSpacing + 1) * xSpacing
+        if showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA1:
+            lstData = lstDataInfo[0].lstData
+            lstFilterData = self.getlstFilterData(lstData, self.minXValue, self.maxXValue, xSpacing)
+            lstDataInfo[0].setLstFilterData(lstFilterData)
+        elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA2:
+            lstData = lstDataInfo[0].lstData
+            lstFilterData = self.getlstFilterData(lstData, self.minXValue, self.maxXValue, xSpacing)
+            lstDataInfo[0].setLstFilterData(lstFilterData)
+        else:
+            lstData1 = lstDataInfo[0].lstData
+            lstData2 = lstDataInfo[1].lstData
+            lstFilterData1 = self.getlstFilterData(lstData1, self.minXValue, self.maxXValue, xSpacing)
+            lstFilterData2 = self.getlstFilterData(lstData2, self.minXValue, self.maxXValue, xSpacing)
+            lstDataInfo[0].setLstFilterData(lstFilterData1)
+            lstDataInfo[1].setLstFilterData(lstFilterData2)
 
         self.__dicDataParam = {
-            MacroDefine.INPUT_PARAM_INT_X_SPACING       : xSpacing,
             MacroDefine.INPUT_PARAM_INT_X_MIN           : self.minXValue,
             MacroDefine.INPUT_PARAM_INT_X_MAX           : self.maxXValue,
             MacroDefine.INPUT_PARAM_LST_NAME            : inputParam.get(MacroDefine.INPUT_PARAM_LST_NAME, []),
             MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG       : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG, False),
-            MacroDefine.INPUT_PARAM_BOOL_SHOW_MEDIAN    : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_MEDIAN, False),
-            MacroDefine.INPUT_PARAM_BOOL_SHOW_STD       : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_STD, False),
+            MacroDefine.INPUT_PARAM_BOOL_SHOW_BOXPLOT   : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_BOXPLOT, False),
             MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE   : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE, False),
             MacroDefine.INPUT_PARAM_LST_DATA_INFO       : lstDataInfo,
             MacroDefine.INPUT_PARAM_INT_INFO_TYPE       : infoType,
-            MacroDefine.INPUT_PARAM_INT_HIST_TYPE       : histType
+            MacroDefine.INPUT_PARAM_INT_HIST_TYPE       : histType,
+            MacroDefine.INPUT_PARAM_BOOL_SHOW_VALUE     : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_VALUE, False),
+            MacroDefine.INPUT_PARAM_LST_SHOW_CUMULATIVE : inputParam.get(MacroDefine.INPUT_PARAM_LST_SHOW_CUMULATIVE, []),
         }
 
         self.I_EVT_UPDATE_HISTOGRAM.emit()
@@ -215,6 +248,36 @@ class DataEditCenter(QObject):
         self.setDfData(0, dfData)
         self.setStrName(0, strDataName)
         self.I_EVT_UPDATE_DATA_INFO.emit(0)
+
+    def getlstFilterData(self, lstData, minX, maxX, xSpacing):
+        groupData = {}
+        groupStart = minX + xSpacing
+
+        # [value < minX, value < minX + xSpacing,  value < minX + 2*xSpacing, ... ,  < minX + n*xSpacing, < maxX, > maxX]
+        while groupStart < maxX:
+            groupData[groupStart] = []
+            groupStart += xSpacing
+
+        sorted_keys = sorted(groupData.keys())
+
+        for value in lstData:
+            if value > maxX:
+                continue
+
+            if value < minX:
+                continue
+
+            if value <= 0.0:
+                continue
+
+            for key in sorted_keys:
+                if value < key:
+                    groupData[key].append(value)
+                    break
+
+        lstFilterData = [(key, value) for key, value in groupData.items()]
+
+        return lstFilterData
 
 
 

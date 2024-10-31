@@ -34,12 +34,14 @@ INPUT_PARAM_INT_X_MIN              = 'inputparamintxmin'
 INPUT_PARAM_INT_X_MAX              = 'inputparamintxmax'
 INPUT_PARAM_LST_NAME               = 'inputparamlstname'
 INPUT_PARAM_BOOL_SHOW_AVG          = 'inputparamboolshowavg'
-INPUT_PARAM_BOOL_SHOW_MEDIAN       = 'inputparamboolshowmedian'
-INPUT_PARAM_BOOL_SHOW_STD          = 'inputparamboolshowstd'
+INPUT_PARAM_BOOL_SHOW_BOXPLOT      = 'inputparamboolshowboxplot'
 INPUT_PARAM_BOOL_SHOW_CUMLINE      = 'inputparamboolshowcumline'
 INPUT_PARAM_LST_DATA_INFO          = 'inputparamlstdata'
 INPUT_PARAM_INT_INFO_TYPE          = 'inputparamintdatainfotype'
 INPUT_PARAM_INT_HIST_TYPE          = 'inputparaminthisttype'
+INPUT_PARAM_BOOL_SHOW_VALUE        = 'inputparamboolshowvalue'
+INPUT_PARAM_LST_SHOW_CUMULATIVE    = 'inputparamlstshowcumulative'
+
 
 # Data info
 INT_INDEX                   = 'index'

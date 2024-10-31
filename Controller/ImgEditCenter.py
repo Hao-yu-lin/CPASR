@@ -19,7 +19,6 @@ class ImgEditCenter(QObject):
         super().__init__()
         self.imgEngine = ImgEngine()
         self.imgSrc = None
-        self.prevImg = None
 
         self.widthImg = -1
         self.heightImg = -1
@@ -168,17 +167,13 @@ class ImgEditCenter(QObject):
         if not self.bImgExist:
             return
 
-        if self.prevImg is not None and self.prevMode != MacroDefine.NONE_MODE:
-            self.imgSrc = self.prevImg
-            self.prevImg = None
-        else:
-            imgData = imgManager.getCurrentData()
-            self.imgSrc = self.imgEngine.updatePtsOnView(imgData.srcImg, None, bDrawPoint=True, bDrawLine=True)
+        imgData = imgManager.getCurrentData()
+        self.imgSrc = self.imgEngine.updatePtsOnView(imgData.srcImg, None, bDrawPoint=True, bDrawLine=True)
 
     def setMaskImg(self):
         if not self.bImgExist:
             return
-        self.prevImg = self.imgSrc
+
         lstROIPoint = analysisDataModel.getLstROIPoint()
         imgData = imgManager.getCurrentData()
         if lstROIPoint:
@@ -194,7 +189,6 @@ class ImgEditCenter(QObject):
         if not self.bImgExist:
             return
 
-        self.prevImg = self.imgSrc
         imgData = imgManager.getCurrentData()
         lstContours = analysisDataModel.getLstContours()
         if lstContours:

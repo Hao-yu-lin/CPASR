@@ -191,13 +191,6 @@ class ContentBar(QWidget, Ui_ContentBar):
         self.updateButtonState(self.btn_refer_calculate)
 
     def updateBtnViewStatus(self):
-        if self.imgEditCenter.currViewMode == MacroDefine.VIEW_ORIGIN_MODE and self.imgEditCenter.currMode == MacroDefine.NONE_MODE:
-            self.btn_show_image.setText('Image')
-        elif self.imgEditCenter.currViewMode == MacroDefine.VIEW_HISTOGRAM_MODE:
-            self.btn_show_image.setText('Image')
-        else:
-            self.btn_show_image.setText('Last Image')
-
         self.updateButtonState(self.btn_show_image)
 
 
@@ -234,8 +227,11 @@ class ContentBar(QWidget, Ui_ContentBar):
 
     def updateScaleValue(self, value):
         if not value:
-            value = -1
-
+            value = 0
+        try:
+            value = float(value)
+        except:
+            value = 0
         analysisDataModel.setScaleRefObj(float(value))
         self.updateBtnAnalysisStatus()
 
