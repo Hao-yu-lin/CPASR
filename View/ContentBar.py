@@ -208,9 +208,10 @@ class ContentBar(QWidget, Ui_ContentBar):
 
     def findContours(self):
         print('[ContentBar][findContours] Find Contours Start')
-        threadhold = int(self.lineEdit_contours_value.text())
+        strThreshold = self.lineEdit_contours_value.text()
+        threshold = int(strThreshold) if strThreshold else -1
         bReverse = self.checkBox_roi_reverse.isChecked()
-        res = analysisDataModel.findContours(threadhold, bReverse)
+        res = analysisDataModel.findContours(threshold, bReverse)
 
         lstSyncBtn = [self.btn_show_contours, self.btn_contours_eraser]
 

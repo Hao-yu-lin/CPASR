@@ -15,6 +15,10 @@ dicColorMap = {
     'black'     : '#000000',
 }
 
+# dicColorMap = {
+#
+# }
+
 class StatisticsModel(QObject):
     def __init__(self):
         super().__init__()
@@ -33,16 +37,17 @@ class StatisticsModel(QObject):
 
 
     def plotSingleHistogram(self, dataInfo, ax):
-        listDataInfo = dataInfo.get(MacroDefine.INPUT_PARAM_LST_DATA_INFO, [])
-        infoType = dataInfo.get(MacroDefine.INPUT_PARAM_INT_INFO_TYPE, MacroDefine.DIAMETER_TYPE)
-        histType = dataInfo.get(MacroDefine.INPUT_PARAM_INT_HIST_TYPE, MacroDefine.PERCENTAGE_TYPE)
-        minX = dataInfo.get(MacroDefine.INPUT_PARAM_INT_X_MIN, -1)
-        maxX = dataInfo.get(MacroDefine.INPUT_PARAM_INT_X_MAX, -1)
-        bShowAvg = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG, False)
-        bShowBoxPlot = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_BOXPLOT, False)
-        bShowCumLine = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE, False)
-        lstDataName = dataInfo.get(MacroDefine.INPUT_PARAM_LST_NAME, [])
-        bShowValue = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_VALUE, False)
+        listDataInfo      = dataInfo.get(MacroDefine.INPUT_PARAM_LST_DATA_INFO, [])
+        infoType          = dataInfo.get(MacroDefine.INPUT_PARAM_INT_INFO_TYPE, MacroDefine.DIAMETER_TYPE)
+        histType          = dataInfo.get(MacroDefine.INPUT_PARAM_INT_HIST_TYPE, MacroDefine.PERCENTAGE_TYPE)
+        minX              = dataInfo.get(MacroDefine.INPUT_PARAM_INT_X_MIN, -1)
+        maxX              = dataInfo.get(MacroDefine.INPUT_PARAM_INT_X_MAX, -1)
+        bShowAvg          = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG, False)
+        bShowBoxPlot      = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_BOXPLOT, False)
+        bShowCumLine      = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE, False)
+        lstDataName       = dataInfo.get(MacroDefine.INPUT_PARAM_LST_NAME, [])
+        bShowHistValue    = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_HIST_VALUE, False)
+        bShowBoxValue     = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_BOX_VALUE, False)
         lstShowCumulative = dataInfo.get(MacroDefine.INPUT_PARAM_LST_SHOW_CUMULATIVE, [])
 
         lstFilterData = listDataInfo[0].getLstFilterData()
@@ -60,8 +65,7 @@ class StatisticsModel(QObject):
         ax.set_title(f'Histogram of {lstDataName[0]}')
         ax.set_xlabel('Diameter ( μm )' if infoType == MacroDefine.DIAMETER_TYPE else 'Surface')
 
-        total_width = ax.bbox.width # 控制 bar 的總寬度佔據比例
-        bar_width = total_width / (len(xValue) + 1)
+        bar_width = 800 / (len(xValue) + 1)
 
         if histType == MacroDefine.PERCENTAGE_TYPE:
             perCounts = [(count/lstDataSize) * 100 for count in counts]
@@ -85,7 +89,7 @@ class StatisticsModel(QObject):
         ax.set_xlim([minX, maxX])
         # ax.grid()
 
-        if bShowValue:
+        if bShowHistValue:
             for bar in bars:
                 height = bar.get_height()
                 ax.text(
@@ -114,20 +118,21 @@ class StatisticsModel(QObject):
             median = box['medians'][0].get_xdata()[0]  # 中位數
             whiskers = [whisker.get_xdata()[1] for whisker in box['whiskers']]  # 兩端的鬚（最小值和最大值）
 
-            _, maxY = ax.get_ylim()
-            yPosL = maxY * 0.47
-            yPosH = maxY * 0.53
+            if bShowBoxValue:
+                _, maxY = ax.get_ylim()
+                yPosL = maxY * 0.43
+                yPosH = maxY * 0.57
 
-            ax.text(median, yPosL, f'{median:.2f}', va='center', ha='center', color='black', fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
-            ax.text(q1, yPosH, f'{q1:.2f}', va='center', ha='center', color='black', fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
-            ax.text(q3, yPosH, f'{q3:.2f}', va='center', ha='center', color='black', fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
-            ax.text(whiskers[0], yPosL, f'{whiskers[0]:.2f}', va='center', ha='left', color='black', fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
-            ax.text(whiskers[1], yPosL, f'{whiskers[1]:.2f}', va='center', ha='right', color='black', fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
+                ax.text(median, yPosL, f'{median:.2f}', va='center', ha='center', color='black', fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
+                ax.text(q1, yPosH, f'{q1:.2f}', va='center', ha='center', color='black', fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
+                ax.text(q3, yPosH, f'{q3:.2f}', va='center', ha='center', color='black', fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
+                ax.text(whiskers[0], yPosL, f'{whiskers[0]:.2f}', va='center', ha='left', color='black', fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
+                ax.text(whiskers[1], yPosL, f'{whiskers[1]:.2f}', va='center', ha='right', color='black', fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
 
-            if bShowAvg:
-                avg = box['means'][0].get_xdata()[0]
-                ax.text(avg, yPosH, f'{whiskers[1]:.2f}', va='center', ha='center', color='black', fontsize=10,
-                        bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
+                if bShowAvg:
+                    avg = box['means'][0].get_xdata()[0]
+                    ax.text(avg, yPosH, f'{whiskers[1]:.2f}', va='center', ha='center', color='black', fontsize=10,
+                            bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
 
             ax_box.set_yticks([])
             ax_box.set_ylabel('')

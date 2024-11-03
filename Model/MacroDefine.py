@@ -39,8 +39,10 @@ INPUT_PARAM_BOOL_SHOW_CUMLINE      = 'inputparamboolshowcumline'
 INPUT_PARAM_LST_DATA_INFO          = 'inputparamlstdata'
 INPUT_PARAM_INT_INFO_TYPE          = 'inputparamintdatainfotype'
 INPUT_PARAM_INT_HIST_TYPE          = 'inputparaminthisttype'
-INPUT_PARAM_BOOL_SHOW_VALUE        = 'inputparamboolshowvalue'
+INPUT_PARAM_BOOL_SHOW_HIST_VALUE   = 'inputparamboolshowhistvalue'
 INPUT_PARAM_LST_SHOW_CUMULATIVE    = 'inputparamlstshowcumulative'
+INPUT_PARAM_BOOL_SHOW_BOX_VALUE    = 'inputparamboolshowboxvalue'
+INPUT_PARAM_INT_DATA_INDEX         = 'inputparamintdataindex'
 
 
 # Data info

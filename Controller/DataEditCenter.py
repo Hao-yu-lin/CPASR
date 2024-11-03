@@ -23,6 +23,7 @@ class dataAnalysisBasic:
         self.max = -1
         self.std = -1
         self.total = -1
+        self.median = -1
 
     def restData(self):
         self._lstData = []
@@ -32,6 +33,7 @@ class dataAnalysisBasic:
         self.max = -1
         self.std = -1
         self.total = -1
+        self.median = -1
 
     def setData(self, lstData):
         self._lstData.extend(lstData)
@@ -47,6 +49,11 @@ class dataAnalysisBasic:
             return
         self.min = min(self._lstData)
         self.max = max(self._lstData)
+        self.average = np.mean(self._lstData)
+        self.std = np.std(self._lstData)
+        self.total = len(self._lstData)
+        self.median = np.median(self._lstData)
+
 
     def setLstFilterData(self, lstFilterData):
         if lstFilterData:
@@ -55,12 +62,14 @@ class dataAnalysisBasic:
             for _, data in lstFilterData:
                 tmpLstData.extend(data)
 
-            self.min = min(tmpLstData)
-            self.max = max(tmpLstData)
-            self.average = np.mean(tmpLstData)
-            self.std = np.std(tmpLstData)
-            self.total = len(tmpLstData)
-            pass
+            if tmpLstData:
+                self.min = min(tmpLstData)
+                self.max = max(tmpLstData)
+                self.average = np.mean(tmpLstData)
+                self.std = np.std(tmpLstData)
+                self.total = len(tmpLstData)
+                self.median = np.median(tmpLstData)
+                pass
 
     def getLstFilterData(self):
         return self.lstFilterData
@@ -143,7 +152,7 @@ class DataEditCenter(QObject):
 
     def __init__(self):
         super().__init__()
-        self.lstDataItem = [DataItem(), DataItem()]
+        self.lstDataItem = [DataItem(), DataItem(), DataItem(), DataItem(), DataItem()]
         self.showType = False
         self.__dicDataParam = None
         self.minXValue = -1
@@ -184,20 +193,23 @@ class DataEditCenter(QObject):
         histType = inputParam.get(MacroDefine.INPUT_PARAM_INT_HIST_TYPE, MacroDefine.PERCENTAGE_TYPE)
 
         lstDataInfo = []
+        currDataIdx = inputParam.get(MacroDefine.INPUT_PARAM_INT_DATA_INDEX, 0)
         if showHistTypeData == MacroDefine.SHOW_HIST_TYPE_NONE:
             return
-        elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA1:
-            lstDataInfo.append(self.lstDataItem[0].getDataInfo(infoType))
-        elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA2:
-            lstDataInfo.append(self.lstDataItem[1].getDataInfo(infoType))
         else:
-            lstDataInfo.append(self.lstDataItem[0].getDataInfo(infoType))
-            lstDataInfo.append(self.lstDataItem[1].getDataInfo(infoType))
+            lstDataInfo.append(self.lstDataItem[currDataIdx].getDataInfo(infoType))
+        # elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA1:
+        #     lstDataInfo.append(self.lstDataItem[0].getDataInfo(infoType))
+        # elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA2:
+        #     lstDataInfo.append(self.lstDataItem[1].getDataInfo(infoType))
+        # else:
+        #     lstDataInfo.append(self.lstDataItem[0].getDataInfo(infoType))
+        #     lstDataInfo.append(self.lstDataItem[1].getDataInfo(infoType))
 
         minXValue = inputParam.get(MacroDefine.INPUT_PARAM_INT_X_MIN, -1)
         maxXValue = inputParam.get(MacroDefine.INPUT_PARAM_INT_X_MAX, -1)
 
-        xSpacing = inputParam.get(MacroDefine.INPUT_PARAM_INT_X_SPACING, 10)
+        xSpacing = inputParam.get(MacroDefine.INPUT_PARAM_INT_X_SPACING, -1)
 
         if minXValue == -1:
             minXValue = min([data.min for data in lstDataInfo])
@@ -206,6 +218,12 @@ class DataEditCenter(QObject):
         if maxXValue == -1:
             maxXValue = max([data.max for data in lstDataInfo])
         self.maxXValue = maxXValue
+
+        if xSpacing == -1:
+            if infoType == MacroDefine.DIAMETER_TYPE:
+                xSpacing = 10
+            elif infoType == MacroDefine.AREA_TYPE:
+                xSpacing = 0.01
 
         if showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA1:
             lstData = lstDataInfo[0].lstData
@@ -224,17 +242,18 @@ class DataEditCenter(QObject):
             lstDataInfo[1].setLstFilterData(lstFilterData2)
 
         self.__dicDataParam = {
-            MacroDefine.INPUT_PARAM_INT_X_MIN           : self.minXValue,
-            MacroDefine.INPUT_PARAM_INT_X_MAX           : self.maxXValue,
-            MacroDefine.INPUT_PARAM_LST_NAME            : inputParam.get(MacroDefine.INPUT_PARAM_LST_NAME, []),
-            MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG       : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG, False),
-            MacroDefine.INPUT_PARAM_BOOL_SHOW_BOXPLOT   : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_BOXPLOT, False),
-            MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE   : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE, False),
-            MacroDefine.INPUT_PARAM_LST_DATA_INFO       : lstDataInfo,
-            MacroDefine.INPUT_PARAM_INT_INFO_TYPE       : infoType,
-            MacroDefine.INPUT_PARAM_INT_HIST_TYPE       : histType,
-            MacroDefine.INPUT_PARAM_BOOL_SHOW_VALUE     : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_VALUE, False),
-            MacroDefine.INPUT_PARAM_LST_SHOW_CUMULATIVE : inputParam.get(MacroDefine.INPUT_PARAM_LST_SHOW_CUMULATIVE, []),
+            MacroDefine.INPUT_PARAM_INT_X_MIN               : self.minXValue,
+            MacroDefine.INPUT_PARAM_INT_X_MAX               : self.maxXValue,
+            MacroDefine.INPUT_PARAM_LST_NAME                : inputParam.get(MacroDefine.INPUT_PARAM_LST_NAME, []),
+            MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG           : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG, False),
+            MacroDefine.INPUT_PARAM_BOOL_SHOW_BOXPLOT       : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_BOXPLOT, False),
+            MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE       : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE, False),
+            MacroDefine.INPUT_PARAM_LST_DATA_INFO           : lstDataInfo,
+            MacroDefine.INPUT_PARAM_INT_INFO_TYPE           : infoType,
+            MacroDefine.INPUT_PARAM_INT_HIST_TYPE           : histType,
+            MacroDefine.INPUT_PARAM_BOOL_SHOW_HIST_VALUE    : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_HIST_VALUE, False),
+            MacroDefine.INPUT_PARAM_BOOL_SHOW_BOX_VALUE     : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_BOX_VALUE, False),
+            MacroDefine.INPUT_PARAM_LST_SHOW_CUMULATIVE     : inputParam.get(MacroDefine.INPUT_PARAM_LST_SHOW_CUMULATIVE, []),
         }
 
         self.I_EVT_UPDATE_HISTOGRAM.emit()
@@ -259,6 +278,10 @@ class DataEditCenter(QObject):
             groupStart += xSpacing
 
         sorted_keys = sorted(groupData.keys())
+
+        if not lstData:
+            return []
+
 
         for value in lstData:
             if value > maxX:

@@ -18,20 +18,33 @@ class HistogramBar(QWidget, Ui_HistogramBar):
     def initSetting(self):
         self.bindEvent()
         self.dictDatatoLabel = {
-            MacroDefine.STR_DATA_NAME   : [self.lineEdit_data1_name],
+            MacroDefine.STR_DATA_NAME   : self.lineEdit_data1_name,
+            MacroDefine.INT_AVERAGE     : self.label_data1_avg_value,
+            MacroDefine.INT_MIN         : self.label_data1_min_value,
+            MacroDefine.INT_MAX         : self.label_data1_max_value,
+            MacroDefine.INT_STD         : self.label_data1_std_value,
+            MacroDefine.INT_TOTAL       : self.label_data1_total_value,
+            MacroDefine.INT_MEDIAN      : self.label_data1_median_value,
         }
 
     def bindEvent(self):
-        self.lineEdit_data1_name.textChanged.connect(lambda: self.setDataName(0))
-        self.btn_load_data1.clicked.connect(lambda: self.loadData(0))
-        self.btn_clear_data1.clicked.connect(lambda: self.dataEditCenter.clearData(0))
+        self.btn_load_data1.clicked.connect(self.loadData)
+        self.btn_clear_data1.clicked.connect(self.clearData)
         self.btn_update_histogram.clicked.connect(self.updateHistogram)
         self.btn_change_mode.clicked.connect(lambda: self.setViewMode(MacroDefine.VIEW_ORIGIN_MODE))
         self.dataEditCenter.I_EVT_UPDATE_DATA_INFO.connect(self.prepareUpdateDataInfo)
         self.comboBox_show_info_type.currentIndexChanged.connect(self.updateUnit)
+        self.comboBox_current_data.currentIndexChanged.connect(self.changeDataInfo)
 
     def setViewMode(self, mode):
         self.imgEditCenter.currViewMode = mode
+
+    def clearData(self):
+        idx = self.comboBox_current_data.currentIndex()
+        self.dataEditCenter.clearData(idx)
+        self.updateDataInfo(idx)
+        self.updateHistogram()
+
 
     def updateButtonState(self, btn):
         if btn.isEnabled():
@@ -39,14 +52,12 @@ class HistogramBar(QWidget, Ui_HistogramBar):
         else:
             btn.setStyleSheet("color: gray;")
 
-    def setDataName(self, idx):
-        if idx == 0:
-            strName = self.lineEdit_data1_name.text()
-        else:
-            strName = ''
+    def setDataName(self):
+        strName = self.lineEdit_data1_name.text()
+        idx = self.comboBox_current_data.currentIndex()
         self.dataEditCenter.setStrName(idx, strName)
 
-    def loadData(self, idx):
+    def loadData(self):
         strFilePath, _ = QFileDialog.getOpenFileName(
             self,
             "Select Data",
@@ -55,7 +66,9 @@ class HistogramBar(QWidget, Ui_HistogramBar):
         )
         if not strFilePath:
             return
+        idx = self.comboBox_current_data.currentIndex()
         self.dataEditCenter.loadData(idx, strFilePath)
+        self.updateHistogram()
 
     @Slot(int)
     def prepareUpdateDataInfo(self, idx):
@@ -67,16 +80,24 @@ class HistogramBar(QWidget, Ui_HistogramBar):
         dataItem = self.dataEditCenter.getSingleDataItem(idx)
         dataInfo = dataItem.getDataInfo(showInfoType)
 
-        strNameText = self.dictDatatoLabel[MacroDefine.STR_DATA_NAME][idx].text()
+        strNameText = self.dictDatatoLabel[MacroDefine.STR_DATA_NAME].text()
         if strNameText == '':
-            strDataName = dataItem.strName
-            self.dictDatatoLabel[MacroDefine.STR_DATA_NAME][idx].setText(strDataName)
+            strDataName = dataItem.strName if dataItem.strName != '' else f'Data {idx + 1}'
+            self.dictDatatoLabel[MacroDefine.STR_DATA_NAME].setText(strDataName)
+
+        self.dictDatatoLabel[MacroDefine.INT_AVERAGE].setText(f'{dataInfo.average:.3f}')
+        self.dictDatatoLabel[MacroDefine.INT_MIN].setText(f'{dataInfo.min:.3f}')
+        self.dictDatatoLabel[MacroDefine.INT_MAX].setText(f'{dataInfo.max:.3f}')
+        self.dictDatatoLabel[MacroDefine.INT_STD].setText(f'{dataInfo.std:.3f}')
+        self.dictDatatoLabel[MacroDefine.INT_TOTAL].setText(f'{dataInfo.total:.3f}')
+        self.dictDatatoLabel[MacroDefine.INT_MEDIAN].setText(f'{dataInfo.median:.3f}')
 
     def updateHistogram(self):
         bShowAvg        = self.checkBox_show_avg.isChecked()
-        bShowBoxplot    = self.checkBox_show_boxplot.isChecked()
+        bShowBoxplot    = self.checkBox_show_box_plot.isChecked()
         bShowCumLine    = self.checkBox_show_cumulative.isChecked()
-        bShowValue      = self.checkBox_show_value.isChecked()
+        bShowHistValue  = self.checkBox_show_hist_value.isChecked()
+        bShowBoxValue   = self.checkBox_show_box_value.isChecked()
         showInfoType    = int(self.comboBox_show_info_type.currentIndex())
         showHistType    = int(self.comboBox_show_hist_type.currentIndex())
 
@@ -85,11 +106,9 @@ class HistogramBar(QWidget, Ui_HistogramBar):
         maxXValue = float(self.lineEdit_xaxis_max_value.text())
 
         showType = MacroDefine.SHOW_HIST_TYPE_DATA1
-        strDATAName = self.dictDatatoLabel[MacroDefine.STR_DATA_NAME][0].text()
-
+        strDATAName = self.dictDatatoLabel[MacroDefine.STR_DATA_NAME].text()
 
         lstDataName = [strDATAName]
-
 
         # for D point
         lstShowCumulative = []
@@ -122,8 +141,10 @@ class HistogramBar(QWidget, Ui_HistogramBar):
             MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE   : bShowCumLine,
             MacroDefine.INPUT_PARAM_INT_INFO_TYPE       : showInfoType,
             MacroDefine.INPUT_PARAM_INT_HIST_TYPE       : showHistType,
-            MacroDefine.INPUT_PARAM_BOOL_SHOW_VALUE     : bShowValue,
+            MacroDefine.INPUT_PARAM_BOOL_SHOW_HIST_VALUE: bShowHistValue,
+            MacroDefine.INPUT_PARAM_BOOL_SHOW_BOX_VALUE : bShowBoxValue,
             MacroDefine.INPUT_PARAM_LST_SHOW_CUMULATIVE : lstShowCumulative,
+            MacroDefine.INPUT_PARAM_INT_DATA_INDEX      : self.comboBox_current_data.currentIndex(),
         }
 
         self.dataEditCenter.updateHistogram(showType, inputParam)
@@ -137,14 +158,40 @@ class HistogramBar(QWidget, Ui_HistogramBar):
         self.lineEdit_xaxis_min_value.setText(f'{minXValue:.3f} ')
         self.lineEdit_xaxis_max_value.setText(f'{maxXValue:.3f} ')
 
+        if spacingValue == -1:
+            if showInfoType == MacroDefine.DIAMETER_TYPE:
+                spacingValue = 10
+            elif showInfoType == MacroDefine.AREA_TYPE:
+                spacingValue = 0.01
+            self.lineEdit_xaxis_spacing_value.setText(f'{spacingValue:.3f} ')
+
+        self.updateDataInfo(0)
+
     def updateUnit(self):
         showInfoType = int(self.comboBox_show_info_type.currentIndex())
         strUnitText = MacroDefine.dicStrUintText[showInfoType]
         lstSetUintLabel = [self.label_data_unit, self.label_x_axis_spacing_unit, self.label_x_axis_min_unit, self.label_x_axis_max_unit]
         for label in lstSetUintLabel:
             label.setText(strUnitText)
+        self.changeDataInfo()
+        self.lineEdit_xaxis_spacing_value.setText('-1')
+        self.lineEdit_xaxis_min_value.setText('-1')
+        self.lineEdit_xaxis_max_value.setText('-1')
+        # if self.dataEditCenter.bHasData(1):
+        #     self.updateDataInfo(1)
 
-        if self.dataEditCenter.bHasData(0):
-            self.updateDataInfo(0)
-        if self.dataEditCenter.bHasData(1):
-            self.updateDataInfo(1)
+    def changeDataInfo(self):
+        idx = self.comboBox_current_data.currentIndex()
+        self.dictDatatoLabel[MacroDefine.STR_DATA_NAME].setText('')
+        if self.dataEditCenter.bHasData(idx):
+            self.updateDataInfo(idx)
+
+        else:
+            self.dictDatatoLabel[MacroDefine.STR_DATA_NAME].setText(f'Data {idx + 1}')
+            self.dictDatatoLabel[MacroDefine.INT_AVERAGE].setText('-1')
+            self.dictDatatoLabel[MacroDefine.INT_MIN].setText('-1')
+            self.dictDatatoLabel[MacroDefine.INT_MAX].setText('-1')
+            self.dictDatatoLabel[MacroDefine.INT_STD].setText('-1')
+            self.dictDatatoLabel[MacroDefine.INT_TOTAL].setText('-1')
+            self.dictDatatoLabel[MacroDefine.INT_MEDIAN].setText('-1')
+        self.updateHistogram()
