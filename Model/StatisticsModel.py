@@ -3,21 +3,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import Model.MacroDefine as MacroDefine
 
+listColorMap = [
+    ['#FF0000', '#E60000', '#CC0000', '#B30000', '#990000', '#800000', '#660000'],  # red
+    ['#FFA500', '#E59400', '#CC8400', '#B37400', '#996400', '#805300', '#664300'],  # orange
+    ['#FFFF00', '#E5E500', '#CCCC00', '#B2B200', '#999900', '#808000', '#666600'],  # yellow
+    ['#008000', '#007300', '#006600', '#005900', '#004C00', '#004000', '#003300'],  # green
+    ['#0000FF', '#0000E5', '#0000CC', '#0000B2', '#000099', '#000080', '#000066'],  # blue
+    ['#4B0082', '#440075', '#3D0069', '#36005C', '#2F004F', '#280042', '#210036'],  # indigo
+    ['#800080', '#730073', '#660066', '#590059', '#4C004C', '#400040', '#330033'],  # purple
+    ['#000000', '#1A1A1A', '#333333', '#4D4D4D', '#666666', '#808080', '#999999'],  # black
+]
 
-dicColorMap = {
-    'red'       : '#FF0000',
-    'orange'    : '#FFA500',
-    'yellow'    : '#FFFF00',
-    'green'     : '#008000',
-    'blue'      : '#0000FF',
-    'indigo'    : '#4B0082',
-    'purple'    : '#800080',
-    'black'     : '#000000',
-}
-
-# dicColorMap = {
-#
-# }
 
 class StatisticsModel(QObject):
     def __init__(self):
@@ -69,10 +65,10 @@ class StatisticsModel(QObject):
 
         if histType == MacroDefine.PERCENTAGE_TYPE:
             perCounts = [(count/lstDataSize) * 100 for count in counts]
-            bars = ax.bar(xValue, perCounts, width=bar_width, align='edge', color=dicColorMap['blue'], edgecolor=dicColorMap['blue'])
+            bars = ax.bar(xValue, perCounts, width=bar_width, align='edge', color=listColorMap[4][0], edgecolor=listColorMap[4][4])
             ax.set_ylabel('Percentage')
         else:
-            bars = ax.bar(xValue, counts, width=bar_width, align='edge', color=dicColorMap['blue'], edgecolor=dicColorMap['blue'])
+            bars = ax.bar(xValue, counts, width=bar_width, align='edge', color=listColorMap[4][0], edgecolor=listColorMap[4][4])
             ax.set_ylabel('Count')
             ax.set_ylim([0, max(counts) + 1])
 
@@ -107,8 +103,8 @@ class StatisticsModel(QObject):
                 tmpLstData.extend(data)
             box = ax_box.boxplot(tmpLstData, vert=False, patch_artist=True,
                            widths=0.1, showfliers=False, manage_ticks=True,
-                           boxprops=dict(facecolor="lightblue", color="blue"),
-                           medianprops=dict(color="red", linestyle='--'),
+                           boxprops=dict(facecolor=listColorMap[2][3], color=listColorMap[7][3]),
+                           medianprops=dict(color=listColorMap[6][0], linestyle='--'),
                            showmeans=bShowAvg, meanline=bShowAvg,
                            )
 
@@ -139,7 +135,7 @@ class StatisticsModel(QObject):
 
         if bShowAvg:
             avg = listDataInfo[0].average
-            ax.axvline(avg, color=dicColorMap['green'], linestyle='--', label='Average')
+            ax.axvline(avg, color=listColorMap[3][0], linestyle='--', label='Average')
 
         if bShowCumLine or lstShowCumulative:
             tmpLstData = []
@@ -149,7 +145,7 @@ class StatisticsModel(QObject):
             cumulativeCounts = np.cumsum(counts)
             cumulativePercentages = (cumulativeCounts / lstDataSize) * 100
             ax2 = ax.twinx()
-            ax2.plot(xValue, cumulativePercentages, color='r', linestyle='-', label='Cumulative %')
+            ax2.plot(xValue, cumulativePercentages, color=listColorMap[1][0], linestyle='-', label='Cumulative %')
             ax2.set_ylabel('Cumulative Percentage (%)', color='r')
             ax2.set_yticks([10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
             ax2.set_ylim([0, 100])
@@ -169,145 +165,24 @@ class StatisticsModel(QObject):
 
                 ax2.plot(xValue[closest_index], cumulativePercentages[closest_index], 'wo', markersize=8)
                 ax2.text(xValue[closest_index], cumulativePercentages[closest_index],
-                         f'D{percentage}:{percentageValue:.3f}', color='r', fontsize=9, ha='right', va='bottom',
+                         f'D{percentage}:{percentageValue:.3f}', color=listColorMap[1][4], fontsize=9, ha='right', va='bottom',
                          bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
 
             # Plot only the markers at the specific points
             ax2.plot(marker_x_values, marker_y_values, 'ro')  # Red circles for the markers
-            ax2.tick_params(axis='y', labelcolor='r')
+            ax2.tick_params(axis='y', labelcolor=listColorMap[1][3])
 
         if bShowAvg:
             ax.legend(
                 loc='upper left',
                 fontsize=10,
                 shadow=True,
-                facecolor='#ccc',
+                facecolor='#FFFFFF',
                 edgecolor='#000',
                 title_fontsize=10,
                 bbox_to_anchor=(-0.15, 1.15)
             )
         plt.tight_layout()
 
-    def plotDoubleHistogram(self, dataInfo, ax):
+    def plotMultiistogram(self, dataInfo, ax):
         pass
-        # listDataInfo = dataInfo.get(MacroDefine.INPUT_PARAM_LST_DATA_INFO, [])
-        # infoType = dataInfo.get(MacroDefine.INPUT_PARAM_INT_INFO_TYPE, MacroDefine.DIAMETER_TYPE)
-        # histType = dataInfo.get(MacroDefine.INPUT_PARAM_INT_HIST_TYPE, MacroDefine.PERCENTAGE_TYPE)
-        # xSpacing = dataInfo.get(MacroDefine.INPUT_PARAM_INT_X_SPACING, 10)
-        # minX = dataInfo.get(MacroDefine.INPUT_PARAM_INT_X_MIN, -1)
-        # maxX = dataInfo.get(MacroDefine.INPUT_PARAM_INT_X_MAX, -1)
-        # bShowAvg = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG, False)
-        # bShowStd = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_STD, False)
-        # bShowCumLine = dataInfo.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE, False)
-        # lstDataName = dataInfo.get(MacroDefine.INPUT_PARAM_LST_NAME, [])
-        #
-        # lstData1 = listDataInfo[0].lstData
-        # lstData2 = listDataInfo[1].lstData
-        # lstDataSize1 = len(lstData1)
-        # lstDataSize2 = len(lstData2)
-        # groupData1 = {}
-        # groupData2 = {}
-        # groupStart = minX
-        # groupEnd = minX + xSpacing
-        #
-        # iterator1 = iter(lstData1)
-        # iterator2 = iter(lstData2)
-        # currentValue1 = next(iterator1, None)
-        # currentValue2 = next(iterator2, None)
-        # xValue = []
-        #
-        # while groupStart < maxX and (currentValue1 is not None or currentValue2 is not None):
-        #     xValue.append(groupStart)
-        #     groupData1[groupStart] = []
-        #     groupData2[groupStart] = []
-        #
-        #     while currentValue1 is not None and groupStart <= currentValue1 < groupEnd:
-        #         groupData1[groupStart].append(currentValue1)
-        #         currentValue1 = next(iterator1, None)
-        #
-        #     while currentValue2 is not None and groupStart <= currentValue2 < groupEnd:
-        #         groupData2[groupStart].append(currentValue2)
-        #         currentValue2 = next(iterator2, None)
-        #
-        #     groupStart = groupEnd
-        #     groupEnd = groupEnd + xSpacing
-        #
-        # lstCount1 = {key: len(value) for key, value in groupData1.items()}
-        # lstCount2 = {key: len(value) for key, value in groupData2.items()}
-        #
-        # counts1 = list(lstCount1.values())
-        # counts2 = list(lstCount2.values())
-        # ax.set_title(f'{lstDataName[0]} V.S. {lstDataName[1]}')
-        # ax.set_title(f'Histogram of {lstDataName[0]}')
-        #
-        # if infoType == MacroDefine.DIAMETER_TYPE:
-        #     ax.set_xlabel('Diameter ( μm )')
-        # else:
-        #     ax.set_xlabel('Surface')
-        #
-        # if histType == MacroDefine.PERCENTAGE_TYPE:
-        #     perCounts1 = [(count/lstDataSize1) * 100 for count in counts1]
-        #     perCounts2 = [(count/lstDataSize2) * 100 for count in counts2]
-        #     ax.bar(xValue, perCounts1, width=5, align='center', color=dicColorMap['blue'], edgecolor=dicColorMap['black'], label=lstDataName[0])
-        #     ax.bar(xValue, perCounts2, width=5, align='center', color=dicColorMap['red'], edgecolor=dicColorMap['black'], label=lstDataName[1])
-        #     ax.set_ylabel('Percentage')
-        #     ax.set_xticks(xValue[::5])
-        #     ax.set_xticklabels(xValue[::5])
-        #     ax.set_xlim([minX, maxX])
-        # else:
-        #     ax.bar(xValue, counts1, width=5, align='center', color=dicColorMap['blue'], edgecolor=dicColorMap['black'], label=lstDataName[0])
-        #     ax.bar(xValue, counts2, width=5, align='center', color=dicColorMap['red'], edgecolor=dicColorMap['black'], label=lstDataName[1])
-        #     ax.set_ylabel('Count')
-        #     ax.set_xticks(xValue[::5])
-        #     ax.set_xticklabels(xValue[::5])
-        #     ax.set_xlim([minX, maxX])
-        #     ax.set_ylim([0, max(max(counts1), max(counts2)) + 1])
-        #
-        # if bShowAvg:
-        #     avg1 = listDataInfo[0].average
-        #     avg2 = listDataInfo[1].average
-        #     ax.axvline(avg1, color=dicColorMap['green'], linestyle='--', label='Average: {:.2f}'.format(avg1))
-        #     ax.axvline(avg2, color=dicColorMap['green'], linestyle='--', label='Average: {:.2f}'.format(avg2))
-        #
-        # if bShowCumLine:
-        #     cumulativeCounts1 = np.cumsum(counts1)
-        #     cumulativeCounts2 = np.cumsum(counts2)
-        #     cumulativePercentages1 = (cumulativeCounts1 / lstDataSize1) * 100
-        #     cumulativePercentages2 = (cumulativeCounts2 / lstDataSize2) * 100
-        #     ax2 = ax.twinx()
-        #     ax2.plot(xValue, cumulativePercentages1, color='b', linestyle='-', label='Cumulative % ' + lstDataName[0])
-        #     ax2.plot(xValue, cumulativePercentages2, color='r', linestyle='-', label='Cumulative % ' + lstDataName[1])
-        #     ax2.set_ylabel('Cumulative Percentage (%)', color='r')
-        #     ax2.set_yticks([20, 40, 60, 80])
-        #     ax2.set_ylim([0, 100])
-        #
-        #     markerPercentages = [20, 40, 60, 80, 99]
-        #
-        #     # Find the x-values where the cumulative percentages are close to the marker_percentages
-        #     marker_x_values = []
-        #     marker_y_values = []
-        #
-        #     for percentage in markerPercentages:
-        #         # Find the x-value closest to this percentage
-        #         closest_index1 = (np.abs(cumulativePercentages1 - percentage)).argmin()
-        #         closest_index2 = (np.abs(cumulativePercentages2 - percentage)).argmin()
-        #         marker_x_values.append(xValue[closest_index1])
-        #         marker_x_values.append(xValue[closest_index2])
-        #         marker_y_values.append(cumulativePercentages1[closest_index1])
-        #         marker_y_values.append(cumulativePercentages2[closest_index2])
-        #
-        #     # Plot only the markers at the specific points
-        #     ax2.plot(marker_x_values, marker_y_values, 'ro')
-        #
-        # ax.legend(
-        #     loc='upper left',
-        #     fontsize=10,
-        #     shadow=True,
-        #     facecolor='#ccc',
-        #     edgecolor='#000',
-        #     title='test',
-        #     title_fontsize=10,
-        #     bbox_to_anchor=(-0.15, 1.15)
-        # )
-        # plt.tight_layout()
-

@@ -13,6 +13,10 @@ def roundDownToNearest(number):
 def roundUpToNearest(number):
     return int(np.ceil(number / 10.0)) * 10
 
+def checkDataValid(df):
+    required_columns = {'index', 'area', 'diameter'}
+    return required_columns.issubset(df.columns)
+
 
 class dataAnalysisBasic:
     def __init__(self):
@@ -176,13 +180,17 @@ class DataEditCenter(QObject):
 
     def loadData(self, idx, strFilePath):
         # read csv data
-        df = pd.read_csv(strFilePath)
-
-        self.setDfData(idx, df)
-        strDataName, _ = os.path.splitext(os.path.basename(strFilePath))
-        self.setStrName(idx, strDataName)
-        self.I_EVT_UPDATE_DATA_INFO.emit(idx)
-
+        try:
+            df = pd.read_csv(strFilePath)
+            validData = checkDataValid(df)
+            if validData:
+                self.setDfData(idx, df)
+                strDataName, _ = os.path.splitext(os.path.basename(strFilePath))
+                self.setStrName(idx, strDataName)
+                self.I_EVT_UPDATE_DATA_INFO.emit(idx)
+        except Exception as e:
+            # 若讀取檔案失敗或發生其他錯誤，返回 False
+            print(f"Error reading file: {e}")
 
     def clearData(self, idx):
         self.lstDataItem[idx].restDataItem()
@@ -196,15 +204,14 @@ class DataEditCenter(QObject):
         currDataIdx = inputParam.get(MacroDefine.INPUT_PARAM_INT_DATA_INDEX, 0)
         if showHistTypeData == MacroDefine.SHOW_HIST_TYPE_NONE:
             return
-        else:
+        elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA1:
             lstDataInfo.append(self.lstDataItem[currDataIdx].getDataInfo(infoType))
-        # elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA1:
-        #     lstDataInfo.append(self.lstDataItem[0].getDataInfo(infoType))
-        # elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA2:
-        #     lstDataInfo.append(self.lstDataItem[1].getDataInfo(infoType))
-        # else:
-        #     lstDataInfo.append(self.lstDataItem[0].getDataInfo(infoType))
-        #     lstDataInfo.append(self.lstDataItem[1].getDataInfo(infoType))
+        elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_BOTH:
+            lstCheckShowData = inputParam.get(MacroDefine.INPUT_PARAM_LST_SHOW_DATA, [])
+
+            for idx, value in enumerate(lstCheckShowData):
+                if value:
+                    lstDataInfo.append(self.lstDataItem[idx].getDataInfo(infoType))
 
         minXValue = inputParam.get(MacroDefine.INPUT_PARAM_INT_X_MIN, -1)
         maxXValue = inputParam.get(MacroDefine.INPUT_PARAM_INT_X_MAX, -1)
@@ -229,17 +236,11 @@ class DataEditCenter(QObject):
             lstData = lstDataInfo[0].lstData
             lstFilterData = self.getlstFilterData(lstData, self.minXValue, self.maxXValue, xSpacing)
             lstDataInfo[0].setLstFilterData(lstFilterData)
-        elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA2:
-            lstData = lstDataInfo[0].lstData
-            lstFilterData = self.getlstFilterData(lstData, self.minXValue, self.maxXValue, xSpacing)
-            lstDataInfo[0].setLstFilterData(lstFilterData)
-        else:
-            lstData1 = lstDataInfo[0].lstData
-            lstData2 = lstDataInfo[1].lstData
-            lstFilterData1 = self.getlstFilterData(lstData1, self.minXValue, self.maxXValue, xSpacing)
-            lstFilterData2 = self.getlstFilterData(lstData2, self.minXValue, self.maxXValue, xSpacing)
-            lstDataInfo[0].setLstFilterData(lstFilterData1)
-            lstDataInfo[1].setLstFilterData(lstFilterData2)
+        elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_BOTH:
+            for data in lstDataInfo:
+                lstData = data.lstData
+                lstFilterData = self.getlstFilterData(lstData, self.minXValue, self.maxXValue, xSpacing)
+                data.setLstFilterData(lstFilterData)
 
         self.__dicDataParam = {
             MacroDefine.INPUT_PARAM_INT_X_MIN               : self.minXValue,

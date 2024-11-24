@@ -180,10 +180,10 @@ class Viewer(QWidget, Ui_Viewer, PanZoom, StatisticsModel):
         plot = self.cvHistogram.figure.add_subplot(111)
         showType = self.dataEditCenter.showType
         dataInfo = self.dataEditCenter.getHistogramInfo()
-        if showType in [MacroDefine.SHOW_HIST_TYPE_DATA1, MacroDefine.SHOW_HIST_TYPE_DATA2]:
+        if showType == MacroDefine.SHOW_HIST_TYPE_DATA1:
             self.plotSingleHistogram(dataInfo, plot)
-        else:
-            self.plotDoubleHistogram(dataInfo, plot)
+        elif showType == MacroDefine.SHOW_HIST_TYPE_BOTH:
+            self.plotMultiistogram(dataInfo, plot)
         self.cvHistogram.draw()
         self.I_EVT_ENABLE_SAVE_HISTOGRAM.emit(True)
 

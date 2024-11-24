@@ -23,8 +23,7 @@ CNT_HIST_MODE   = 1
 # Histogram Def
 SHOW_HIST_TYPE_NONE  = 0
 SHOW_HIST_TYPE_DATA1 = 1
-SHOW_HIST_TYPE_DATA2 = 2
-SHOW_HIST_TYPE_BOTH  = 3
+SHOW_HIST_TYPE_BOTH  = 2
 
 DF_CONTOURS_VALUE           = 'dfcontoursvalue'
 
@@ -43,7 +42,7 @@ INPUT_PARAM_BOOL_SHOW_HIST_VALUE   = 'inputparamboolshowhistvalue'
 INPUT_PARAM_LST_SHOW_CUMULATIVE    = 'inputparamlstshowcumulative'
 INPUT_PARAM_BOOL_SHOW_BOX_VALUE    = 'inputparamboolshowboxvalue'
 INPUT_PARAM_INT_DATA_INDEX         = 'inputparamintdataindex'
-
+INPUT_PARAM_LST_SHOW_DATA          = 'inputparamlstshowdata'
 
 # Data info
 INT_INDEX                   = 'index'
@@ -56,6 +55,7 @@ INT_MEDIAN                  = 'median'
 INT_STD                     = 'std'
 INT_TOTAL                   = 'total'
 STR_DATA_NAME               = 'strdataname'
+BOOL_SHOW_DATA              = 'boolshowdata'
 
 DIAMETER_TYPE = 0
 AREA_TYPE     = 1

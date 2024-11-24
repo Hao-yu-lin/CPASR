@@ -14,6 +14,7 @@ class HistogramBar(QWidget, Ui_HistogramBar):
         self.imgEditCenter = imgEditCenter
         self.analysisDataModel = analysisDataModel
         self.initSetting()
+        self.lstCheckShowData = [False, False, False, False, False]
 
     def initSetting(self):
         self.bindEvent()
@@ -25,16 +26,19 @@ class HistogramBar(QWidget, Ui_HistogramBar):
             MacroDefine.INT_STD         : self.label_data1_std_value,
             MacroDefine.INT_TOTAL       : self.label_data1_total_value,
             MacroDefine.INT_MEDIAN      : self.label_data1_median_value,
+            MacroDefine.BOOL_SHOW_DATA  : self.checkBox_show_data,
         }
 
     def bindEvent(self):
         self.btn_load_data1.clicked.connect(self.loadData)
         self.btn_clear_data1.clicked.connect(self.clearData)
         self.btn_update_histogram.clicked.connect(self.updateHistogram)
+        self.btn_update_name.clicked.connect(self.setDataName)
         self.btn_change_mode.clicked.connect(lambda: self.setViewMode(MacroDefine.VIEW_ORIGIN_MODE))
         self.dataEditCenter.I_EVT_UPDATE_DATA_INFO.connect(self.prepareUpdateDataInfo)
         self.comboBox_show_info_type.currentIndexChanged.connect(self.updateUnit)
         self.comboBox_current_data.currentIndexChanged.connect(self.changeDataInfo)
+        self.checkBox_show_data.clicked.connect(self.updateShowData)
 
     def setViewMode(self, mode):
         self.imgEditCenter.currViewMode = mode
@@ -91,6 +95,9 @@ class HistogramBar(QWidget, Ui_HistogramBar):
         self.dictDatatoLabel[MacroDefine.INT_STD].setText(f'{dataInfo.std:.3f}')
         self.dictDatatoLabel[MacroDefine.INT_TOTAL].setText(f'{dataInfo.total:.3f}')
         self.dictDatatoLabel[MacroDefine.INT_MEDIAN].setText(f'{dataInfo.median:.3f}')
+        self.dictDatatoLabel[MacroDefine.BOOL_SHOW_DATA].setChecked(self.lstCheckShowData[idx])
+        self.updateButtonMultiData()
+        pass
 
     def updateHistogram(self):
         bShowAvg        = self.checkBox_show_avg.isChecked()
@@ -105,7 +112,10 @@ class HistogramBar(QWidget, Ui_HistogramBar):
         minXValue = float(self.lineEdit_xaxis_min_value.text())
         maxXValue = float(self.lineEdit_xaxis_max_value.text())
 
-        showType = MacroDefine.SHOW_HIST_TYPE_DATA1
+        if self.checkBox_show_multi_data.isChecked():
+            showType = MacroDefine.SHOW_HIST_TYPE_BOTH
+        else:
+            showType = MacroDefine.SHOW_HIST_TYPE_DATA1
         strDATAName = self.dictDatatoLabel[MacroDefine.STR_DATA_NAME].text()
 
         lstDataName = [strDATAName]
@@ -145,6 +155,7 @@ class HistogramBar(QWidget, Ui_HistogramBar):
             MacroDefine.INPUT_PARAM_BOOL_SHOW_BOX_VALUE : bShowBoxValue,
             MacroDefine.INPUT_PARAM_LST_SHOW_CUMULATIVE : lstShowCumulative,
             MacroDefine.INPUT_PARAM_INT_DATA_INDEX      : self.comboBox_current_data.currentIndex(),
+            MacroDefine.INPUT_PARAM_LST_SHOW_DATA       : self.lstCheckShowData,
         }
 
         self.dataEditCenter.updateHistogram(showType, inputParam)
@@ -165,7 +176,8 @@ class HistogramBar(QWidget, Ui_HistogramBar):
                 spacingValue = 0.01
             self.lineEdit_xaxis_spacing_value.setText(f'{spacingValue:.3f} ')
 
-        self.updateDataInfo(0)
+        idx = self.comboBox_current_data.currentIndex()
+        self.updateDataInfo(idx)
 
     def updateUnit(self):
         showInfoType = int(self.comboBox_show_info_type.currentIndex())
@@ -194,4 +206,25 @@ class HistogramBar(QWidget, Ui_HistogramBar):
             self.dictDatatoLabel[MacroDefine.INT_STD].setText('-1')
             self.dictDatatoLabel[MacroDefine.INT_TOTAL].setText('-1')
             self.dictDatatoLabel[MacroDefine.INT_MEDIAN].setText('-1')
+            self.dictDatatoLabel[MacroDefine.BOOL_SHOW_DATA].setChecked(False)
         self.updateHistogram()
+
+    def updateShowData(self):
+        idx = self.comboBox_current_data.currentIndex()
+        self.lstCheckShowData[idx] = self.checkBox_show_data.isChecked()
+        self.updateButtonMultiData()
+        pass
+
+    def updateButtonMultiData(self):
+        count = 0
+        for i in range(5):
+            if self.dataEditCenter.bHasData(i):
+                count += 1
+
+        if count > 1 and self.lstCheckShowData.count(True) > 1:
+            self.checkBox_show_multi_data.setEnabled(True)
+        else:
+            self.checkBox_show_multi_data.setChecked(False)
+            self.checkBox_show_multi_data.setEnabled(False)
+
+        self.updateButtonState(self.checkBox_show_multi_data)

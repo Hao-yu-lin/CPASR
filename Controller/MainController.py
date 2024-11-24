@@ -19,7 +19,7 @@ class MainController(QObject):
     def bindEvent(self):
         self.MenuBarController.I_EVT_CREATE_FINISH.connect(self.decodeImg)
         self.MenuBarController.I_EVT_SAVE_HISTOGRAM.connect(self.Viewer.saveHistogram)
-        self.Viewer.I_EVT_SCALE_CHANGE.connect(self.syncRatioToValue)
+        # self.Viewer.I_EVT_SCALE_CHANGE.connect(self.syncRatioToValue)
         self.Viewer.I_EVT_ENABLE_SAVE_HISTOGRAM.connect(self.MenuBarController.enableSaveHistogram)
         self.MenuBarController.I_EVT_SCALE_CHANGE.connect(self.updateView)
         self.imgEditCenter.I_EVT_SET_POINTS.connect(self.onSetPoints)

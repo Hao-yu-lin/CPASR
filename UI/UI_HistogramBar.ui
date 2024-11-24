@@ -65,7 +65,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-68</y>
+        <y>-203</y>
         <width>320</width>
         <height>900</height>
        </rect>
@@ -106,34 +106,15 @@
        <property name="styleSheet">
         <string notr="true">border-color: rgb(255, 46, 52);</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+       <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
         <property name="leftMargin">
          <number>5</number>
         </property>
         <property name="rightMargin">
          <number>5</number>
         </property>
-        <item row="47" column="2" colspan="2">
-         <widget class="QLineEdit" name="lineEdit_data1_name">
-          <property name="minimumSize">
-           <size>
-            <width>180</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>180</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="11" column="3">
-         <widget class="QCheckBox" name="checkBox_show_box_value">
+        <item row="7" column="1">
+         <widget class="QLabel" name="label_x_axis_spacing_fixed">
           <property name="minimumSize">
            <size>
             <width>90</width>
@@ -147,12 +128,12 @@
            </size>
           </property>
           <property name="text">
-           <string>Show Value</string>
+           <string>Spacing:</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
-         <widget class="QLabel" name="label_showhist_fixed">
+        <item row="1" column="1">
+         <widget class="QLabel" name="label_showinfo_fixed">
           <property name="minimumSize">
            <size>
             <width>90</width>
@@ -166,12 +147,12 @@
            </size>
           </property>
           <property name="text">
-           <string>Hist Type</string>
+           <string>Info Type</string>
           </property>
          </widget>
         </item>
-        <item row="20" column="3">
-         <widget class="QLineEdit" name="lineEdit_show_D6_value">
+        <item row="7" column="2">
+         <widget class="QLineEdit" name="lineEdit_xaxis_spacing_value">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -191,18 +172,15 @@
            </size>
           </property>
           <property name="text">
-           <string>80</string>
-          </property>
-          <property name="maxLength">
-           <number>100</number>
+           <string>10</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
-        <item row="20" column="1">
-         <widget class="QLineEdit" name="lineEdit_show_D4_value">
+        <item row="18" column="1">
+         <widget class="QLineEdit" name="lineEdit_show_D1_value">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -222,63 +200,10 @@
            </size>
           </property>
           <property name="text">
-           <string>70</string>
+           <string>20</string>
           </property>
           <property name="maxLength">
            <number>100</number>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="18" column="2">
-         <widget class="QLineEdit" name="lineEdit_show_D2_value">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>30</string>
-          </property>
-          <property name="maxLength">
-           <number>100</number>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="50" column="2">
-         <widget class="QLabel" name="label_data1_median_value">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>-1</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -323,8 +248,30 @@
           </item>
          </widget>
         </item>
-        <item row="17" column="1">
-         <widget class="QCheckBox" name="checkBox_show_D1">
+        <item row="16" column="3">
+         <widget class="QCheckBox" name="checkBox_show_cumulative">
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Show</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="54" column="1">
+         <widget class="QLabel" name="label_data1_min_value">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -338,7 +285,242 @@
            </size>
           </property>
           <property name="text">
-           <string>Show D1</string>
+           <string>-1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="48" column="1">
+         <widget class="QLabel" name="label_data1_name">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Data Name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="16" column="1">
+         <widget class="QLabel" name="label_show_cumulative_fixed">
+          <property name="minimumSize">
+           <size>
+            <width>170</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>170</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Cumulative Distribution line</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="3">
+         <widget class="QLabel" name="label_x_axis_max_unit">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>μm</string>
+          </property>
+         </widget>
+        </item>
+        <item row="19" column="3">
+         <widget class="QCheckBox" name="checkBox_show_D6">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Show D6</string>
+          </property>
+         </widget>
+        </item>
+        <item row="52" column="1">
+         <widget class="QLabel" name="label_data1_avg_value">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>-1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1">
+         <widget class="Line" name="line_space2_3">
+          <property name="minimumSize">
+           <size>
+            <width>288</width>
+            <height>1</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>288</width>
+            <height>1</height>
+           </size>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(113, 112, 111);</string>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="1">
+         <widget class="QLabel" name="label_show_boxplot_fixed">
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Box plot</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="3">
+         <widget class="QCheckBox" name="checkBox_show_hist_value">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Show Value</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QLabel" name="label_x_axis_min_fixed">
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>MIN value:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="49" column="3">
+         <widget class="QPushButton" name="btn_update_name">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>92</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>92</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Update Name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLabel" name="label_showhist_fixed">
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Hist Type</string>
           </property>
          </widget>
         </item>
@@ -372,8 +554,725 @@
           </property>
          </widget>
         </item>
+        <item row="53" column="3">
+         <widget class="QLabel" name="label_data1_total">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Total</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="49" column="1">
+         <widget class="QLineEdit" name="lineEdit_data1_name">
+          <property name="minimumSize">
+           <size>
+            <width>180</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>180</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QComboBox" name="comboBox_show_info_type">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::DefaultContextMenu</enum>
+          </property>
+          <property name="minimumContentsLength">
+           <number>6</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>Diameter</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="QLineEdit" name="lineEdit_xaxis_min_value">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>-1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="50" column="1">
+         <widget class="QPushButton" name="btn_load_data1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>92</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>92</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Load Data</string>
+          </property>
+         </widget>
+        </item>
+        <item row="55" column="2" rowspan="2">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="7" column="3">
+         <widget class="QLabel" name="label_x_axis_spacing_unit">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>μm</string>
+          </property>
+         </widget>
+        </item>
+        <item row="50" column="2">
+         <widget class="QPushButton" name="btn_clear_data1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>92</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>92</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string> Clear Data</string>
+          </property>
+         </widget>
+        </item>
+        <item row="19" column="2">
+         <widget class="QCheckBox" name="checkBox_show_D5">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Show D5</string>
+          </property>
+         </widget>
+        </item>
+        <item row="17" column="3">
+         <widget class="QCheckBox" name="checkBox_show_D3">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Show D3</string>
+          </property>
+         </widget>
+        </item>
+        <item row="54" column="2">
+         <widget class="QLabel" name="label_data1_max_value">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>-1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLabel" name="label_title_fixed_3">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>150</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>X-axis</string>
+          </property>
+         </widget>
+        </item>
+        <item row="51" column="2">
+         <widget class="QLabel" name="label_data1_median">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Median</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="24" column="1" colspan="2">
+         <widget class="QLabel" name="label_current_data">
+          <property name="minimumSize">
+           <size>
+            <width>170</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>170</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Current Show Data</string>
+          </property>
+         </widget>
+        </item>
+        <item row="20" column="3">
+         <widget class="QLineEdit" name="lineEdit_show_D6_value">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>80</string>
+          </property>
+          <property name="maxLength">
+           <number>100</number>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="12" column="1">
+         <widget class="QCheckBox" name="checkBox_show_avg">
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Show Avg</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="18" column="3">
+         <widget class="QLineEdit" name="lineEdit_show_D3_value">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>50</string>
+          </property>
+          <property name="maxLength">
+           <number>100</number>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
         <item row="14" column="1">
          <widget class="Line" name="line_space2_4">
+          <property name="minimumSize">
+           <size>
+            <width>288</width>
+            <height>1</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>288</width>
+            <height>1</height>
+           </size>
+          </property>
+          <property name="autoFillBackground">
+           <bool>false</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(113, 112, 111);</string>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="51" column="1">
+         <widget class="QLabel" name="label_data1_avg">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Average </string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QLabel" name="label_x_axis_max_fixed">
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>MAX value:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="19" column="1">
+         <widget class="QCheckBox" name="checkBox_show_D4">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Show D4</string>
+          </property>
+         </widget>
+        </item>
+        <item row="20" column="1">
+         <widget class="QLineEdit" name="lineEdit_show_D4_value">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>70</string>
+          </property>
+          <property name="maxLength">
+           <number>100</number>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="2">
+         <widget class="QCheckBox" name="checkBox_show_box_plot">
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Show Box</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="54" column="3">
+         <widget class="QLabel" name="label_data1_total_value">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>-1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="17" column="1">
+         <widget class="QCheckBox" name="checkBox_show_D1">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Show D1</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLabel" name="label_data_unit">
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>μm</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="52" column="3">
+         <widget class="QLabel" name="label_data1_std_value">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>-1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="53" column="1">
+         <widget class="QLabel" name="label_data1_min">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Min Value</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="51" column="3">
+         <widget class="QLabel" name="label_data1_std">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>80</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>STD</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="52" column="2">
+         <widget class="QLabel" name="label_data1_median_value">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>-1</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="3">
+         <widget class="QPushButton" name="btn_update_histogram">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>92</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>92</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Update</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="Line" name="line_space2_2">
           <property name="minimumSize">
            <size>
             <width>288</width>
@@ -425,537 +1324,8 @@
           </property>
          </widget>
         </item>
-        <item row="49" column="1">
-         <widget class="QLabel" name="label_data1_avg">
-          <property name="minimumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Average </string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="3">
-         <widget class="QPushButton" name="btn_update_histogram">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>92</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>92</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Update</string>
-          </property>
-         </widget>
-        </item>
-        <item row="49" column="3">
-         <widget class="QLabel" name="label_data1_std">
-          <property name="minimumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>STD</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1">
-         <widget class="QLabel" name="label_x_axis_min_fixed">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>MIN value:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="2">
-         <widget class="QLineEdit" name="lineEdit_xaxis_spacing_value">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>10</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="16" column="1">
-         <widget class="QLabel" name="label_show_cumulative_fixed">
-          <property name="minimumSize">
-           <size>
-            <width>170</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>170</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Cumulative Distribution line</string>
-          </property>
-         </widget>
-        </item>
-        <item row="51" column="3">
-         <widget class="QLabel" name="label_data1_total">
-          <property name="minimumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Total</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <widget class="QLabel" name="label_x_axis_spacing_fixed">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Spacing:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="1">
-         <widget class="QLabel" name="label_title_fixed_3">
-          <property name="minimumSize">
-           <size>
-            <width>150</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>150</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>X-axis</string>
-          </property>
-         </widget>
-        </item>
-        <item row="11" column="1">
-         <widget class="QLabel" name="label_show_boxplot_fixed">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Box plot</string>
-          </property>
-         </widget>
-        </item>
-        <item row="11" column="2">
-         <widget class="QCheckBox" name="checkBox_show_box_plot">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Show Box</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="1">
-         <widget class="QLabel" name="label_x_axis_max_fixed">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>MAX value:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="49" column="2">
-         <widget class="QLabel" name="label_data1_median">
-          <property name="minimumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Median</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="12" column="1">
-         <widget class="QCheckBox" name="checkBox_show_avg">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Show Avg</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="16" column="3">
-         <widget class="QCheckBox" name="checkBox_show_cumulative">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Show</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="48" column="1">
-         <widget class="QPushButton" name="btn_load_data1">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>92</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>92</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Load Data</string>
-          </property>
-         </widget>
-        </item>
-        <item row="18" column="1">
-         <widget class="QLineEdit" name="lineEdit_show_D1_value">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>20</string>
-          </property>
-          <property name="maxLength">
-           <number>100</number>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="51" column="2">
-         <widget class="QLabel" name="label_data1_max">
-          <property name="minimumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Max Value</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="19" column="2">
-         <widget class="QCheckBox" name="checkBox_show_D5">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Show D5</string>
-          </property>
-         </widget>
-        </item>
-        <item row="50" column="3">
-         <widget class="QLabel" name="label_data1_std_value">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>-1</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="label_show_image_fixed">
-          <property name="minimumSize">
-           <size>
-            <width>180</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>180</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Histogram Mode</string>
-          </property>
-         </widget>
-        </item>
-        <item row="52" column="3">
-         <widget class="QLabel" name="label_data1_total_value">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>-1</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="17" column="3">
-         <widget class="QCheckBox" name="checkBox_show_D3">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Show D3</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLabel" name="label_showinfo_fixed">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Info Type</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="1">
-         <widget class="Line" name="line_space2_3">
+        <item row="22" column="1">
+         <widget class="Line" name="line_space1_2">
           <property name="minimumSize">
            <size>
             <width>288</width>
@@ -979,47 +1349,66 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="3">
-         <widget class="QCheckBox" name="checkBox_show_hist_value">
+        <item row="24" column="3">
+         <widget class="QComboBox" name="comboBox_current_data">
           <property name="minimumSize">
            <size>
-            <width>100</width>
-            <height>20</height>
+            <width>90</width>
+            <height>25</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>100</width>
-            <height>20</height>
+            <width>90</width>
+            <height>25</height>
            </size>
           </property>
-          <property name="text">
-           <string>Show Value</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
+          <item>
+           <property name="text">
+            <string>Data 1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Data 2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Data 3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Data 4</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Data 5</string>
+           </property>
+          </item>
          </widget>
         </item>
-        <item row="1" column="3">
-         <widget class="QLabel" name="label_data_unit">
+        <item row="53" column="2">
+         <widget class="QLabel" name="label_data1_max">
           <property name="minimumSize">
            <size>
-            <width>50</width>
+            <width>80</width>
             <height>20</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>50</width>
+            <width>80</width>
             <height>20</height>
            </size>
           </property>
           <property name="text">
-           <string>μm</string>
+           <string>Max Value</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -1061,33 +1450,53 @@
           </property>
          </widget>
         </item>
-        <item row="22" column="1">
-         <widget class="Line" name="line_space1_2">
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_show_image_fixed">
           <property name="minimumSize">
            <size>
-            <width>288</width>
-            <height>1</height>
+            <width>180</width>
+            <height>20</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>288</width>
-            <height>1</height>
+            <width>180</width>
+            <height>20</height>
            </size>
           </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(113, 112, 111);</string>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+          <property name="text">
+           <string>Histogram Mode</string>
           </property>
          </widget>
         </item>
-        <item row="18" column="3">
-         <widget class="QLineEdit" name="lineEdit_show_D3_value">
+        <item row="50" column="3">
+         <widget class="QCheckBox" name="checkBox_show_data">
+          <property name="text">
+           <string>Show Data</string>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="3">
+         <widget class="QCheckBox" name="checkBox_show_box_value">
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Show Value</string>
+          </property>
+         </widget>
+        </item>
+        <item row="18" column="2">
+         <widget class="QLineEdit" name="lineEdit_show_D2_value">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -1107,237 +1516,13 @@
            </size>
           </property>
           <property name="text">
-           <string>50</string>
+           <string>30</string>
           </property>
           <property name="maxLength">
            <number>100</number>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="3">
-         <widget class="QLabel" name="label_x_axis_spacing_unit">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>μm</string>
-          </property>
-         </widget>
-        </item>
-        <item row="19" column="3">
-         <widget class="QCheckBox" name="checkBox_show_D6">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Show D6</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="Line" name="line_space2_2">
-          <property name="minimumSize">
-           <size>
-            <width>288</width>
-            <height>1</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>288</width>
-            <height>1</height>
-           </size>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(113, 112, 111);</string>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="52" column="1">
-         <widget class="QLabel" name="label_data1_min_value">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>-1</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="52" column="2">
-         <widget class="QLabel" name="label_data1_max_value">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>-1</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="47" column="1">
-         <widget class="QLabel" name="label_data1_name">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Data Name</string>
-          </property>
-         </widget>
-        </item>
-        <item row="53" column="2" rowspan="2">
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="19" column="1">
-         <widget class="QCheckBox" name="checkBox_show_D4">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Show D4</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="3">
-         <widget class="QLabel" name="label_x_axis_max_unit">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>μm</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="2">
-         <widget class="QLineEdit" name="lineEdit_xaxis_min_value">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>-1</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="3">
-         <widget class="QLabel" name="label_x_axis_min_unit">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>μm</string>
           </property>
          </widget>
         </item>
@@ -1372,63 +1557,8 @@
           </property>
          </widget>
         </item>
-        <item row="51" column="1">
-         <widget class="QLabel" name="label_data1_min">
-          <property name="minimumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>80</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Min Value</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QComboBox" name="comboBox_show_info_type">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="contextMenuPolicy">
-           <enum>Qt::DefaultContextMenu</enum>
-          </property>
-          <property name="minimumContentsLength">
-           <number>6</number>
-          </property>
-          <item>
-           <property name="text">
-            <string>Diameter</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="50" column="1">
-         <widget class="QLabel" name="label_data1_avg_value">
+        <item row="8" column="3">
+         <widget class="QLabel" name="label_x_axis_min_unit">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -1442,107 +1572,14 @@
            </size>
           </property>
           <property name="text">
-           <string>-1</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <string>μm</string>
           </property>
          </widget>
         </item>
-        <item row="23" column="3">
-         <widget class="QComboBox" name="comboBox_current_data">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>25</height>
-           </size>
-          </property>
-          <item>
-           <property name="text">
-            <string>Data 1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Data 2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Data 3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Data 4</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Data 5</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="48" column="2">
-         <widget class="QPushButton" name="btn_clear_data1">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>92</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>92</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
+        <item row="48" column="2" colspan="2">
+         <widget class="QCheckBox" name="checkBox_show_multi_data">
           <property name="text">
-           <string> Clear Data</string>
-          </property>
-         </widget>
-        </item>
-        <item row="48" column="3">
-         <widget class="QCheckBox" name="checkBox_show_data">
-          <property name="text">
-           <string>Show Data</string>
-          </property>
-         </widget>
-        </item>
-        <item row="23" column="1" colspan="2">
-         <widget class="QLabel" name="label_current_data">
-          <property name="minimumSize">
-           <size>
-            <width>170</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>170</width>
-            <height>20</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Current Show Data</string>
+           <string>Compare Multiple Data</string>
           </property>
          </widget>
         </item>
