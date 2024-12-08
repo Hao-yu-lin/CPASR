@@ -20,7 +20,7 @@ class MenuBar(QWidget, Ui_MenuBar):
     def initSetting(self):
         self.slider_zoom.setValue(0)
         self.label_ratio.setText(f"Ratio：{0} %")
-        self.setScaleControllerState(bState=True)
+        # self.setScaleControllerState(bState=True)
         for btn in self.lstInitDisableBtn:
             btn.setEnabled(False)
             self.updateButtonState(btn)

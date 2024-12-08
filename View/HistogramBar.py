@@ -116,9 +116,6 @@ class HistogramBar(QWidget, Ui_HistogramBar):
             showType = MacroDefine.SHOW_HIST_TYPE_BOTH
         else:
             showType = MacroDefine.SHOW_HIST_TYPE_DATA1
-        strDATAName = self.dictDatatoLabel[MacroDefine.STR_DATA_NAME].text()
-
-        lstDataName = [strDATAName]
 
         # for D point
         lstShowCumulative = []
@@ -145,7 +142,6 @@ class HistogramBar(QWidget, Ui_HistogramBar):
             MacroDefine.INPUT_PARAM_INT_X_SPACING       : spacingValue,
             MacroDefine.INPUT_PARAM_INT_X_MIN           : minXValue,
             MacroDefine.INPUT_PARAM_INT_X_MAX           : maxXValue,
-            MacroDefine.INPUT_PARAM_LST_NAME            : lstDataName,
             MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG       : bShowAvg,
             MacroDefine.INPUT_PARAM_BOOL_SHOW_BOXPLOT   : bShowBoxplot,
             MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE   : bShowCumLine,

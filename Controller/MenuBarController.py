@@ -41,7 +41,8 @@ class MenuBarController(QObject):
         self.I_EVT_SCALE_CHANGE.emit(value)
 
     def setScaleControllerState(self, bState=True):
-        self.MenuBar.setScaleControllerState(bState=bState)
+        pass
+        # self.MenuBar.setScaleControllerState(bState=bState)
 
 
     def enableSaveHistogram(self, bState):

@@ -1,7 +1,7 @@
 from PySide6.QtCore import QObject, Signal
 
 
-class PanZoom(QObject):
+class PanZoom():
     I_EVT_SCALE_CHANGE = Signal()
 
     def __init__(self):
@@ -10,6 +10,12 @@ class PanZoom(QObject):
         self.scaleFitRatio = -1
         self.showWidth = -1
         self.showHeight = -1
+
+        self.origHistogramWidth = 1036
+        self.origHistogramHeight = 597
+
+        self.showHistogramWidth = self.origHistogramWidth
+        self.showHistogramHeight = self.origHistogramHeight
 
     def onInitFit(self):
         self.calculateScaleFit()
@@ -26,6 +32,9 @@ class PanZoom(QObject):
         widthImg, heightImg = self.getImgSize()
         self.showWidth = self.currentRatio * widthImg
         self.showHeight = self.currentRatio * heightImg
+
+        self.showHistogramWidth = self.currentRatio * self.origHistogramWidth
+        self.showHistogramHeight = self.currentRatio * self.origHistogramHeight
 
     def posToImg(self, pos):
         x, y = pos

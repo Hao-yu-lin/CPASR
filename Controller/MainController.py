@@ -29,13 +29,17 @@ class MainController(QObject):
     @Slot()
     def decodeImg(self):
         self.imgEditCenter.decodeImg(self.Viewer.initImg)
-        self.MenuBarController.setScaleControllerState(bState=False)
+        # self.MenuBarController.setScaleControllerState(bState=False)
 
     @Slot(int)
     def updateView(self, value):
         ratio = self.calValueToRate(value)
         self.Viewer.setScaleImg(ratio)
-        self.Viewer.drawImg()
+        if self.imgEditCenter.currViewMode == MacroDefine.VIEW_HISTOGRAM_MODE:
+            self.Viewer.drawHistogram()
+        else:
+            self.Viewer.drawImg()
+
 
     @Slot()
     def syncRatioToValue(self):

@@ -200,18 +200,22 @@ class DataEditCenter(QObject):
         infoType = inputParam.get(MacroDefine.INPUT_PARAM_INT_INFO_TYPE, MacroDefine.DIAMETER_TYPE)
         histType = inputParam.get(MacroDefine.INPUT_PARAM_INT_HIST_TYPE, MacroDefine.PERCENTAGE_TYPE)
 
+
+        lstDataName = []
         lstDataInfo = []
         currDataIdx = inputParam.get(MacroDefine.INPUT_PARAM_INT_DATA_INDEX, 0)
         if showHistTypeData == MacroDefine.SHOW_HIST_TYPE_NONE:
             return
         elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA1:
             lstDataInfo.append(self.lstDataItem[currDataIdx].getDataInfo(infoType))
+            lstDataName.append(self.lstDataItem[currDataIdx].strName)
         elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_BOTH:
             lstCheckShowData = inputParam.get(MacroDefine.INPUT_PARAM_LST_SHOW_DATA, [])
 
             for idx, value in enumerate(lstCheckShowData):
                 if value:
                     lstDataInfo.append(self.lstDataItem[idx].getDataInfo(infoType))
+                    lstDataName.append(self.lstDataItem[idx].strName)
 
         minXValue = inputParam.get(MacroDefine.INPUT_PARAM_INT_X_MIN, -1)
         maxXValue = inputParam.get(MacroDefine.INPUT_PARAM_INT_X_MAX, -1)
@@ -232,20 +236,24 @@ class DataEditCenter(QObject):
             elif infoType == MacroDefine.AREA_TYPE:
                 xSpacing = 0.01
 
+        setDataKeys = set()
+
         if showHistTypeData == MacroDefine.SHOW_HIST_TYPE_DATA1:
             lstData = lstDataInfo[0].lstData
-            lstFilterData = self.getlstFilterData(lstData, self.minXValue, self.maxXValue, xSpacing)
+            lstFilterData, sorted_keys = self.getlstFilterData(lstData, self.minXValue, self.maxXValue, xSpacing)
             lstDataInfo[0].setLstFilterData(lstFilterData)
+            setDataKeys.update(sorted_keys)
         elif showHistTypeData == MacroDefine.SHOW_HIST_TYPE_BOTH:
             for data in lstDataInfo:
                 lstData = data.lstData
-                lstFilterData = self.getlstFilterData(lstData, self.minXValue, self.maxXValue, xSpacing)
+                lstFilterData, sorted_keys = self.getlstFilterData(lstData, self.minXValue, self.maxXValue, xSpacing)
                 data.setLstFilterData(lstFilterData)
+                setDataKeys.update(sorted_keys)
 
         self.__dicDataParam = {
             MacroDefine.INPUT_PARAM_INT_X_MIN               : self.minXValue,
             MacroDefine.INPUT_PARAM_INT_X_MAX               : self.maxXValue,
-            MacroDefine.INPUT_PARAM_LST_NAME                : inputParam.get(MacroDefine.INPUT_PARAM_LST_NAME, []),
+            MacroDefine.INPUT_PARAM_LST_NAME                : lstDataName,
             MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG           : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_AVG, False),
             MacroDefine.INPUT_PARAM_BOOL_SHOW_BOXPLOT       : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_BOXPLOT, False),
             MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE       : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_CUMLINE, False),
@@ -255,6 +263,7 @@ class DataEditCenter(QObject):
             MacroDefine.INPUT_PARAM_BOOL_SHOW_HIST_VALUE    : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_HIST_VALUE, False),
             MacroDefine.INPUT_PARAM_BOOL_SHOW_BOX_VALUE     : inputParam.get(MacroDefine.INPUT_PARAM_BOOL_SHOW_BOX_VALUE, False),
             MacroDefine.INPUT_PARAM_LST_SHOW_CUMULATIVE     : inputParam.get(MacroDefine.INPUT_PARAM_LST_SHOW_CUMULATIVE, []),
+            MacroDefine.INPUT_PARAM_SET_DATA_KEYS           : setDataKeys
         }
 
         self.I_EVT_UPDATE_HISTOGRAM.emit()
@@ -281,7 +290,7 @@ class DataEditCenter(QObject):
         sorted_keys = sorted(groupData.keys())
 
         if not lstData:
-            return []
+            return [], sorted_keys
 
 
         for value in lstData:
@@ -301,7 +310,7 @@ class DataEditCenter(QObject):
 
         lstFilterData = [(key, value) for key, value in groupData.items()]
 
-        return lstFilterData
+        return lstFilterData, sorted_keys
 
 
 

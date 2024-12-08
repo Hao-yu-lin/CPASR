@@ -43,6 +43,7 @@ INPUT_PARAM_LST_SHOW_CUMULATIVE    = 'inputparamlstshowcumulative'
 INPUT_PARAM_BOOL_SHOW_BOX_VALUE    = 'inputparamboolshowboxvalue'
 INPUT_PARAM_INT_DATA_INDEX         = 'inputparamintdataindex'
 INPUT_PARAM_LST_SHOW_DATA          = 'inputparamlstshowdata'
+INPUT_PARAM_SET_DATA_KEYS          = 'inputparamsetdatakeys'
 
 # Data info
 INT_INDEX                   = 'index'

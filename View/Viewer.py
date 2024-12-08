@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt, QEvent, QRect, QSize
 from PySide6.QtGui import QPixmap, QImage
-from PySide6.QtWidgets import QWidget, QStackedWidget
+from PySide6.QtWidgets import QWidget, QStackedWidget, QScrollArea
 from PySide6.QtCore import Signal, Slot
 
 from Controller.ImgEditCenter import imgEditCenter
@@ -10,7 +10,7 @@ from Model.AnalysisDataModel import analysisDataModel
 from Controller.DataEditCenter import dataEditCenter
 from UI.UI_Viewer import Ui_Viewer
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 import Model.MacroDefine as MacroDefine
 
 
@@ -28,7 +28,10 @@ class Viewer(QWidget, Ui_Viewer, PanZoom, StatisticsModel):
     I_EVT_ENABLE_SAVE_HISTOGRAM = Signal(bool)
 
     def __init__(self, widget):
-        super().__init__()
+        QWidget.__init__(self, widget)
+        Ui_Viewer.__init__(self)
+        PanZoom.__init__(self)
+        StatisticsModel.__init__(self)
         self.widget = widget
         self.setupUi(widget)
         self.initComplete(widget)
@@ -46,15 +49,23 @@ class Viewer(QWidget, Ui_Viewer, PanZoom, StatisticsModel):
         self.stackedWidget = QStackedWidget(widget)
         self.stackedWidget.setMinimumSize(QSize(1036, 597))
         # Matplotlib FigureCanvas for histogram or chart
-        self.cvHistogram = FigureCanvas(plt.Figure())
+        self.cvHistogram = FigureCanvas(Figure())
         self.cvHistogram.setGeometry(QRect(12, 12, 1036, 597))
         self.cvHistogram.setMinimumSize(QSize(1036, 597))
 
+        # Create scroll area for cvHistogram
+        self.scrollAreaHistogram = QScrollArea(widget)
+        self.scrollAreaHistogram.setObjectName(u"scrollAreaHistogram")
+        self.scrollAreaHistogram.setStyleSheet(u"background-color: rgb(190, 190, 190);")
+        self.scrollAreaHistogram.setMinimumSize(QSize(1036, 597))
+        self.scrollAreaHistogram.setWidgetResizable(False)
+
+        self.scrollAreaHistogram.setWidget(self.cvHistogram)  # Set cvHistogram as the scroll area's widget
         self.scrollArea.setWidget(self.label_view)  # Initially set the image view
 
         # Add both widgets (image and chart) to the stacked widget
         self.stackedWidget.addWidget(self.scrollArea)  # Index 0
-        self.stackedWidget.addWidget(self.cvHistogram)  # Index 1
+        self.stackedWidget.addWidget(self.scrollAreaHistogram)  # Index 1
 
         # Add both widgets to the layout but show one at a time
 
@@ -177,13 +188,18 @@ class Viewer(QWidget, Ui_Viewer, PanZoom, StatisticsModel):
     @Slot()
     def drawHistogram(self):
         self.cvHistogram.figure.clear()
+
+        # resize cvHistogram according to self.showWidth self.showHeight
+        self.cvHistogram.resize(self.showHistogramWidth, self.showHistogramHeight)
+
         plot = self.cvHistogram.figure.add_subplot(111)
         showType = self.dataEditCenter.showType
         dataInfo = self.dataEditCenter.getHistogramInfo()
         if showType == MacroDefine.SHOW_HIST_TYPE_DATA1:
             self.plotSingleHistogram(dataInfo, plot)
         elif showType == MacroDefine.SHOW_HIST_TYPE_BOTH:
-            self.plotMultiistogram(dataInfo, plot)
+            self.plotMultiHistogram(dataInfo, plot)
+        self.cvHistogram.figure.tight_layout()  # 明確地為 self.cvHistogram 進行布局調整
         self.cvHistogram.draw()
         self.I_EVT_ENABLE_SAVE_HISTOGRAM.emit(True)
 
