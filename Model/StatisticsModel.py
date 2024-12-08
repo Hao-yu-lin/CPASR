@@ -3,14 +3,14 @@ import numpy as np
 import Model.MacroDefine as MacroDefine
 
 LST_COLOR_MAP = [
-    ['#FF0000', '#E60000', '#CC0000', '#B30000', '#990000', '#800000', '#660000'],  # red
-    ['#FFA500', '#E59400', '#CC8400', '#B37400', '#996400', '#805300', '#664300'],  # orange
-    ['#FFFF00', '#E5E500', '#CCCC00', '#B2B200', '#999900', '#808000', '#666600'],  # yellow
-    ['#008000', '#007300', '#006600', '#005900', '#004C00', '#004000', '#003300'],  # green
-    ['#0000FF', '#0000E5', '#0000CC', '#0000B2', '#000099', '#000080', '#000066'],  # blue
-    ['#4B0082', '#440075', '#3D0069', '#36005C', '#2F004F', '#280042', '#210036'],  # indigo
-    ['#800080', '#730073', '#660066', '#590059', '#4C004C', '#400040', '#330033'],  # purple
-    ['#000000', '#1A1A1A', '#333333', '#4D4D4D', '#666666', '#808080', '#999999'],  # black
+    ['#ff4c4c', '#ff4c4c', '#ff4c4c', '#ff4c4c', '#e54c4c', '#cc4c4c', '#b24c4c'],  # red
+    ['#4c4cff', '#4c4cff', '#4c4cff', '#4c4cfe', '#4c4ce5', '#4c4ccc', '#4c4cb2'],  # blue
+    ['#4ccc4c', '#4cc04c', '#4cb24c', '#4ca54c', '#4c984c', '#4c8c4c', '#4c804c'],  # green
+    ['#fff24c', '#ffe04c', '#ffd04c', '#ffc04c', '#e5b04c', '#cca04c', '#b2904c'],  # orange
+    ['#ffff4c', '#ffff4c', '#ffff4c', '#fefe4c', '#e5e54c', '#cccc4c', '#b2b24c'],  # yellow
+    ['#984cce', '#904cc2', '#8a4cb5', '#824ca8', '#7c4c9c', '#744c8e', '#6e4c82'],  # indigo
+    ['#cc4ccc', '#c04cc0', '#b24cb2', '#a54ca5', '#984c98', '#8c4c8c', '#804c80'],  # purple
+    ['#4c4c4c', '#666666', '#808080', '#9a9a9a', '#b2b2b2', '#cccccc', '#e5e5e5'],  # black
 ]
 
 
@@ -68,10 +68,10 @@ class StatisticsModel(QObject):
 
         if histType == MacroDefine.PERCENTAGE_TYPE:
             perCounts = [(count/lstDataSize) * 100 for count in counts]
-            bars = ax.bar(xValue, perCounts, width=bar_width, align='edge', color=LST_COLOR_MAP[4][0], edgecolor=LST_COLOR_MAP[4][4])
+            bars = ax.bar(xValue, perCounts, width=bar_width, align='edge', color='#4cb24c', edgecolor='#4c8c4c')
             ax.set_ylabel('Percentage')
         else:
-            bars = ax.bar(xValue, counts, width=bar_width, align='edge', color=LST_COLOR_MAP[4][0], edgecolor=LST_COLOR_MAP[4][4])
+            bars = ax.bar(xValue, counts, width=bar_width, align='edge', color='#4cb24c', edgecolor='#4c8c4c')
             ax.set_ylabel('Count')
             ax.set_ylim([0, max(counts) + 1])
 
@@ -168,12 +168,12 @@ class StatisticsModel(QObject):
 
                 ax2.plot(xValue[closest_index], cumulativePercentages[closest_index], 'wo', markersize=8)
                 ax2.text(xValue[closest_index], cumulativePercentages[closest_index],
-                         f'D{percentage}:{percentageValue:.3f}', color=LST_COLOR_MAP[1][4], fontsize=9, ha='right', va='bottom',
+                         f'D{percentage}:{percentageValue:.3f}', color=LST_COLOR_MAP[0][4], fontsize=9, ha='right', va='bottom',
                          bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
 
             # Plot only the markers at the specific points
             ax2.plot(marker_x_values, marker_y_values, 'ro')  # Red circles for the markers
-            ax2.tick_params(axis='y', labelcolor=LST_COLOR_MAP[1][3])
+            ax2.tick_params(axis='y', labelcolor=LST_COLOR_MAP[0][3])
 
         if bShowAvg:
             ax.legend(
@@ -226,7 +226,7 @@ class StatisticsModel(QObject):
         bar_offset = bar_width / 2  # 條形圖之間的偏移
 
         for i in range(cntLstData):
-            color_series = LST_COLOR_MAP[i + 3 % len(LST_COLOR_MAP)]
+            color_series = LST_COLOR_MAP[i % len(LST_COLOR_MAP)]
             if histType == MacroDefine.PERCENTAGE_TYPE:
                 perCounts = [(count / multiLstDataSize[i]) * 100 for count in multiLstCount[i]]
 
@@ -307,6 +307,8 @@ class StatisticsModel(QObject):
             for i in range(cntLstData):
                 tmpLstData = []
 
+                color_series = LST_COLOR_MAP[i % len(LST_COLOR_MAP)]
+
                 # 收集要繪製的數據
                 for _, data in listDataInfo[i].getLstFilterData():
                     tmpLstData.extend(data)
@@ -322,8 +324,8 @@ class StatisticsModel(QObject):
                     positions=[y_position],  # 設定 y 軸位置
                     showfliers=False,
                     manage_ticks=True,
-                    boxprops=dict(facecolor=LST_COLOR_MAP[2][3], color=LST_COLOR_MAP[7][3]),
-                    medianprops=dict(color=LST_COLOR_MAP[6][0], linestyle='--'),
+                    boxprops=dict(facecolor=color_series[3], color=color_series[3]),
+                    medianprops=dict(color=color_series[1], linestyle='--'),
                     showmeans=bShowAvg,
                     meanline=bShowAvg
                 )
@@ -356,8 +358,9 @@ class StatisticsModel(QObject):
 
         if bShowAvg:
             for i in range(cntLstData):
+                color_series = LST_COLOR_MAP[i % len(LST_COLOR_MAP)]
                 avg = listDataInfo[i].average
-                ax.axvline(avg, color=LST_COLOR_MAP[i + 3 % len(LST_COLOR_MAP)][0], linestyle='--',
+                ax.axvline(avg, color=color_series[2], linestyle='--',
                            label=f'Average of {lstDataName[i]}')
 
         if bShowCumLine or lstShowCumulative:
@@ -371,9 +374,9 @@ class StatisticsModel(QObject):
                 cumulativePercentages = (cumulativeCounts / multiLstDataSize[i]) * 100
 
                 ax2 = ax.twinx()
-                color_series = LST_COLOR_MAP[i + 3 % len(LST_COLOR_MAP)]
+                color_series = LST_COLOR_MAP[i % len(LST_COLOR_MAP)]
 
-                ax2.plot(xValue, cumulativePercentages, color=color_series[0], linestyle='-',
+                ax2.plot(xValue, cumulativePercentages, color=color_series[5], linestyle='-',
                          label=f'Cumulative % ({lstDataName[i]})')
                 ax2.set_ylabel('Cumulative Percentage (%)', color='r')
                 ax2.set_yticks([10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
@@ -392,12 +395,12 @@ class StatisticsModel(QObject):
 
                     ax2.plot(xValue[closest_index], cumulativePercentages[closest_index], 'wo', markersize=8)
                     ax2.text(xValue[closest_index], cumulativePercentages[closest_index],
-                             f'D{percentage}:{percentageValue:.3f}', color=color_series[4], fontsize=9, ha='right',
+                             f'D{percentage}:{percentageValue:.3f}', color=color_series[6], fontsize=9, ha='right',
                              va='bottom',
                              bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
 
                 ax2.plot(marker_x_values, marker_y_values, 'ro')
-                ax2.tick_params(axis='y', labelcolor=color_series[3])
+                ax2.tick_params(axis='y', labelcolor='r')
 
         ax.legend(
             loc='upper left',
