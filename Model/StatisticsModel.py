@@ -1,6 +1,7 @@
 from PySide6.QtCore import QObject
 import numpy as np
 import Model.MacroDefine as MacroDefine
+import matplotlib.ticker as mticker
 
 LST_COLOR_MAP = [
     ['#ff4c4c', '#ff4c4c', '#ff4c4c', '#ff4c4c', '#e54c4c', '#cc4c4c', '#b24c4c'],  # red
@@ -86,6 +87,7 @@ class StatisticsModel(QObject):
             ax.set_xticklabels(xValue, rotation=45)
 
         ax.set_xlim([minX, maxX])
+        ax.xaxis.set_major_formatter(mticker.FormatStrFormatter('%.2f'))
         # ax.grid()
 
         if bShowHistValue:
@@ -300,6 +302,7 @@ class StatisticsModel(QObject):
         ax.set_xticks(xticks)
         ax.set_xticklabels(xticks, rotation=45)
         ax.set_xlim([minX, maxX])
+        ax.xaxis.set_major_formatter(mticker.FormatStrFormatter('%.2f'))
 
         if bShowBoxPlot:
             ax_box = ax.twinx()
@@ -324,33 +327,37 @@ class StatisticsModel(QObject):
                     positions=[y_position],  # 設定 y 軸位置
                     showfliers=False,
                     manage_ticks=True,
-                    boxprops=dict(facecolor=color_series[3], color=color_series[3]),
+                    boxprops=dict(facecolor=color_series[6], color=color_series[3]),
                     medianprops=dict(color=color_series[1], linestyle='--'),
                     showmeans=bShowAvg,
                     meanline=bShowAvg
                 )
 
-                # 提取 boxplot 中的元素
                 q1 = box['boxes'][0].get_path().vertices[0, 0]  # 第一四分位數
                 q3 = box['boxes'][0].get_path().vertices[2, 0]  # 第三四分位數
-                median = box['medians'][0].get_xdata()[0]
+                median = box['medians'][0].get_xdata().mean()  # 中位數
                 whiskers = [whisker.get_xdata()[1] for whisker in box['whiskers']]
 
                 if bShowBoxValue:
-                    _, maxY = ax.get_ylim()
-                    yPosL = maxY * 0.43
-                    yPosH = maxY * 0.57
+                    y_position_data = i + 1
 
-                    ax.text(median, y_position, f'{median:.2f}', va='center', ha='center', color='black', fontsize=10,
-                            bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
-                    ax.text(q1, y_position, f'{q1:.2f}', va='center', ha='center', color='black', fontsize=10,
-                            bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
-                    ax.text(q3, y_position, f'{q3:.2f}', va='center', ha='center', color='black', fontsize=10,
-                            bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
-                    ax.text(whiskers[0], y_position, f'{whiskers[0]:.2f}', va='center', ha='left', color='black',
-                            fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
-                    ax.text(whiskers[1], y_position, f'{whiskers[1]:.2f}', va='center', ha='right', color='black',
-                            fontsize=10, bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
+
+                    # 對每個值的文字位置進行調整，並確保它們與 boxplot 的圖形對齊
+                    ax_box.text(median, y_position_data, f'{median:.2f}',
+                                va='center', ha='center', color='black', fontsize=10,
+                                bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
+                    ax_box.text(q1, y_position_data, f'{q1:.2f}',
+                                va='center', ha='center', color='black', fontsize=10,
+                                bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
+                    ax_box.text(q3, y_position_data, f'{q3:.2f}',
+                                va='center', ha='center', color='black', fontsize=10,
+                                bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
+                    ax_box.text(whiskers[0], y_position_data, f'{whiskers[0]:.2f}',
+                                va='center', ha='right', color='black', fontsize=10,
+                                bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
+                    ax_box.text(whiskers[1], y_position_data, f'{whiskers[1]:.2f}',
+                                va='center', ha='left', color='black', fontsize=10,
+                                bbox=dict(facecolor='white', edgecolor='none', boxstyle='round,pad=0.3'))
 
                 ax_box.set_yticks(range(1, cntLstData + 1))  # 設定 y 軸的標籤位置
                 ax_box.set_yticklabels([f'Data {i + 1}' for i in range(cntLstData)])  # 設定 y 軸標籤名稱
@@ -360,7 +367,7 @@ class StatisticsModel(QObject):
             for i in range(cntLstData):
                 color_series = LST_COLOR_MAP[i % len(LST_COLOR_MAP)]
                 avg = listDataInfo[i].average
-                ax.axvline(avg, color=color_series[2], linestyle='--',
+                ax.axvline(avg, color=color_series[4], linestyle='--',
                            label=f'Average of {lstDataName[i]}')
 
         if bShowCumLine or lstShowCumulative:

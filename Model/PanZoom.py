@@ -33,8 +33,8 @@ class PanZoom():
         self.showWidth = self.currentRatio * widthImg
         self.showHeight = self.currentRatio * heightImg
 
-        self.showHistogramWidth = self.currentRatio * self.origHistogramWidth
-        self.showHistogramHeight = self.currentRatio * self.origHistogramHeight
+        self.showHistogramWidth = self.currentRatio * self.origHistogramWidth * 10
+        self.showHistogramHeight = self.currentRatio * self.origHistogramHeight * 10
 
     def posToImg(self, pos):
         x, y = pos
